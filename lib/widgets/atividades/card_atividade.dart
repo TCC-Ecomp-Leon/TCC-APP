@@ -64,14 +64,20 @@ class CardAtividade extends StatelessWidget {
                 ),
                 Questao(
                   enunciado:
-                      "Pergunta alternativa teste em um curso, eventualmente em uma matéria. Essa pergunta serão configuradas e armazenadas no banco de dados.",
-                  resposta: "Resposta teste",
+                      "Pergunta dissertativa teste em um curso eventualmente em uma matéria. Essa pergunta serão configuradas e armazenadas no banco de dados.",
+                  resposta: null,
                   opcoes: null,
                 ),
                 Questao(
                   enunciado:
-                      "Pergunta alternativa teste em um curso, eventualmente em uma matéria. Essa pergunta serão configuradas e armazenadas no banco de dados. Pergunta dissertativa.",
+                      "Pergunta dissertativa teste em um curso (só que já preenchida com imagem) eventualmente em uma matéria. Essa pergunta serão configuradas e armazenadas no banco de dados.",
                   resposta: imgProjeto,
+                  opcoes: null,
+                ),
+                Questao(
+                  enunciado:
+                      "Pergunta dissertativa teste em um curso (só que já preenchida com texto) eventualmente em uma matéria. Essa pergunta serão configuradas e armazenadas no banco de dados.",
+                  resposta: "Resposta teste",
                   opcoes: null,
                 ),
               ],
