@@ -28,6 +28,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
       onWillPop: () async =>
           !await widget._navigatorKeys![selectedIndex].currentState!.maybePop(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Navigator(
           key: widget._navigatorKeys![selectedIndex],
           onGenerateRoute: (routeSettings) {

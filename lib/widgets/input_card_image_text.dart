@@ -1,69 +1,133 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tcc_app/utils/base64_image.dart';
+import 'package:tcc_app/widgets/full_screen_image.dart';
 
 class InputCardImageText extends StatefulWidget {
   final TextEditingController? textEditingController;
-  final String? input;
-  const InputCardImageText({
-    required this.input,
+  String? inputValue;
+
+  InputCardImageText({
+    required String? input,
     required this.textEditingController,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    selectedInputMethod = SelectedInputMethod.text;
+    if (input != null) {
+      if (input.contains("data:image/png;base64")) {
+        selectedInputMethod = SelectedInputMethod.gallery;
+      } else {
+        selectedInputMethod = SelectedInputMethod.text;
+      }
+      inputValue = input;
+    }
+  }
+
+  SelectedInputMethod selectedInputMethod = SelectedInputMethod.text;
 
   @override
   State<InputCardImageText> createState() => _InputCardImageTextState();
 }
 
 class _InputCardImageTextState extends State<InputCardImageText> {
-  _SelectedInputMethod selectedInputMethod = _SelectedInputMethod.text;
+  File? image;
+
+  Image? get renderImage {
+    if (image != null) {
+      return Image.file(
+        image!,
+        fit: BoxFit.fill,
+      );
+    } else if (widget.inputValue != null &&
+        widget.inputValue!.contains("data:image/png;base64")) {
+      return Image(
+        image: imageFromBase64String(widget.inputValue!).image,
+        fit: BoxFit.fill,
+      );
+    }
+    return null;
+  }
+
+  imgFromCamera() async {
+    this.image = null;
+    XFile? image = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
+
+    if (image != null) {
+      this.image = File(image.path);
+    }
+    setState(() {});
+  }
+
+  imgFromGallery() async {
+    this.image = null;
+    XFile? image = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
+
+    if (image != null) {
+      this.image = File(image.path);
+    }
+    setState(() {});
+  }
+
+  Widget buildIcon(SelectedInputMethod type) {
+    return IconButton(
+      color: type == widget.selectedInputMethod ? Colors.black : Colors.grey,
+      onPressed: () {
+        if (widget.inputValue == null) {
+          if (type == SelectedInputMethod.camera) {
+            imgFromCamera();
+          } else if (type == SelectedInputMethod.gallery) {
+            imgFromGallery();
+          }
+          setState(() {
+            widget.selectedInputMethod = type;
+          });
+        }
+      },
+      icon: Icon(
+        type == SelectedInputMethod.text
+            ? Icons.keyboard
+            : type == SelectedInputMethod.gallery
+                ? Icons.collections
+                : Icons.camera_alt,
+      ),
+    );
+  }
 
   Widget cardSelector(BuildContext context) {
     return Card(
+      elevation: 5.0,
       color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  selectedInputMethod = _SelectedInputMethod.text;
-                });
-              },
-              icon: const Icon(Icons.keyboard),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  selectedInputMethod = _SelectedInputMethod.gallery;
-                });
-              },
-              icon: const Icon(Icons.collections),
-            ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  selectedInputMethod = _SelectedInputMethod.camera;
-                });
-              },
-              icon: const Icon(Icons.camera_alt),
-            ),
-          ],
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          buildIcon(SelectedInputMethod.text),
+          buildIcon(SelectedInputMethod.gallery),
+          buildIcon(SelectedInputMethod.camera),
+        ],
       ),
     );
   }
 
   Widget inputCard(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: 400.0,
+        height: 200.0,
         padding: const EdgeInsets.only(
-            left: 5.0, right: 5.0, top: 5.0, bottom: 10.0),
-        child: selectedInputMethod == _SelectedInputMethod.text
+          left: 5.0,
+          right: 5.0,
+          top: 5.0,
+        ),
+        child: widget.selectedInputMethod == SelectedInputMethod.text
             ? TextField(
                 readOnly: widget.textEditingController == null,
                 keyboardType: TextInputType.text,
@@ -74,11 +138,45 @@ class _InputCardImageTextState extends State<InputCardImageText> {
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                 ),
-                maxLines: 10,
+                maxLines: 5,
                 controller: widget.textEditingController ??
-                    TextEditingController(text: widget.input),
+                    TextEditingController(text: widget.inputValue),
               )
-            : Container(),
+            : GestureDetector(
+                onTap: () {
+                  if (renderImage != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FullScreenImage(
+                          base64: widget.selectedInputMethod !=
+                                  SelectedInputMethod.text
+                              ? widget.inputValue
+                              : null,
+                          file: image,
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: AbsorbPointer(
+                  absorbing: renderImage != null,
+                  child: SizedBox(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          child: renderImage,
+                        ),
+                        Opacity(
+                          opacity: 0.5,
+                          child: buildIcon(widget.selectedInputMethod),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
       ),
     );
   }
@@ -86,22 +184,16 @@ class _InputCardImageTextState extends State<InputCardImageText> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.only(top: 5.0, right: 5.0, bottom: 5.0),
       child: Stack(
-        alignment: Alignment.topCenter,
+        alignment: Alignment.bottomCenter,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: inputCard(context),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 0.0),
-            child: cardSelector(context),
-          ),
+          inputCard(context),
+          cardSelector(context),
         ],
       ),
     );
   }
 }
 
-enum _SelectedInputMethod { text, gallery, camera }
+enum SelectedInputMethod { text, gallery, camera }

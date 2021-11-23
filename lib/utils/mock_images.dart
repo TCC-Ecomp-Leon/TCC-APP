@@ -401,5 +401,4 @@ mVZbgcrSxQ1XzizxI30WndTw984ANLbfiiurJ6XO6luVQD8dIsRXuQRoHpKNBAPB3d2rcaBZaGAg3ES7
 MU7UEaBaajQAPxdHRr32oUWBoK/D+sFJvdePaftgAAAABJRU5ErkJggg==
 '''
     .replaceAll("\n", "")
-    .replaceAll("\r", "")
-    .replaceFirst("data:image/png;base64,", "");
+    .replaceAll("\r", "");

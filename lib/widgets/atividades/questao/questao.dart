@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:tcc_app/widgets/atividades/pagina_atividade.dart';
+import 'package:tcc_app/widgets/input_card_image_text.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/radio_card.dart';
 
@@ -126,172 +127,183 @@ class _PaginaQuestaoState extends State<PaginaQuestao> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: loading
-          ? const Center(
-              child: Loading(circleTimeSeconds: 1, color: Colors.green),
-            )
-          : Padding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.1,
-                bottom: MediaQuery.of(context).size.height * 0.1 - 50.0,
-                right: 30.0,
-                left: 30.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Stack(
-                    alignment: Alignment.topCenter,
+      resizeToAvoidBottomInset: false,
+      body: Center(
+        child: loading
+            ? const Loading(circleTimeSeconds: 1, color: Colors.green)
+            : Padding(
+                padding: const EdgeInsets.only(
+                  right: 30.0,
+                  left: 30.0,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 35.0),
-                        child: Card(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              children: [
-                                widgetQuestaoAnteriorEProxima(),
-                                const SizedBox(
-                                  height: 20.0,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                      Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 35.0),
+                            child: Card(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
                                   children: [
-                                    const Text(
-                                      "Questão ",
-                                      style: TextStyle(color: Colors.black),
+                                    widgetQuestaoAnteriorEProxima(),
+                                    const SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          "Questão ",
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                        Text(
+                                          (widget.indiceQuestao + 1).toString(),
+                                          textScaleFactor: 1.2,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          " / " +
+                                              widget.quantidadeQuestoes
+                                                  .toString(),
+                                          style: const TextStyle(
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
                                     ),
                                     Text(
-                                      (widget.indiceQuestao + 1).toString(),
-                                      textScaleFactor: 1.2,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      " / " +
-                                          widget.quantidadeQuestoes.toString(),
+                                      widget.questao.enunciado,
+                                      textAlign: TextAlign.justify,
                                       style:
                                           const TextStyle(color: Colors.black),
                                     ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 10.0,
-                                ),
-                                Text(
-                                  widget.questao.enunciado,
-                                  textAlign: TextAlign.justify,
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                                const SizedBox(
-                                  height: 10.0,
-                                ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          const CircleAvatar(
-                            radius: 40.0,
-                            backgroundColor: Colors.white,
-                          ),
-                          CircularPercentIndicator(
-                            radius: 70.0,
-                            lineWidth: 10.0,
-                            animation: true,
-                            percent: (widget.indiceQuestao + 1) /
-                                widget.quantidadeQuestoes,
-                            center: Text(
-                              (widget.indiceQuestao + 1).toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                              textScaleFactor: 0.8,
-                            ),
-                            circularStrokeCap: CircularStrokeCap.round,
-                            progressColor: Colors.purple,
-                          ),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const CircleAvatar(
+                                radius: 40.0,
+                                backgroundColor: Colors.white,
+                              ),
+                              CircularPercentIndicator(
+                                radius: 70.0,
+                                lineWidth: 10.0,
+                                animation: true,
+                                percent: (widget.indiceQuestao + 1) /
+                                    widget.quantidadeQuestoes,
+                                center: Text(
+                                  (widget.indiceQuestao + 1).toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                  textScaleFactor: 0.8,
+                                ),
+                                circularStrokeCap: CircularStrokeCap.round,
+                                progressColor: Colors.purple,
+                              ),
+                            ],
+                          )
                         ],
+                      ),
+                      widget.questao.opcoes != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, left: 15.0, right: 15.0),
+                              child: ListView.builder(
+                                padding: const EdgeInsets.only(
+                                  top: 0.0,
+                                ),
+                                shrinkWrap: true,
+                                itemCount: widget.questao.opcoes!.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  OpcoesQuestao opcoesQuestao =
+                                      widget.questao.opcoes![index];
+                                  return RadioCard(
+                                    correctOption: correctOption,
+                                    cardSelectedColor: Colors.blue,
+                                    cardColor: Colors.white,
+                                    index: index,
+                                    selectedIndex: selectedIndex,
+                                    text: opcoesQuestao.item,
+                                    onChange: (index) {
+                                      if (correctOption != null) return;
+                                      // ignore: avoid_function_literals_in_foreach_calls
+                                      widget.questao.opcoes!.forEach((opcao) {
+                                        opcao.marcacao = false;
+                                      });
+                                      setState(() {
+                                        opcoesQuestao.marcacao = true;
+                                      });
+                                    },
+                                  );
+                                },
+                              ),
+                            )
+                          : InputCardImageText(
+                              input: widget.questao.resposta,
+                              textEditingController:
+                                  widget.questao.resposta == null
+                                      ? TextEditingController()
+                                      : null,
+                            ),
+                      TextButton(
+                        onPressed: () async {
+                          if (widget.indiceQuestao <
+                              widget.quantidadeQuestoes - 1) {
+                            widget.proximaQuestao();
+                          } else {
+                            setState(() {
+                              loading = true;
+                            });
+                            bool result = await widget.funcaoFinalizar();
+                            if (!result) {
+                              setState(() {
+                                loading = false;
+                              });
+                            }
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: Text(
+                          widget.indiceQuestao < widget.quantidadeQuestoes - 1
+                              ? "PRÓXIMA"
+                              : "TERMINAR",
+                        ),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(7.0),
+                          primary: Colors.white,
+                          backgroundColor: Colors.teal,
+                          onSurface: Colors.grey,
+                          textStyle: const TextStyle(fontSize: 18.0),
+                        ),
                       )
                     ],
                   ),
-                  widget.questao.opcoes != null
-                      ? Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10.0, left: 15.0, right: 15.0),
-                          child: ListView.builder(
-                            padding: const EdgeInsets.only(
-                              top: 0.0,
-                            ),
-                            shrinkWrap: true,
-                            itemCount: widget.questao.opcoes!.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              OpcoesQuestao opcoesQuestao =
-                                  widget.questao.opcoes![index];
-                              return RadioCard(
-                                correctOption: correctOption,
-                                cardSelectedColor: Colors.blue,
-                                cardColor: Colors.white,
-                                index: index,
-                                selectedIndex: selectedIndex,
-                                text: opcoesQuestao.item,
-                                onChange: (index) {
-                                  if (correctOption != null) return;
-                                  // ignore: avoid_function_literals_in_foreach_calls
-                                  widget.questao.opcoes!.forEach((opcao) {
-                                    opcao.marcacao = false;
-                                  });
-                                  setState(() {
-                                    opcoesQuestao.marcacao = true;
-                                  });
-                                },
-                              );
-                            },
-                          ),
-                        )
-                      : Container(),
-                  TextButton(
-                    onPressed: () async {
-                      if (widget.indiceQuestao <
-                          widget.quantidadeQuestoes - 1) {
-                        widget.proximaQuestao();
-                      } else {
-                        setState(() {
-                          loading = true;
-                        });
-                        bool result = await widget.funcaoFinalizar();
-                        if (!result) {
-                          setState(() {
-                            loading = false;
-                          });
-                        }
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Text(
-                      widget.indiceQuestao < widget.quantidadeQuestoes - 1
-                          ? "PRÓXIMA"
-                          : "TERMINAR",
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(7.0),
-                      primary: Colors.white,
-                      backgroundColor: Colors.teal,
-                      onSurface: Colors.grey,
-                      textStyle: const TextStyle(fontSize: 18.0),
-                    ),
-                  )
-                ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }

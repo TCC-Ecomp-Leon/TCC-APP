@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
+import 'package:tcc_app/utils/mock_images.dart';
 import 'package:tcc_app/widgets/atividades/pagina_atividade.dart';
 
 class CardAtividade extends StatelessWidget {
@@ -64,45 +65,14 @@ class CardAtividade extends StatelessWidget {
                 Questao(
                   enunciado:
                       "Pergunta alternativa teste em um curso, eventualmente em uma matéria. Essa pergunta serão configuradas e armazenadas no banco de dados.",
-                  resposta: null,
-                  opcoes: [
-                    OpcoesQuestao(
-                      correto: DateTime.now().isAfter(atividade.diaFechamento)
-                          ? false
-                          : null,
-                      marcacao: DateTime.now().isAfter(atividade.diaFechamento)
-                          ? false
-                          : null,
-                      item: "Alternativa teste A",
-                    ),
-                    OpcoesQuestao(
-                      correto: DateTime.now().isAfter(atividade.diaFechamento)
-                          ? true
-                          : null,
-                      marcacao: DateTime.now().isAfter(atividade.diaFechamento)
-                          ? true
-                          : null,
-                      item: "Alternativa teste B",
-                    ),
-                    OpcoesQuestao(
-                      correto: DateTime.now().isAfter(atividade.diaFechamento)
-                          ? false
-                          : null,
-                      marcacao: DateTime.now().isAfter(atividade.diaFechamento)
-                          ? false
-                          : null,
-                      item: "Alternativa teste C",
-                    ),
-                    OpcoesQuestao(
-                      correto: DateTime.now().isAfter(atividade.diaFechamento)
-                          ? false
-                          : null,
-                      marcacao: DateTime.now().isAfter(atividade.diaFechamento)
-                          ? false
-                          : null,
-                      item: "Alternativa teste D",
-                    ),
-                  ],
+                  resposta: "Resposta teste",
+                  opcoes: null,
+                ),
+                Questao(
+                  enunciado:
+                      "Pergunta alternativa teste em um curso, eventualmente em uma matéria. Essa pergunta serão configuradas e armazenadas no banco de dados. Pergunta dissertativa.",
+                  resposta: imgProjeto,
+                  opcoes: null,
                 ),
               ],
             ),
