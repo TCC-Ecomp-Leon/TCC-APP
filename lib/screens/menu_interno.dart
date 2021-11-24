@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tcc_app/screens/administracao.dart';
 import 'package:tcc_app/screens/cursos.dart';
 import 'package:tcc_app/screens/dummy.dart';
+import 'package:tcc_app/screens/perfil.dart';
 import 'package:tcc_app/widgets/navigation_menu.dart';
 
 class Menu extends StatelessWidget {
@@ -47,7 +48,7 @@ class Menu extends StatelessWidget {
           ),
         ),
         NavigationMenuItem(
-          child: const Dummy(),
+          child: Perfil(),
           item: const BottomNavigationBarItem(
             label: "Perfil",
             icon: Icon(Icons.person),

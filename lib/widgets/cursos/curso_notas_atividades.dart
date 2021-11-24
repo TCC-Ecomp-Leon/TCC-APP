@@ -52,7 +52,7 @@ class CardCursoNotasAtividade extends StatelessWidget {
       MockCursoAtividade atividade = curso.proximasAtividades[i];
       children.add(
         Text(
-          diaAtividade(atividade.dia) + " - " + atividade.nomeAtividade,
+          diaMes(atividade.dia) + " - " + atividade.nomeAtividade,
           textAlign: TextAlign.start,
           style: const TextStyle(
             color: Colors.black,

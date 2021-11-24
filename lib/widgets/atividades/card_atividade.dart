@@ -126,7 +126,7 @@ class CardAtividade extends StatelessWidget {
                           const SizedBox(
                             width: 5.0,
                           ),
-                          Text(diaAtividade(atividade.diaFechamento)),
+                          Text(diaMes(atividade.diaFechamento)),
                         ],
                       ),
               )
