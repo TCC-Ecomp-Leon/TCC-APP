@@ -4,7 +4,16 @@ import 'package:tcc_app/utils/mock_images.dart';
 import 'package:tcc_app/widgets/card_overlap_image.dart';
 import 'package:tcc_app/widgets/card_overlap_title.dart';
 
-class Perfil extends StatelessWidget {
+class Perfil extends StatefulWidget {
+  Perfil({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<Perfil> createState() => _PerfilState();
+}
+
+class _PerfilState extends State<Perfil> {
   final PerfilMockado perfilMockado = PerfilMockado(
     nome: "Usuário mockado",
     email: "user_mock@test.com",
@@ -24,10 +33,6 @@ class Perfil extends StatelessWidget {
     quantidadeCursosAluno: 1,
     quantidadeMateriasProfessor: 2,
   );
-
-  Perfil({
-    Key? key,
-  }) : super(key: key);
 
   Widget nomeCampo(String campo) {
     return Text(
@@ -85,6 +90,11 @@ class Perfil extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CardOverlapImage(
+                changeImage: (String imagem) {
+                  setState(() {
+                    perfilMockado.imagemPerfil = imagem;
+                  });
+                },
                 base64image: perfilMockado.imagemPerfil,
                 child: Text(
                   perfilMockado.nome,
@@ -127,6 +137,7 @@ class Perfil extends StatelessWidget {
                 height: 10.0,
               ),
               CardOverlapImage(
+                changeImage: null,
                 base64image: perfilMockado.imagemProjeto,
                 child: Text(
                   perfilMockado.nomeProjeto,
