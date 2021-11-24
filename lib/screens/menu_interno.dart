@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_app/screens/administracao.dart';
+import 'package:tcc_app/screens/colaboracao.dart';
 import 'package:tcc_app/screens/cursos.dart';
 import 'package:tcc_app/screens/dummy.dart';
 import 'package:tcc_app/screens/perfil.dart';
@@ -34,7 +35,7 @@ class Menu extends StatelessWidget {
           ),
         ),
         NavigationMenuItem(
-          child: const Dummy(),
+          child: const Colaboracao(),
           item: const BottomNavigationBarItem(
             label: "Colaboração",
             icon: Icon(Icons.blur_circular_rounded),
