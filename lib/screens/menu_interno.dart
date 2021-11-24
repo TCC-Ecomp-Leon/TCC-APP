@@ -48,7 +48,7 @@ class Menu extends StatelessWidget {
           ),
         ),
         NavigationMenuItem(
-          child: Perfil(),
+          child: const Perfil(),
           item: const BottomNavigationBarItem(
             label: "Perfil",
             icon: Icon(Icons.person),

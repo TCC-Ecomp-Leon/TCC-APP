@@ -5,7 +5,7 @@ import 'package:tcc_app/widgets/card_overlap_image.dart';
 import 'package:tcc_app/widgets/card_overlap_title.dart';
 
 class Perfil extends StatefulWidget {
-  Perfil({
+  const Perfil({
     Key? key,
   }) : super(key: key);
 
