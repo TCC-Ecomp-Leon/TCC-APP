@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tcc_app/screens/colaboracao/pagina_atividade.dart';
 import 'package:tcc_app/widgets/label_description_card.dart';
 
 class Colaboracao extends StatelessWidget {
@@ -6,7 +7,7 @@ class Colaboracao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MockAtivideColaborativa> atividades = criarMockAtividades();
+    List<MockAtividadeColaborativa> atividades = criarMockAtividades();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -38,72 +39,85 @@ class Colaboracao extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: atividades.length,
                 itemBuilder: (BuildContext context, int index) {
-                  MockAtivideColaborativa atividade = atividades[index];
+                  MockAtividadeColaborativa atividade = atividades[index];
                   double espacoDisponivel =
                       MediaQuery.of(context).size.width - 22.0;
-                  return LabelDescriptionCard(
-                    value: LabelDescriptionCardProps(
-                      label: atividade.nomeAtividade,
-                      labelSufix: textoTipoAtividade(
-                          atividade.tipoAtividadeColaborativa),
-                      description: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: espacoDisponivel * 0.33,
-                            child: Text(
-                              "Curso: " + atividade.nomeCurso,
-                              textScaleFactor: 0.6,
-                            ),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaginaAtividadeColaboracao(
+                            atividade: atividade,
                           ),
-                          SizedBox(
-                            width: espacoDisponivel * 0.33,
-                            child: atividade.nomeMateria != null
-                                ? Text(
-                                    "Matéria: " + atividade.nomeMateria!,
+                        ),
+                      );
+                    },
+                    child: LabelDescriptionCard(
+                      value: LabelDescriptionCardProps(
+                        label: atividade.nomeAtividade,
+                        labelSufix: textoTipoAtividade(
+                            atividade.tipoAtividadeColaborativa),
+                        description: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: espacoDisponivel * 0.33,
+                              child: Text(
+                                "Curso: " + atividade.nomeCurso,
+                                textScaleFactor: 0.6,
+                              ),
+                            ),
+                            SizedBox(
+                              width: espacoDisponivel * 0.33,
+                              child: atividade.nomeMateria != null
+                                  ? Text(
+                                      "Matéria: " + atividade.nomeMateria!,
+                                      textScaleFactor: 0.6,
+                                    )
+                                  : Container(),
+                            ),
+                            SizedBox(
+                              width: espacoDisponivel * 0.17,
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.schedule,
+                                    size: 15.0,
+                                  ),
+                                  const SizedBox(
+                                    width: 3.0,
+                                  ),
+                                  Text(
+                                    tempoColaboracao(
+                                        atividade.tempoColaboracao),
                                     textScaleFactor: 0.6,
-                                  )
-                                : Container(),
-                          ),
-                          SizedBox(
-                            width: espacoDisponivel * 0.17,
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.schedule,
-                                  size: 15.0,
-                                ),
-                                const SizedBox(
-                                  width: 3.0,
-                                ),
-                                Text(
-                                  tempoColaboracao(atividade.tempoColaboracao),
-                                  textScaleFactor: 0.6,
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: espacoDisponivel * 0.17,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.date_range,
-                                  size: 15.0,
-                                ),
-                                const SizedBox(
-                                  width: 3.0,
-                                ),
-                                Text(
-                                  tempoFinalizarAtividade(atividade.fechaEm),
-                                  textScaleFactor: 0.6,
-                                ),
-                              ],
+                            SizedBox(
+                              width: espacoDisponivel * 0.17,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(
+                                    Icons.date_range,
+                                    size: 15.0,
+                                  ),
+                                  const SizedBox(
+                                    width: 3.0,
+                                  ),
+                                  Text(
+                                    tempoFinalizarAtividade(atividade.fechaEm),
+                                    textScaleFactor: 0.6,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -135,7 +149,6 @@ String tempoColaboracao(int minutos) {
 String tempoFinalizarAtividade(DateTime fechaEm) {
   DateTime now = DateTime.now();
 
-  int? dias;
   int? horas;
   if (fechaEm.difference(now).inDays > 1) {
     return fechaEm.difference(now).inDays.toString() + " dias";
@@ -163,11 +176,11 @@ String textoTipoAtividade(TipoAtividadeColaborativa tipo) {
   }
 }
 
-List<MockAtivideColaborativa> criarMockAtividades() {
-  List<MockAtivideColaborativa> ret = [];
+List<MockAtividadeColaborativa> criarMockAtividades() {
+  List<MockAtividadeColaborativa> ret = [];
 
   for (int i = 0; i < 20; i++) {
-    MockAtivideColaborativa atividade = MockAtivideColaborativa(
+    MockAtividadeColaborativa atividade = MockAtividadeColaborativa(
       nomeAtividade: "Atividade Mockada " + i.toString(),
       tipoAtividadeColaborativa: TipoAtividadeColaborativa.correcao,
       nomeMateria: i % 10 == 0 ? null : "Matéria Teste " + (i % 5).toString(),
@@ -204,7 +217,7 @@ enum TipoAtividadeColaborativa {
   bancoDeQuestoes,
 }
 
-class MockAtivideColaborativa {
+class MockAtividadeColaborativa {
   final String nomeAtividade;
   final TipoAtividadeColaborativa tipoAtividadeColaborativa;
   final String? nomeMateria;
@@ -215,7 +228,7 @@ class MockAtivideColaborativa {
   final int tempoColaboracao;
   final List<MockQuestaoDissertativaAtividade> questoes;
 
-  MockAtivideColaborativa({
+  MockAtividadeColaborativa({
     required this.nomeAtividade,
     required this.tipoAtividadeColaborativa,
     required this.nomeMateria,

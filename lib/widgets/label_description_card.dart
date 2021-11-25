@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tcc_app/utils/base64_image.dart';
 
 class LabelDescriptionCardProps {
   String label;

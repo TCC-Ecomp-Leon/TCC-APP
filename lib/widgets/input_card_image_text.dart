@@ -6,13 +6,20 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tcc_app/utils/base64_image.dart';
 import 'package:tcc_app/widgets/full_screen_image.dart';
 
+// ignore: must_be_immutable
 class InputCardImageText extends StatefulWidget {
+  final String labelText;
+  final String hintText;
   final TextEditingController? textEditingController;
+  final bool visibleInputSelector;
   String? inputValue;
 
   InputCardImageText({
     required String? input,
     required this.textEditingController,
+    this.labelText = "Resposta:",
+    this.hintText = "Insira sua resposta para a questão",
+    this.visibleInputSelector = true,
     Key? key,
   }) : super(key: key) {
     selectedInputMethod = SelectedInputMethod.text;
@@ -121,20 +128,21 @@ class _InputCardImageTextState extends State<InputCardImageText> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Container(
-        height: 200.0,
-        padding: const EdgeInsets.only(
+        height: widget.visibleInputSelector ? 190.0 : null,
+        padding: EdgeInsets.only(
           left: 5.0,
           right: 5.0,
           top: 5.0,
+          bottom: !widget.visibleInputSelector ? 5.0 : 0.0,
         ),
         child: widget.selectedInputMethod == SelectedInputMethod.text
             ? TextField(
                 readOnly: widget.textEditingController == null,
                 keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  labelText: 'Resposta:',
-                  hintText: "Insira sua resposta para a questão",
-                  border: OutlineInputBorder(
+                decoration: InputDecoration(
+                  labelText: widget.labelText,
+                  hintText: widget.hintText,
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                 ),
@@ -184,12 +192,16 @@ class _InputCardImageTextState extends State<InputCardImageText> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5.0, right: 5.0, bottom: 5.0),
+      padding: const EdgeInsets.only(
+        top: 5.0,
+        right: 5.0,
+        bottom: 5.0,
+      ),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           inputCard(context),
-          cardSelector(context),
+          widget.visibleInputSelector ? cardSelector(context) : Container(),
         ],
       ),
     );

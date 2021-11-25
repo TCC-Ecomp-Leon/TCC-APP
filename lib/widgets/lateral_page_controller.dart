@@ -28,25 +28,40 @@ class _LateralPageControllerImplementationState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          widget.title != null
-              ? Padding(
-                  child: Text(
-                    widget.title as String,
-                    textScaleFactor: 1.3,
-                  ),
-                  padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-                )
-              : Container(),
-          Expanded(
-            flex: 2,
-            child: PageView(
-              controller: widget.pageController,
-              children: widget.children,
-            ),
-          )
-        ],
+      body: WillPopScope(
+        onWillPop: () async {
+          PageController _controller = widget.pageController;
+          if (_controller.page != null &&
+              _controller.page!.round() == _controller.initialPage) {
+            return true;
+          } else {
+            _controller.previousPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.decelerate,
+            );
+            return false;
+          }
+        },
+        child: Column(
+          children: [
+            widget.title != null
+                ? Padding(
+                    child: Text(
+                      widget.title as String,
+                      textScaleFactor: 1.3,
+                    ),
+                    padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
+                  )
+                : Container(),
+            Expanded(
+              flex: 2,
+              child: PageView(
+                controller: widget.pageController,
+                children: widget.children,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
