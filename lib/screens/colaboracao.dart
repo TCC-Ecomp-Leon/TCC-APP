@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tcc_app/screens/colaboracao/card_colaboradas.dart';
 import 'package:tcc_app/screens/colaboracao/pagina_atividade.dart';
+import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/label_description_card.dart';
 
 class Colaboracao extends StatelessWidget {
@@ -8,6 +10,8 @@ class Colaboracao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MockAtividadeColaborativa> atividades = criarMockAtividades();
+    List<MockAtividadeColaborada> colaboracoes = criarMockColaboracoes();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -16,6 +20,12 @@ class Colaboracao extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              CardAtividadesColaboradas(
+                colaboracoes: colaboracoes,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
@@ -35,6 +45,7 @@ class Colaboracao extends StatelessWidget {
                 height: 10.0,
               ),
               ListView.builder(
+                padding: const EdgeInsets.only(top: 0.0),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: atividades.length,
@@ -131,41 +142,54 @@ class Colaboracao extends StatelessWidget {
   }
 }
 
-String tempoColaboracao(int minutos) {
-  int? horas;
-  while (minutos > 60) {
-    horas ??= 0;
-    horas = horas + 1;
-    minutos = minutos - 60;
+List<MockAtividadeColaborada> criarMockColaboracoes() {
+  List<MockAtividadeColaborada> ret = [];
+
+  for (int i = 0; i < 20; i++) {
+    MockAtividadeColaborada colaboracao = MockAtividadeColaborada(
+      nomeCurso: "Curso Teste " + (i % 3).toString(),
+      nomeAtividade: "Colaboração " + i.toString(),
+      colaboracaoEm: DateTime.now().subtract(Duration(hours: 5 * i)),
+      tempoColaboracao: 10 * i,
+      aprovada: i % 4 == 0,
+      horasEmitidas: i % 8 == 0,
+      horasRequisitadas: i % 16 == 0,
+    );
+
+    ret.add(colaboracao);
   }
-  String ret = "";
-  if (horas != null) {
-    ret = horas.toString() + "h ";
-  }
-  ret = ret + minutos.toString() + "min";
+
   return ret;
+}
+
+class MockAtividadeColaborada {
+  final String nomeCurso;
+  final String nomeAtividade;
+  final DateTime colaboracaoEm;
+  final int tempoColaboracao;
+  bool aprovada;
+  bool horasEmitidas;
+  bool horasRequisitadas;
+
+  MockAtividadeColaborada({
+    required this.nomeCurso,
+    required this.nomeAtividade,
+    required this.colaboracaoEm,
+    required this.tempoColaboracao,
+    required this.aprovada,
+    required this.horasEmitidas,
+    required this.horasRequisitadas,
+  });
+}
+
+String tempoColaboracao(int minutos) {
+  return formatarMinutosHoras(minutos);
 }
 
 String tempoFinalizarAtividade(DateTime fechaEm) {
   DateTime now = DateTime.now();
 
-  int? horas;
-  if (fechaEm.difference(now).inDays > 1) {
-    return fechaEm.difference(now).inDays.toString() + " dias";
-  }
-  while (fechaEm.difference(now).inMinutes > 60) {
-    horas ??= 0;
-    horas = horas + 1;
-    fechaEm = fechaEm.subtract(const Duration(hours: 1));
-  }
-  int minutos = fechaEm.difference(now).inMinutes;
-
-  String ret = "";
-  if (horas != null) {
-    ret = horas.toString() + "h ";
-  }
-  ret = ret + minutos.toString() + "min";
-  return ret;
+  return tempoEntreDatas(fechaEm, now);
 }
 
 String textoTipoAtividade(TipoAtividadeColaborativa tipo) {

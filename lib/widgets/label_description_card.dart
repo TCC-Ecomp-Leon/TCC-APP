@@ -5,12 +5,14 @@ class LabelDescriptionCardProps {
   String? labelSufix;
   Widget description;
   Widget? secondLine;
+  Widget? mainWidgetRow;
 
   LabelDescriptionCardProps({
     required this.label,
     required this.description,
     this.secondLine,
     this.labelSufix,
+    this.mainWidgetRow,
   });
 }
 
@@ -25,38 +27,45 @@ class LabelDescriptionCard extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                width: 10.0,
-              ),
-              Column(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
+                  const SizedBox(
+                    width: 10.0,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        value.label,
+                      Row(
+                        children: [
+                          Text(
+                            value.label,
+                          ),
+                          const SizedBox(
+                            width: 150.0,
+                          ),
+                          value.labelSufix != null
+                              ? Text(
+                                  value.labelSufix!,
+                                  textScaleFactor: 0.8,
+                                )
+                              : Container(),
+                        ],
                       ),
-                      const SizedBox(
-                        width: 150.0,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 1.5),
+                        child: value.description,
                       ),
-                      value.labelSufix != null
-                          ? Text(
-                              value.labelSufix!,
-                              textScaleFactor: 0.8,
-                            )
-                          : Container(),
                     ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 1.5),
-                    child: value.description,
-                  ),
+                  )
                 ],
-              )
+              ),
+              value.mainWidgetRow != null ? value.mainWidgetRow! : Container(),
             ],
           ),
           value.secondLine ?? Container(),

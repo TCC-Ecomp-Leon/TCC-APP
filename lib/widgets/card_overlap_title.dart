@@ -36,8 +36,8 @@ class CardOverlapTitle extends StatelessWidget {
                     right: 5.0,
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: children,
                   ),
                 ),
