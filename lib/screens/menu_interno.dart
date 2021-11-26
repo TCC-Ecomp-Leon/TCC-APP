@@ -3,6 +3,7 @@ import 'package:tcc_app/screens/administracao.dart';
 import 'package:tcc_app/screens/colaboracao.dart';
 import 'package:tcc_app/screens/cursos.dart';
 import 'package:tcc_app/screens/dummy.dart';
+import 'package:tcc_app/screens/duvidas.dart';
 import 'package:tcc_app/screens/perfil.dart';
 import 'package:tcc_app/widgets/navigation_menu.dart';
 
@@ -42,7 +43,7 @@ class Menu extends StatelessWidget {
           ),
         ),
         NavigationMenuItem(
-          child: const Dummy(),
+          child: const Duvidas(),
           item: const BottomNavigationBarItem(
             label: "Dúvidas",
             icon: Icon(Icons.question_answer),

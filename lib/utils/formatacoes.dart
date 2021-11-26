@@ -11,6 +11,19 @@ String diaMes(DateTime date) {
   return dia + "/" + mes;
 }
 
+String horario(DateTime date) {
+  String horas = date.hour.toString();
+  while (horas.length < 2) {
+    horas = "0" + horas;
+  }
+  String minutos = date.minute.toString();
+  while (minutos.length < 2) {
+    minutos = "0" + minutos;
+  }
+
+  return horas + ":" + minutos;
+}
+
 String diaComAno(DateTime date) {
   String dia = date.day.toString();
   String mes = date.month.toString();
@@ -61,4 +74,12 @@ String tempoEntreDatas(DateTime fim, DateTime inicio) {
   }
   ret = ret + minutos.toString() + "min";
   return ret;
+}
+
+String textoParaTamanhoFixo(String texto, int tamanho) {
+  if (texto.length < tamanho) {
+    return texto;
+  } else {
+    return texto.substring(0, tamanho - 1) + "...";
+  }
 }
