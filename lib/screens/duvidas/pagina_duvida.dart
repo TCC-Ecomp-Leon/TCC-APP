@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:tcc_app/screens/duvidas.dart';
 import 'package:bubble/bubble.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
@@ -116,31 +117,36 @@ class _PaginaTopicoDuvidaState extends State<PaginaTopicoDuvida> {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-    final double bottomInsets = MediaQuery.of(context).viewInsets.bottom;
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 30.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: height - bottomInsets - 155.0,
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top: 0.0),
-                itemCount: widget.duvida.mensagens.length,
-                itemBuilder: (BuildContext context, int index) {
-                  MockMensagemDuvida mensagem = widget.duvida.mensagens[index];
+    return KeyboardVisibilityBuilder(
+        builder: (BuildContext context, bool isKeyboardVisible) {
+      final double bottomInsets = isKeyboardVisible ? 220 : 0.0;
+      print(bottomInsets);
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: height - bottomInsets - 155.0,
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 0.0),
+                  itemCount: widget.duvida.mensagens.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    MockMensagemDuvida mensagem =
+                        widget.duvida.mensagens[index];
 
-                  return buildMensagem(
-                    mensagem.mensagem,
-                    mensagem.horario,
-                  );
-                },
+                    return buildMensagem(
+                      mensagem.mensagem,
+                      mensagem.horario,
+                    );
+                  },
+                ),
               ),
-            ),
-            buildEnviarMensagem(),
-          ],
+              buildEnviarMensagem(),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
