@@ -89,6 +89,7 @@ class _PaginaTopicoDuvidaState extends State<PaginaTopicoDuvida> {
                           hintText: 'Insira sua mensagem para o tópico',
                           border: InputBorder.none,
                           labelStyle: TextStyle(color: Colors.black),
+                          hintStyle: TextStyle(color: Colors.grey),
                         ),
                         style: const TextStyle(color: Colors.black),
                       ),
@@ -120,7 +121,6 @@ class _PaginaTopicoDuvidaState extends State<PaginaTopicoDuvida> {
     return KeyboardVisibilityBuilder(
         builder: (BuildContext context, bool isKeyboardVisible) {
       final double bottomInsets = isKeyboardVisible ? 220 : 0.0;
-      print(bottomInsets);
       return Scaffold(
         body: Padding(
           padding: const EdgeInsets.only(top: 30.0),
