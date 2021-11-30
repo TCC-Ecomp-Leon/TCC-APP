@@ -75,8 +75,8 @@ class _PaginaAdicaoCursoState extends State<PaginaAdicaoCurso> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: date,
-      firstDate: DateTime(DateTime.now().year - 1),
-      lastDate: DateTime(DateTime.now().year + 1),
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (pickedDate != null) {
       onDateChange(pickedDate);
@@ -85,6 +85,7 @@ class _PaginaAdicaoCursoState extends State<PaginaAdicaoCurso> {
 
   Widget buildDatePicker(
     BuildContext context,
+    String text,
     DateTime dateTime,
     OnDateChange onChange,
   ) {
@@ -92,7 +93,7 @@ class _PaginaAdicaoCursoState extends State<PaginaAdicaoCurso> {
 
     return Column(
       children: [
-        const Text("Data: "),
+        Text(text),
         const SizedBox(
           height: 10.0,
         ),
@@ -100,7 +101,8 @@ class _PaginaAdicaoCursoState extends State<PaginaAdicaoCurso> {
           onTap: () {
             pickDate(dateTime, onChange);
           },
-          child: Padding(
+          child: Container(
+            height: 70.0,
             padding: const EdgeInsets.only(
                 left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
             child: ClipRRect(
@@ -112,13 +114,13 @@ class _PaginaAdicaoCursoState extends State<PaginaAdicaoCurso> {
                   children: [
                     SizedBox(
                       width: width * 0.4,
-                      child: const Padding(
-                        padding: EdgeInsets.only(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
                           left: 8.0,
                         ),
                         child: Text(
-                          "Dia: ",
-                          style: TextStyle(color: Colors.black),
+                          text,
+                          style: const TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
@@ -129,7 +131,7 @@ class _PaginaAdicaoCursoState extends State<PaginaAdicaoCurso> {
                         right: 8.0,
                       ),
                       child: Text(
-                        diaComAno(dateTime),
+                        diaComAno(dateTime).replaceAll(" ", "0"),
                         style: const TextStyle(color: Colors.black),
                       ),
                     ),
@@ -166,6 +168,18 @@ class _PaginaAdicaoCursoState extends State<PaginaAdicaoCurso> {
                         children: [
                           buildTextField(nomeCurso, "Nome do curso"),
                           buildTextField(descricao, "Descrição", maxLines: 3),
+                          buildDatePicker(context, "Dia de Início", inicio,
+                              (newDate) {
+                            setState(() {
+                              inicio = newDate;
+                            });
+                          }),
+                          buildDatePicker(context, "Dia de fim", fim,
+                              (newDate) {
+                            setState(() {
+                              fim = newDate;
+                            });
+                          }),
                           SizedBox(
                             height:
                                 !isVisible ? topBottomPaddingAlignment : 0.0,
