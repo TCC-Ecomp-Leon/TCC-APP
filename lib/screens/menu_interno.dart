@@ -22,13 +22,6 @@ class Menu extends StatelessWidget {
           ),
         ),
         NavigationMenuItem(
-          child: const Dummy(),
-          item: const BottomNavigationBarItem(
-            label: "Projeto",
-            icon: Icon(Icons.home),
-          ),
-        ),
-        NavigationMenuItem(
           child: Cursos(),
           item: const BottomNavigationBarItem(
             label: "Cursos",
