@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:tcc_app/screens/duvidas/criacao_duvida.dart';
 import 'package:tcc_app/utils/base64_image.dart';
 
 class CardCurso extends StatelessWidget {
@@ -90,7 +91,7 @@ class CardCurso extends StatelessWidget {
                   width: 10.0,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,10 +107,40 @@ class CardCurso extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Icon(
-                  Icons.question_answer,
-                  size: 40.0,
-                ),
+                IconButton(
+                  onPressed: () {
+                    List<String> cursos = [
+                      "Curso 1",
+                      "Curso 2",
+                      "Curso 3",
+                      nome
+                    ];
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaginaCriacaoDuvida(
+                          cursos: cursos,
+                          cursoSelecionado: cursos.indexOf(nome),
+                          materias: const [
+                            "Matéria 1",
+                            "Matéria 2",
+                            "Matéria 3"
+                          ],
+                          materiaSelecionada: null,
+                          cursosUniversitarios: const [
+                            "Bacharel em C&T",
+                            "Bacharel ECOMP"
+                          ],
+                          cursoUniversitarioSelecionado: null,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.question_answer,
+                  ),
+                  iconSize: 40.0,
+                )
               ],
             ),
             Container(
