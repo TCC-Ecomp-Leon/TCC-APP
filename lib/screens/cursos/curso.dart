@@ -72,3 +72,10 @@ class Curso extends StatelessWidget {
     );
   }
 }
+
+class MockAluno {
+  String id;
+  String nome;
+
+  MockAluno({required this.id, required this.nome});
+}
