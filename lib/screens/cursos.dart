@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_app/screens/cursos/curso.dart';
+import 'package:tcc_app/screens/cursos/pagina_adicao_curso.dart';
 import 'package:tcc_app/utils/mock_images.dart';
+import 'package:tcc_app/widgets/add_card.dart';
 import 'package:tcc_app/widgets/cursos/curso_notas_atividades.dart';
 
 class Cursos extends StatelessWidget {
@@ -12,28 +14,43 @@ class Cursos extends StatelessWidget {
 
   Cursos({Key? key}) : super(key: key);
 
+  Widget cardAdicaoCurso(BuildContext context) {
+    return const AddCard(
+      callbackPage: PaginaAdicaoCurso(),
+      label: "Adicionar curso",
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
-      child: ListView.builder(
-        padding: const EdgeInsets.only(top: 0.0),
-        shrinkWrap: true,
-        itemCount: cursos.length,
-        itemBuilder: (BuildContext context, int index) {
-          MockCurso curso = cursos[index];
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Curso(),
-                ),
-              );
-            },
-            child: CardCursoNotasAtividade(curso: curso),
-          );
-        },
+      child: Column(
+        children: [
+          cardAdicaoCurso(context),
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 155.0,
+            child: ListView.builder(
+              padding: const EdgeInsets.only(top: 0.0),
+              shrinkWrap: true,
+              itemCount: cursos.length,
+              itemBuilder: (BuildContext context, int index) {
+                MockCurso curso = cursos[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Curso(),
+                      ),
+                    );
+                  },
+                  child: CardCursoNotasAtividade(curso: curso),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

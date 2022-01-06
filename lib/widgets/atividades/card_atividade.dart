@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tcc_app/screens/cursos/atividades/dashboard_atividade.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/utils/mock_images.dart';
 import 'package:tcc_app/widgets/atividades/pagina_atividade.dart';
@@ -9,8 +10,10 @@ class CardAtividade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IconStatusAtividade iconStatusAtividade =
-        getIconStatusAtividade(atividade.diaAbertura, atividade.diaFechamento);
+    IconStatusAtividade iconStatusAtividade = getIconStatusAtividade(
+      atividade.diaAbertura,
+      atividade.diaFechamento,
+    );
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -103,9 +106,26 @@ class CardAtividade extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
-                iconStatusAtividade.icon,
-                color: iconStatusAtividade.color,
+              Row(
+                children: [
+                  Icon(
+                    iconStatusAtividade.icon,
+                    color: iconStatusAtividade.color,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DashboardAtividade(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.info_rounded),
+                    iconSize: 22.0,
+                    splashRadius: 16.0,
+                  ),
+                ],
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.2,

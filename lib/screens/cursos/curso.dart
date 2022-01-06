@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_app/screens/cursos/atividades.dart';
+import 'package:tcc_app/screens/dummy.dart';
 import 'package:tcc_app/utils/mock_images.dart';
 import 'package:tcc_app/widgets/cursos/card_curso.dart';
 import 'package:tcc_app/widgets/page_controller.dart';
@@ -36,23 +37,45 @@ class Curso extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height - 320.0,
               child: PageControllerImplementation(
-                title: "Atividades",
                 children: [
                   PageControllerPage(
-                    child: const AtividadesCurso(fechadas: false),
-                    label: "Próximas",
+                    child: PageControllerImplementation(
+                      children: [
+                        PageControllerPage(
+                          child: const AtividadesCurso(fechadas: false),
+                          label: "Próximas",
+                        ),
+                        PageControllerPage(
+                          child: const AtividadesCurso(fechadas: true),
+                          label: "Concluídas",
+                        ),
+                      ],
+                      width: 280.0,
+                    ),
+                    label: "Atividades",
                   ),
                   PageControllerPage(
-                    child: const AtividadesCurso(fechadas: true),
-                    label: "Concluídas",
+                    child: const Dummy(),
+                    label: "Matérias",
+                  ),
+                  PageControllerPage(
+                    child: const Dummy(),
+                    label: "Alunos",
                   ),
                 ],
-                width: 280.0,
+                width: 410.0,
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+class MockAluno {
+  String id;
+  String nome;
+
+  MockAluno({required this.id, required this.nome});
 }
