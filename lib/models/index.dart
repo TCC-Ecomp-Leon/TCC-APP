@@ -1,0 +1,12 @@
+import './Localizacao.dart';
+import './Atividade.dart';
+import './BancoDeQuestoes.dart';
+import './CodigoEntrada.dart';
+import './Curso.dart';
+import './CursoUniversitario.dart';
+import './Duvida.dart';
+import './Endereco.dart';
+import './Materia.dart';
+import './Perfil.dart';
+import './Projeto.dart';
+import './RespostaAtividade.dart';
