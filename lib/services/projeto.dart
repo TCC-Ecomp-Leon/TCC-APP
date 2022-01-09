@@ -10,6 +10,7 @@ Future<bool?> registrarProjeto(
   String descricao,
   String email,
   int telefone,
+  String imgProjeto,
   Endereco endereco,
 ) {
   return executeRequest(
@@ -21,6 +22,7 @@ Future<bool?> registrarProjeto(
           'descricao': descricao,
           'email': email,
           'telefone': telefone,
+          'imgProjeto': imgProjeto,
           'endereco': endereco.toJson(),
         },
         options: Options(method: 'POST'),
@@ -118,6 +120,7 @@ Future<bool?> atualizarProjeto(
   String? nome,
   String? descricao,
   int? telefone,
+  String? imgProjeto,
   Endereco? endereco,
 ) {
   return executeRequest(
@@ -134,6 +137,9 @@ Future<bool?> atualizarProjeto(
       }
       if (endereco != null) {
         camposAtualizacao['endereco'] = endereco.toJson();
+      }
+      if (imgProjeto != null) {
+        camposAtualizacao['imgProjeto'] = imgProjeto;
       }
       return httpClient.request(
         Endpoints.projetoEndpoint + "/" + idProjeto,
