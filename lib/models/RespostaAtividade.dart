@@ -38,14 +38,13 @@ abstract class RespostaAtividade with _$RespostaAtividade {
 
   factory RespostaAtividade.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$RespostaAtividadeFromJson(
-        json
-      );
+  ) =>
+      _$RespostaAtividadeFromJson(json);
 }
 
 @freezed
-abstract class RespostaAtividadeAvaliacaoBanco with _$RespostaAtividadeAvaliacaoBanco {
+abstract class RespostaAtividadeAvaliacaoBanco
+    with _$RespostaAtividadeAvaliacaoBanco {
   const factory RespostaAtividadeAvaliacaoBanco(
     String idQuestao,
     bool aprovada,
@@ -53,10 +52,8 @@ abstract class RespostaAtividadeAvaliacaoBanco with _$RespostaAtividadeAvaliacao
 
   factory RespostaAtividadeAvaliacaoBanco.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$RespostaAtividadeAvaliacaoBancoFromJson(
-        json
-      );
+  ) =>
+      _$RespostaAtividadeAvaliacaoBancoFromJson(json);
 }
 
 @freezed
@@ -71,14 +68,13 @@ abstract class RespostaAtividadeResposta with _$RespostaAtividadeResposta {
 
   factory RespostaAtividadeResposta.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$RespostaAtividadeRespostaFromJson(
-        json
-      );
+  ) =>
+      _$RespostaAtividadeRespostaFromJson(json);
 }
 
 @freezed
-abstract class RespostaAtividadeRespostaAlternativa with _$RespostaAtividadeRespostaAlternativa {
+abstract class RespostaAtividadeRespostaAlternativa
+    with _$RespostaAtividadeRespostaAlternativa {
   const factory RespostaAtividadeRespostaAlternativa(
     String item,
     bool value,
@@ -86,14 +82,13 @@ abstract class RespostaAtividadeRespostaAlternativa with _$RespostaAtividadeResp
 
   factory RespostaAtividadeRespostaAlternativa.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$RespostaAtividadeRespostaAlternativaFromJson(
-        json
-      );
+  ) =>
+      _$RespostaAtividadeRespostaAlternativaFromJson(json);
 }
 
 @freezed
-abstract class RespostaAtividadeDissertativaResposta with _$RespostaAtividadeDissertativaResposta {
+abstract class RespostaAtividadeDissertativaResposta
+    with _$RespostaAtividadeDissertativaResposta {
   const factory RespostaAtividadeDissertativaResposta(
     bool foto,
     String? texto,
@@ -102,10 +97,8 @@ abstract class RespostaAtividadeDissertativaResposta with _$RespostaAtividadeDis
 
   factory RespostaAtividadeDissertativaResposta.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$RespostaAtividadeDissertativaRespostaFromJson(
-        json
-      );
+  ) =>
+      _$RespostaAtividadeDissertativaRespostaFromJson(json);
 }
 
 @freezed
@@ -119,10 +112,8 @@ abstract class QuestaoBancoDeQuestoes with _$QuestaoBancoDeQuestoes {
 
   factory QuestaoBancoDeQuestoes.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$QuestaoBancoDeQuestoesFromJson(
-        json
-      );
+  ) =>
+      _$QuestaoBancoDeQuestoesFromJson(json);
 }
 
 @freezed
@@ -139,10 +130,8 @@ abstract class CorrecaoDissertativa with _$CorrecaoDissertativa {
 
   factory CorrecaoDissertativa.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$CorrecaoDissertativaFromJson(
-        json
-      );
+  ) =>
+      _$CorrecaoDissertativaFromJson(json);
 }
 
 enum EstadoRevisao {
@@ -161,4 +150,17 @@ enum StatusRespostaDissertativa {
   Certo,
   @JsonValue(3)
   ParcialmenteCerto,
+}
+
+int getNumeroStatusRespostaDissertativa(StatusRespostaDissertativa status) {
+  switch (status) {
+    case StatusRespostaDissertativa.Errado:
+      return 1;
+    case StatusRespostaDissertativa.Certo:
+      return 2;
+    case StatusRespostaDissertativa.ParcialmenteCerto:
+      return 3;
+    default:
+      return 1;
+  }
 }
