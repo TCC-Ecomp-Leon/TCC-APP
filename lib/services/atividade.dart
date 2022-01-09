@@ -171,6 +171,7 @@ Future<bool?> criarAtividadeBancoDeQuestoes(
 Future<List<Atividade>?> obterListaDeAtividades(
   String? idProjeto,
   String? idCurso,
+  String? idMateria,
   String? idAtividade,
   bool? abertas,
 ) {
@@ -182,6 +183,9 @@ Future<List<Atividade>?> obterListaDeAtividades(
       }
       if (idCurso != null) {
         queryParameters['curso'] = idCurso;
+      }
+      if (idMateria != null) {
+        queryParameters['idMateria'] = idMateria;
       }
       if (idAtividade != null) {
         queryParameters['atividade'] = idAtividade;
