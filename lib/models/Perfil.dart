@@ -132,3 +132,17 @@ enum RegraPerfil {
   @JsonValue(3)
   Geral,
 }
+
+int getNumeroRegraPerfil(RegraPerfil _enum){
+  switch (_enum) {
+    case RegraPerfil.Administrador:
+      return 1;
+    case RegraPerfil.Projeto:
+      return 2;
+    case RegraPerfil.Geral:
+      return 3;
+    default:
+      return 1;
+  }
+}
+

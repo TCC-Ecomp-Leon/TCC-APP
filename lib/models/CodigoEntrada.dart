@@ -31,3 +31,15 @@ enum TipoCodigoDeEntrada {
   @JsonValue(1)
   Aluno,
 }
+
+int getNumeroTipoCodigoDeEntrada(TipoCodigoDeEntrada _enum){
+  switch (_enum) {
+    case TipoCodigoDeEntrada.Professor:
+      return 0;
+    case TipoCodigoDeEntrada.Aluno:
+      return 1;
+    default:
+      return 0;
+  }
+}
+

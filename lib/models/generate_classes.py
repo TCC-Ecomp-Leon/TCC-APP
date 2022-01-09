@@ -31,12 +31,21 @@ def arquivo_freezed(nome_arquivo, classes, imports, enums):
         conteudo = conteudo + criador_class_freezed(_class[0], _class[1]) + '\n'
     if(enums!=None):
         for enum in enums:
+            texto_conversor = 'int getNumero'+enum[0]+'('+enum[0]+' _enum){\n'
+            texto_conversor = texto_conversor + '  switch (_enum) {\n'
             conteudo = conteudo + '\n'
             conteudo = conteudo + 'enum '+enum[0]+' {\n'
             for value in enum[1]:
                 conteudo = conteudo + '  @JsonValue('+str(value[0])+')\n'
                 conteudo = conteudo + '  '+value[1]+',\n'
+                texto_conversor = texto_conversor + '    case '+enum[0]+'.'+value[1]+':\n'
+                texto_conversor = texto_conversor + '      return '+str(value[0])+';\n'
             conteudo = conteudo + '}\n'
+            texto_conversor = texto_conversor + '    default:\n'
+            texto_conversor = texto_conversor + '      return '+str(enum[1][0][0])+';\n'
+            texto_conversor = texto_conversor + '  }\n'
+            texto_conversor = texto_conversor + '}\n'
+        conteudo = conteudo + '\n' + texto_conversor + '\n'
     with open(nome_arquivo+'.dart', 'w') as f:
         f.write(conteudo)
 
@@ -363,6 +372,7 @@ parametros_projeto = [
                 'String descricao',
                 'int telefone',
                 'DateTime requisicaoEntradaEm',
+                'String imgProjeto',
                 'Endereco endereco',
                 'bool aprovado',
                 'String? idPerfilResponsavel',

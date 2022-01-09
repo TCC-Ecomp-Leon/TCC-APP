@@ -28,6 +28,7 @@ class _$ProjetoTearOff {
       String descricao,
       int telefone,
       DateTime requisicaoEntradaEm,
+      String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
@@ -39,6 +40,7 @@ class _$ProjetoTearOff {
       descricao,
       telefone,
       requisicaoEntradaEm,
+      imgProjeto,
       endereco,
       aprovado,
       idPerfilResponsavel,
@@ -62,6 +64,7 @@ mixin _$Projeto {
   String get descricao => throw _privateConstructorUsedError;
   int get telefone => throw _privateConstructorUsedError;
   DateTime get requisicaoEntradaEm => throw _privateConstructorUsedError;
+  String get imgProjeto => throw _privateConstructorUsedError;
   Endereco get endereco => throw _privateConstructorUsedError;
   bool get aprovado => throw _privateConstructorUsedError;
   String? get idPerfilResponsavel => throw _privateConstructorUsedError;
@@ -83,6 +86,7 @@ abstract class $ProjetoCopyWith<$Res> {
       String descricao,
       int telefone,
       DateTime requisicaoEntradaEm,
+      String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
@@ -107,6 +111,7 @@ class _$ProjetoCopyWithImpl<$Res> implements $ProjetoCopyWith<$Res> {
     Object? descricao = freezed,
     Object? telefone = freezed,
     Object? requisicaoEntradaEm = freezed,
+    Object? imgProjeto = freezed,
     Object? endereco = freezed,
     Object? aprovado = freezed,
     Object? idPerfilResponsavel = freezed,
@@ -134,6 +139,10 @@ class _$ProjetoCopyWithImpl<$Res> implements $ProjetoCopyWith<$Res> {
           ? _value.requisicaoEntradaEm
           : requisicaoEntradaEm // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      imgProjeto: imgProjeto == freezed
+          ? _value.imgProjeto
+          : imgProjeto // ignore: cast_nullable_to_non_nullable
+              as String,
       endereco: endereco == freezed
           ? _value.endereco
           : endereco // ignore: cast_nullable_to_non_nullable
@@ -176,6 +185,7 @@ abstract class _$ProjetoCopyWith<$Res> implements $ProjetoCopyWith<$Res> {
       String descricao,
       int telefone,
       DateTime requisicaoEntradaEm,
+      String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
@@ -202,6 +212,7 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
     Object? descricao = freezed,
     Object? telefone = freezed,
     Object? requisicaoEntradaEm = freezed,
+    Object? imgProjeto = freezed,
     Object? endereco = freezed,
     Object? aprovado = freezed,
     Object? idPerfilResponsavel = freezed,
@@ -229,6 +240,10 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
           ? _value.requisicaoEntradaEm
           : requisicaoEntradaEm // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      imgProjeto == freezed
+          ? _value.imgProjeto
+          : imgProjeto // ignore: cast_nullable_to_non_nullable
+              as String,
       endereco == freezed
           ? _value.endereco
           : endereco // ignore: cast_nullable_to_non_nullable
@@ -262,6 +277,7 @@ class _$_Projeto implements _Projeto {
       this.descricao,
       this.telefone,
       this.requisicaoEntradaEm,
+      this.imgProjeto,
       this.endereco,
       this.aprovado,
       this.idPerfilResponsavel,
@@ -282,6 +298,8 @@ class _$_Projeto implements _Projeto {
   @override
   final DateTime requisicaoEntradaEm;
   @override
+  final String imgProjeto;
+  @override
   final Endereco endereco;
   @override
   final bool aprovado;
@@ -294,7 +312,7 @@ class _$_Projeto implements _Projeto {
 
   @override
   String toString() {
-    return 'Projeto(id: $id, nome: $nome, descricao: $descricao, telefone: $telefone, requisicaoEntradaEm: $requisicaoEntradaEm, endereco: $endereco, aprovado: $aprovado, idPerfilResponsavel: $idPerfilResponsavel, entradaEm: $entradaEm, cursos: $cursos)';
+    return 'Projeto(id: $id, nome: $nome, descricao: $descricao, telefone: $telefone, requisicaoEntradaEm: $requisicaoEntradaEm, imgProjeto: $imgProjeto, endereco: $endereco, aprovado: $aprovado, idPerfilResponsavel: $idPerfilResponsavel, entradaEm: $entradaEm, cursos: $cursos)';
   }
 
   @override
@@ -308,6 +326,8 @@ class _$_Projeto implements _Projeto {
             const DeepCollectionEquality().equals(other.telefone, telefone) &&
             const DeepCollectionEquality()
                 .equals(other.requisicaoEntradaEm, requisicaoEntradaEm) &&
+            const DeepCollectionEquality()
+                .equals(other.imgProjeto, imgProjeto) &&
             const DeepCollectionEquality().equals(other.endereco, endereco) &&
             const DeepCollectionEquality().equals(other.aprovado, aprovado) &&
             const DeepCollectionEquality()
@@ -324,6 +344,7 @@ class _$_Projeto implements _Projeto {
       const DeepCollectionEquality().hash(descricao),
       const DeepCollectionEquality().hash(telefone),
       const DeepCollectionEquality().hash(requisicaoEntradaEm),
+      const DeepCollectionEquality().hash(imgProjeto),
       const DeepCollectionEquality().hash(endereco),
       const DeepCollectionEquality().hash(aprovado),
       const DeepCollectionEquality().hash(idPerfilResponsavel),
@@ -348,6 +369,7 @@ abstract class _Projeto implements Projeto {
       String descricao,
       int telefone,
       DateTime requisicaoEntradaEm,
+      String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
@@ -366,6 +388,8 @@ abstract class _Projeto implements Projeto {
   int get telefone;
   @override
   DateTime get requisicaoEntradaEm;
+  @override
+  String get imgProjeto;
   @override
   Endereco get endereco;
   @override

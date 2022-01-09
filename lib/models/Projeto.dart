@@ -13,6 +13,7 @@ abstract class Projeto with _$Projeto {
     String descricao,
     int telefone,
     DateTime requisicaoEntradaEm,
+    String imgProjeto,
     Endereco endereco,
     bool aprovado,
     String? idPerfilResponsavel,
