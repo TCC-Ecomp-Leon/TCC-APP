@@ -14,14 +14,13 @@ abstract class QuestaoAlternativa with _$QuestaoAlternativa {
 
   factory QuestaoAlternativa.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$QuestaoAlternativaFromJson(
-        json
-      );
+  ) =>
+      _$QuestaoAlternativaFromJson(json);
 }
 
 @freezed
-abstract class QuestaoAlternativaAlternativa with _$QuestaoAlternativaAlternativa {
+abstract class QuestaoAlternativaAlternativa
+    with _$QuestaoAlternativaAlternativa {
   const factory QuestaoAlternativaAlternativa(
     String item,
     bool value,
@@ -29,10 +28,8 @@ abstract class QuestaoAlternativaAlternativa with _$QuestaoAlternativaAlternativ
 
   factory QuestaoAlternativaAlternativa.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$QuestaoAlternativaAlternativaFromJson(
-        json
-      );
+  ) =>
+      _$QuestaoAlternativaAlternativaFromJson(json);
 }
 
 @freezed
@@ -46,14 +43,13 @@ abstract class QuestaoDissertativa with _$QuestaoDissertativa {
 
   factory QuestaoDissertativa.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$QuestaoDissertativaFromJson(
-        json
-      );
+  ) =>
+      _$QuestaoDissertativaFromJson(json);
 }
 
 @freezed
-abstract class QuestaoDissertativaRespostaEsperada with _$QuestaoDissertativaRespostaEsperada {
+abstract class QuestaoDissertativaRespostaEsperada
+    with _$QuestaoDissertativaRespostaEsperada {
   const factory QuestaoDissertativaRespostaEsperada(
     bool foto,
     String? texto,
@@ -62,10 +58,8 @@ abstract class QuestaoDissertativaRespostaEsperada with _$QuestaoDissertativaRes
 
   factory QuestaoDissertativaRespostaEsperada.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$QuestaoDissertativaRespostaEsperadaFromJson(
-        json
-      );
+  ) =>
+      _$QuestaoDissertativaRespostaEsperadaFromJson(json);
 }
 
 @freezed
@@ -89,10 +83,8 @@ abstract class Atividade with _$Atividade {
 
   factory Atividade.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$AtividadeFromJson(
-        json
-      );
+  ) =>
+      _$AtividadeFromJson(json);
 }
 
 @freezed
@@ -107,10 +99,8 @@ abstract class AtividadeItens with _$AtividadeItens {
 
   factory AtividadeItens.fromJson(
     Map<String, dynamic> json,
-  ) => 
-      _$AtividadeItensFromJson(
-        json
-      );
+  ) =>
+      _$AtividadeItensFromJson(json);
 }
 
 enum TipoAtividade {
@@ -120,4 +110,13 @@ enum TipoAtividade {
   Dissertativa,
   @JsonValue(3)
   BancoDeQuestoes,
+}
+
+int getNumeroTipoAtividade(TipoAtividade tipoAtividade) {
+  if (tipoAtividade == TipoAtividade.Alternativa)
+    return 1;
+  else if (tipoAtividade == TipoAtividade.Dissertativa)
+    return 2;
+  else
+    return 3;
 }
