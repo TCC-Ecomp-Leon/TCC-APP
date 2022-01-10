@@ -14,10 +14,16 @@ class LoginView extends GetView<LoginController> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextFieldImplementation(
-              controller: controller.email,
-              label: "Email",
-              textInputType: TextInputType.emailAddress,
+            Obx(
+              () => TextFieldImplementation(
+                controller: controller.email,
+                label: "Email",
+                textInputType: TextInputType.emailAddress,
+                errorMessage: controller.validEmail ? null : "Email inválido",
+                onChange: () {
+                  controller.validate();
+                },
+              ),
             ),
             const SizedBox(
               height: 10.0,
@@ -30,6 +36,24 @@ class LoginView extends GetView<LoginController> {
                 useHidden: true,
                 onVisibleChanged: controller.changePasswordVisibility,
                 isHidden: !controller.visiblePassword,
+                errorMessage:
+                    controller.validPassword ? null : "Senha inválida",
+                onChange: () {
+                  controller.validate();
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 5.0,
+            ),
+            Obx(
+              () => Text(
+                controller.loginError,
+                style: const TextStyle(
+                  fontSize: 15.0,
+                  color: Colors.red,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(
@@ -46,15 +70,18 @@ class LoginView extends GetView<LoginController> {
                 textStyle: const TextStyle(fontSize: 20.0),
               ),
             ),
+            const SizedBox(
+              height: 10.0,
+            ),
             TextButton(
               onPressed: () => controller.register(),
               child: const Text("Criar conta"),
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(7.0),
                 primary: Colors.white,
                 backgroundColor: Colors.teal,
                 onSurface: Colors.grey,
-                textStyle: const TextStyle(fontSize: 20.0),
+                textStyle: const TextStyle(fontSize: 15.0),
               ),
             ),
           ],

@@ -11,13 +11,15 @@ void main() async {
   await GetStorage.init(Constants.storageBox);
   runApp(
     GetMaterialApp(
-      title: "Baber App",
+      title: "TCC Leon APP",
       debugShowCheckedModeBanner: false,
       theme: appThemeData,
       initialRoute: Routes.initial,
       getPages: AppPages.routes,
       builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+        data: MediaQuery.of(context).copyWith(
+          alwaysUse24HourFormat: true,
+        ),
         child: child ?? Container(),
       ),
     ),

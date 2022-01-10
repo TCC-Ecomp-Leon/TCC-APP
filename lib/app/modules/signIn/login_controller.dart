@@ -13,29 +13,29 @@ class LoginController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  Rx<bool> validEmail = false.obs;
-  Rx<bool> validPassword = false.obs;
+  final Rx<bool> _validEmail = true.obs;
+  final Rx<bool> _validPassword = true.obs;
 
   final box = GetStorage(Constants.storageBox);
 
-  Rx<bool> _visiblePassword = false.obs;
-  Rx<bool> _loading = false.obs;
+  final Rx<bool> _visiblePassword = false.obs;
+  final Rx<bool> _loading = false.obs;
 
-  Rx<String> loginError = "".obs;
+  final Rx<String> _loginError = "".obs;
 
   bool validate() {
     bool valid = true;
     if (!GetUtils.isEmail(email.text)) {
-      validEmail.value = false;
+      _validEmail.value = false;
       valid = false;
-    } else if (!validEmail.value) {
-      validEmail.value = true;
+    } else if (!_validEmail.value) {
+      _validEmail.value = true;
     }
     if (password.text.length < 6) {
-      validPassword.value = false;
+      _validPassword.value = false;
       valid = false;
-    } else if (!validPassword.value) {
-      validPassword.value = true;
+    } else if (!_validPassword.value) {
+      _validPassword.value = true;
     }
 
     return valid;
@@ -50,12 +50,12 @@ class LoginController extends GetxController {
       if (loginResult == null) {
         loggedUser.value = null;
         authToken.value = null;
-        loginError.value = "Email ou senha errados";
+        _loginError.value = "Email ou senha errados";
       } else {
         loggedUser.value = loginResult.perfil as Perfil;
         authToken.value = loginResult.authToken;
 
-        loginError.value = "";
+        _loginError.value = "";
       }
 
       _loading.value = false;
@@ -85,4 +85,7 @@ class LoginController extends GetxController {
 
   bool get visiblePassword => _visiblePassword.value;
   bool get loading => _loading.value;
+  bool get validEmail => _validEmail.value;
+  bool get validPassword => _validPassword.value;
+  String get loginError => _loginError.value;
 }
