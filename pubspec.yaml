@@ -50,6 +50,7 @@ dependencies:
       url: https://github.com/DPLYR-dev/SplashScreenFlutterPackage.git
       ref: master
   cpf_cnpj_validator: ^2.0.0
+  search_cep: ^4.0.0+1
 
 dev_dependencies:
   build_runner: ^2.1.7
