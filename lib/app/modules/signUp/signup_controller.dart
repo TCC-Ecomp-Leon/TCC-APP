@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:search_cep/search_cep.dart';
 import 'package:tcc_app/app/modules/signUp/signup_view.dart';
 import 'package:tcc_app/models/Endereco.dart';
 import 'package:tcc_app/models/Localizacao.dart';
 import 'package:tcc_app/services/auth.dart';
+import 'package:tcc_app/services/pesquisaCep.dart';
 import 'package:tcc_app/services/projeto.dart';
 import '../../../utils/mock_images.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
@@ -92,7 +94,10 @@ class SignUpController extends GetxController {
       CampoRegistro(
         label: "CEP",
         textInputType: TextInputType.text,
-        validateFunction: (String input) => input.isNotEmpty,
+        validateFunction: (String input) {
+          _searchCep(input);
+          return input.isNotEmpty;
+        },
       ),
       CampoRegistro(
         label: "Rua",
@@ -107,7 +112,7 @@ class SignUpController extends GetxController {
       CampoRegistro(
         label: "Complemento",
         textInputType: TextInputType.text,
-        validateFunction: (String input) => input.isNotEmpty,
+        validateFunction: (String input) => true,
       ),
       CampoRegistro(
         label: "Bairro",
@@ -175,6 +180,31 @@ class SignUpController extends GetxController {
     return valid;
   }
 
+  Future<void> _searchCep(String cep) async {
+    print('pesquisa cep');
+    ViaCepInfo? result = await pesquisaCep(cep);
+    if (result != null) {
+      CampoRegistro campoRua = getElementoViaLabel("Rua");
+      CampoRegistro campoBairro = getElementoViaLabel("Bairro");
+      CampoRegistro campoCidade = getElementoViaLabel("Cidade");
+      CampoRegistro campoEstado = getElementoViaLabel("Estado");
+      if (campoRua.controller.text.isEmpty && result.logradouro != null) {
+        campoRua.controller.value = TextEditingValue(text: result.logradouro!);
+      }
+      if (campoBairro.controller.text.isEmpty && result.bairro != null) {
+        campoBairro.controller.value = TextEditingValue(text: result.bairro!);
+      }
+      if (campoCidade.controller.text.isEmpty && result.localidade != null) {
+        campoCidade.controller.value =
+            TextEditingValue(text: result.localidade!);
+      }
+      if (campoEstado.controller.text.isEmpty && result.uf != null) {
+        campoEstado.controller.value = TextEditingValue(text: result.uf!);
+      }
+    }
+    _campos.refresh();
+  }
+
   void alterarTipoRegistro(TipoRegistro tipo) {
     _tipoRegistro.value = tipo;
     _campos.value = getCampos(tipo);
@@ -189,10 +219,16 @@ class SignUpController extends GetxController {
   }
 
   onVisibleChanged(String label) {
-    final campos = _campos.value as List<CampoRegistro>;
-    CampoRegistro find = campos.firstWhere((element) => element.label == label);
+    CampoRegistro find = getElementoViaLabel(label);
     find.visible = !find.visible;
     _campos.refresh();
+  }
+
+  CampoRegistro getElementoViaLabel(String label) {
+    final campos = _campos.value as List<CampoRegistro>;
+    CampoRegistro find = campos.firstWhere(
+        (element) => element.label.toLowerCase() == label.toLowerCase());
+    return find;
   }
 
   Future<void> registrar() async {
