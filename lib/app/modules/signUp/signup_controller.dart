@@ -1,27 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/signUp/signup_view.dart';
-import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/Endereco.dart';
 import 'package:tcc_app/models/Localizacao.dart';
 import 'package:tcc_app/services/auth.dart';
 import 'package:tcc_app/services/projeto.dart';
 import '../../../utils/mock_images.dart';
+import 'package:cpf_cnpj_validator/cpf_validator.dart';
+
+const tipoRegistroInicial = TipoRegistro.Aluno;
 
 typedef ValidateFunction = bool Function(String campo);
+typedef OnVisibleChanged = void Function();
 
 class CampoRegistro {
   TextEditingController controller = TextEditingController();
   TextInputType textInputType;
   String label;
   bool useHidden;
-  bool correct;
+  bool visible;
+  OnVisibleChanged? onVisibleChanged;
+  String? errorMessage;
+  ValidateFunction validateFunction;
 
   CampoRegistro({
     required this.textInputType,
     required this.label,
+    required this.validateFunction,
     this.useHidden = false,
-    this.correct = true,
+    this.errorMessage,
+    this.visible = true,
+    this.onVisibleChanged,
   });
 }
 
@@ -30,76 +39,137 @@ class SignUpController extends GetxController {
   final Rx<bool> _loading = false.obs;
   final Rx<String> _errorMessage = "".obs;
 
-  final Rx<TipoRegistro> _tipoRegistro = TipoRegistro.Aluno.obs;
+  @override
+  void onInit() {
+    super.onInit();
+    _camposGerais = [
+      CampoRegistro(
+        label: "Nome",
+        textInputType: TextInputType.name,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+      CampoRegistro(
+        label: "Telefone",
+        textInputType: TextInputType.phone,
+        validateFunction: GetUtils.isPhoneNumber,
+      ),
+      CampoRegistro(
+        label: "Email",
+        textInputType: TextInputType.emailAddress,
+        validateFunction: GetUtils.isEmail,
+      ),
+    ];
+    _camposUsuario = [
+      CampoRegistro(
+        label: "Senha",
+        textInputType: TextInputType.visiblePassword,
+        useHidden: true,
+        visible: false,
+        validateFunction: (String input) => input.length > 6,
+        onVisibleChanged: () {
+          onVisibleChanged("Senha");
+        },
+      ),
+      CampoRegistro(
+        label: "CPF",
+        textInputType: TextInputType.text,
+        validateFunction: CPFValidator.isValid,
+      ),
+    ];
+    _camposAluno = [
+      CampoRegistro(
+        label: "Código de entrada",
+        textInputType: TextInputType.text,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+    ];
+    _camposProjeto = [
+      CampoRegistro(
+        label: "Descrição",
+        textInputType: TextInputType.text,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+      CampoRegistro(
+        label: "CEP",
+        textInputType: TextInputType.text,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+      CampoRegistro(
+        label: "Rua",
+        textInputType: TextInputType.text,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+      CampoRegistro(
+        label: "Número",
+        textInputType: TextInputType.number,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+      CampoRegistro(
+        label: "Complemento",
+        textInputType: TextInputType.text,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+      CampoRegistro(
+        label: "Bairro",
+        textInputType: TextInputType.text,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+      CampoRegistro(
+        label: "Cidade",
+        textInputType: TextInputType.text,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+      CampoRegistro(
+        label: "Estado",
+        textInputType: TextInputType.text,
+        validateFunction: (String input) => input.isNotEmpty,
+      ),
+    ];
+
+    _campos.value = getCampos(tipoRegistroInicial);
+  }
+
+  final Rx<TipoRegistro> _tipoRegistro = tipoRegistroInicial.obs;
+
+  final RxList<dynamic> _campos = [].obs;
 
   final Rx<Localizacao> _localizacaoProjeto = const Localizacao(0, 0).obs;
   final Rx<String> _imagemProjeto = imgProjeto.obs;
 
-  final List<CampoRegistro> _camposGerais = [
-    CampoRegistro(
-      label: "Nome",
-      textInputType: TextInputType.name,
-    ),
-    CampoRegistro(
-      label: "Telefone",
-      textInputType: TextInputType.phone,
-    ),
-    CampoRegistro(
-      label: "Email",
-      textInputType: TextInputType.emailAddress,
-    ),
-  ];
-  final List<CampoRegistro> _camposUsuario = [
-    CampoRegistro(
-      label: "Senha",
-      textInputType: TextInputType.visiblePassword,
-      useHidden: true,
-    ),
-    CampoRegistro(
-      label: "CPF",
-      textInputType: TextInputType.text,
-    ),
-  ];
-  final List<CampoRegistro> _camposAluno = [
-    CampoRegistro(
-      label: "Código de entrada",
-      textInputType: TextInputType.text,
-    ),
-  ];
-  final List<CampoRegistro> _camposProjeto = [
-    CampoRegistro(label: "Descrição", textInputType: TextInputType.text),
-    CampoRegistro(label: "CEP", textInputType: TextInputType.text),
-    CampoRegistro(label: "Rua", textInputType: TextInputType.text),
-    CampoRegistro(label: "Número", textInputType: TextInputType.number),
-    CampoRegistro(label: "Complemento", textInputType: TextInputType.text),
-    CampoRegistro(label: "Bairro", textInputType: TextInputType.text),
-    CampoRegistro(label: "Cidade", textInputType: TextInputType.text),
-    CampoRegistro(label: "Estado", textInputType: TextInputType.text),
-  ];
+  List<CampoRegistro> _camposGerais = [];
+  List<CampoRegistro> _camposUsuario = [];
+  List<CampoRegistro> _camposAluno = [];
+  List<CampoRegistro> _camposProjeto = [];
+
+  bool validateItem(int index) {
+    bool valid = true;
+    final campo = _campos.value[index] as CampoRegistro;
+    final validadeCampo = campo.errorMessage == null;
+
+    String entrada = campo.controller.text;
+    ValidateFunction validateFunction = campo.validateFunction;
+
+    if (!validateFunction(entrada)) {
+      String label = campo.label;
+      campo.errorMessage = label.toLowerCase() + ' inválid';
+      if (label.characters.last == "a") {
+        campo.errorMessage = campo.errorMessage! + "a";
+      } else {
+        campo.errorMessage = campo.errorMessage! + "o";
+      }
+      valid = false;
+    } else if (campo.errorMessage != null) {
+      campo.errorMessage = null;
+    }
+    _campos.refresh();
+    return valid;
+  }
 
   bool validate() {
     bool valid = true;
-    for (int i = 0; i < campos.length; i++) {
-      final campo = campos[i];
-      final validadeCampo = campo.correct;
-      ValidateFunction validateFunction;
-      if (campo.textInputType == TextInputType.emailAddress) {
-        validateFunction = GetUtils.isEmail;
-      } else if (campo.textInputType == TextInputType.phone) {
-        validateFunction = GetUtils.isPhoneNumber;
-      } else if (campo.textInputType == TextInputType.number) {
-        validateFunction = GetUtils.isNumericOnly;
-      } else {
-        validateFunction = (String campo) {
-          return true;
-        };
-      }
-
-      if (!validateFunction(campo.controller.text)) {
-        campo.correct = false;
+    for (int i = 0; i < _campos.value.length; i++) {
+      if (!validateItem(i)) {
         valid = false;
-      } else if (!campo.correct) {
-        campo.correct = true;
       }
     }
     return valid;
@@ -107,6 +177,22 @@ class SignUpController extends GetxController {
 
   void alterarTipoRegistro(TipoRegistro tipo) {
     _tipoRegistro.value = tipo;
+    _campos.value = getCampos(tipo);
+  }
+
+  List<CampoRegistro> getCampos(TipoRegistro tipo) {
+    return tipo == TipoRegistro.Projeto
+        ? [..._camposGerais, ..._camposProjeto]
+        : tipo == TipoRegistro.Aluno
+            ? [..._camposGerais, ..._camposUsuario, ..._camposAluno]
+            : [..._camposGerais, ..._camposUsuario];
+  }
+
+  onVisibleChanged(String label) {
+    final campos = _campos.value as List<CampoRegistro>;
+    CampoRegistro find = campos.firstWhere((element) => element.label == label);
+    find.visible = !find.visible;
+    _campos.refresh();
   }
 
   Future<void> registrar() async {
@@ -190,11 +276,7 @@ class SignUpController extends GetxController {
   bool get loading => _loading.value;
   String get imagemProjeto => _imagemProjeto.value;
   Localizacao get localizacaoProjeto => _localizacaoProjeto.value;
-  List<CampoRegistro> get campos => tipoRegistro == TipoRegistro.Projeto
-      ? [..._camposGerais, ..._camposProjeto]
-      : tipoRegistro == TipoRegistro.Aluno
-          ? [..._camposGerais, ..._camposAluno]
-          : _camposGerais;
+  List<CampoRegistro> get campos => _campos.value as List<CampoRegistro>;
 }
 
 int? entradaTextoComCaracteresParaNumero(String entrada) {

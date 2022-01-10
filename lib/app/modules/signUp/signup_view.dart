@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/signUp/signup_controller.dart';
 import 'package:tcc_app/widgets/labeled_switch.dart';
 import 'package:tcc_app/widgets/text_field.dart';
+import 'package:tcc_app/utils/iterable.dart';
 
 class SignUpView extends GetView<SignUpController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       body: Container(
         alignment: Alignment.topCenter,
         padding: const EdgeInsets.only(
@@ -35,14 +36,20 @@ class SignUpView extends GetView<SignUpController> {
                   height: 10,
                 ),
                 ...controller.campos
-                    .map(
-                      (e) => Container(
+                    .mapIndexed(
+                      (e, index) => Container(
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: TextFieldImplementation(
                           controller: e.controller,
                           label: e.label,
                           useHidden: e.useHidden,
                           textInputType: e.textInputType,
+                          errorMessage: e.errorMessage,
+                          isHidden: !e.visible,
+                          onVisibleChanged: e.onVisibleChanged,
+                          onChange: () {
+                            controller.validateItem(index);
+                          },
                         ),
                       ),
                     )
