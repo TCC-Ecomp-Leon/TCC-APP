@@ -5,23 +5,27 @@ typedef SwitchFunction = void Function(int index);
 
 class LabeledSwitch extends StatelessWidget {
   final List<String> labels;
-  final int initialLabelIndex;
+  int index;
   final SwitchFunction switchFunction;
+  final double minWidth;
+  int actualIndex = 0;
 
-  const LabeledSwitch(
-      {required this.labels,
-      required this.switchFunction,
-      this.initialLabelIndex = 0,
-      Key? key})
-      : super(key: key);
+  LabeledSwitch({
+    required this.labels,
+    required this.switchFunction,
+    this.index = 0,
+    this.minWidth = 72.0,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ToggleSwitch(
-      initialLabelIndex: initialLabelIndex,
+      initialLabelIndex: index,
       totalSwitches: labels.length,
       labels: labels,
       onToggle: switchFunction,
+      minWidth: minWidth,
     );
   }
 }

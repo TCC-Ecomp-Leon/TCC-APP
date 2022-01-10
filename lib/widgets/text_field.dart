@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
+typedef OnVisibleChanged = void Function();
+
 class TextFieldImplementation extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final double height;
   final TextInputType textInputType;
   final bool useHidden;
+  final OnVisibleChanged? onVisibleChanged;
+  bool isHidden;
   final double? width;
 
-  const TextFieldImplementation(
-      {required this.controller,
-      required this.label,
-      this.height = 60.0,
-      this.width,
-      this.textInputType = TextInputType.text,
-      this.useHidden = false,
-      Key? key})
-      : super(key: key);
+  TextFieldImplementation({
+    required this.controller,
+    required this.label,
+    this.height = 60.0,
+    this.width,
+    this.textInputType = TextInputType.text,
+    this.useHidden = false,
+    this.isHidden = false,
+    this.onVisibleChanged,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TextFieldImplementation> createState() =>
@@ -24,8 +30,6 @@ class TextFieldImplementation extends StatefulWidget {
 }
 
 class _TextFieldImplementationState extends State<TextFieldImplementation> {
-  bool _isHidden = false;
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.9;
@@ -41,7 +45,7 @@ class _TextFieldImplementationState extends State<TextFieldImplementation> {
         child: Stack(
           children: [
             TextFormField(
-              obscureText: _isHidden,
+              obscureText: widget.isHidden,
               keyboardType: widget.textInputType,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 15.0),
@@ -60,12 +64,14 @@ class _TextFieldImplementationState extends State<TextFieldImplementation> {
                     alignment: Alignment.centerRight,
                     child: InkWell(
                       onTap: () {
-                        setState(() {
-                          _isHidden = !_isHidden;
-                        });
+                        if (widget.onVisibleChanged != null) {
+                          widget.onVisibleChanged!();
+                        }
                       },
                       child: Icon(
-                        _isHidden ? Icons.visibility : Icons.visibility_off,
+                        widget.isHidden
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
                     ),
                   )

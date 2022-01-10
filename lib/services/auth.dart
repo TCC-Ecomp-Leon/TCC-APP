@@ -43,9 +43,9 @@ Future<bool?> signUp(
   String email,
   String senha,
   String nome,
-  String telefone,
+  int telefone,
   String cpf,
-  String codigoDeEntrada,
+  String? codigoDeEntrada,
 ) {
   return executeRequest(
     () {
