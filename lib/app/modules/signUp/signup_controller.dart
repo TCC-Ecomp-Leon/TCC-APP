@@ -40,6 +40,7 @@ class SignUpController extends GetxController {
   final Rx<bool> _lendoQrCode = false.obs;
   final Rx<bool> _loading = false.obs;
   final Rx<String> _errorMessage = "".obs;
+  final Rx<String> _imagemProjeto = imgProjeto.obs;
 
   @override
   void onInit() {
@@ -139,7 +140,6 @@ class SignUpController extends GetxController {
   final RxList<dynamic> _campos = [].obs;
 
   final Rx<Localizacao> _localizacaoProjeto = const Localizacao(0, 0).obs;
-  final Rx<String> _imagemProjeto = imgProjeto.obs;
 
   List<CampoRegistro> _camposGerais = [];
   List<CampoRegistro> _camposUsuario = [];
@@ -181,7 +181,6 @@ class SignUpController extends GetxController {
   }
 
   Future<void> _searchCep(String cep) async {
-    print('pesquisa cep');
     ViaCepInfo? result = await pesquisaCep(cep);
     if (result != null) {
       CampoRegistro campoRua = getElementoViaLabel("Rua");
@@ -229,6 +228,10 @@ class SignUpController extends GetxController {
     CampoRegistro find = campos.firstWhere(
         (element) => element.label.toLowerCase() == label.toLowerCase());
     return find;
+  }
+
+  void alterarImagemProjeto(String novaImagem) {
+    _imagemProjeto.value = novaImagem;
   }
 
   Future<void> registrar() async {

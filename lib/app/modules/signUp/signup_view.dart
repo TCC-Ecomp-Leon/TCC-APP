@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/signUp/signup_controller.dart';
+import 'package:tcc_app/widgets/card_overlap_image.dart';
+import 'package:tcc_app/widgets/circular_upload_image.dart';
 import 'package:tcc_app/widgets/labeled_switch.dart';
 import 'package:tcc_app/widgets/text_field.dart';
 import 'package:tcc_app/utils/iterable.dart';
@@ -57,6 +59,15 @@ class SignUpView extends GetView<SignUpController> {
                 const SizedBox(
                   height: 10.0,
                 ),
+                controller.tipoRegistro == TipoRegistro.Projeto
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: CircularUploadImage(
+                          changeImage: controller.alterarImagemProjeto,
+                          base64image: controller.imagemProjeto,
+                        ),
+                      )
+                    : Container(),
                 TextButton(
                   onPressed: () => controller.registrar(),
                   child: const Text("Registrar"),
