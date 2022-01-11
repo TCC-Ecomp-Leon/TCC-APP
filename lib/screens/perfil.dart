@@ -108,7 +108,7 @@ class _PerfilState extends State<Perfil> {
                 height: 10.0,
               ),
               CardOverlapTitle(
-                editable: true,
+                // editable: true,
                 title: "Perfil",
                 children: [
                   informacoesDuasColunasFixas(
@@ -151,7 +151,7 @@ class _PerfilState extends State<Perfil> {
                 height: 10.0,
               ),
               CardOverlapTitle(
-                editable: true,
+                // editable: true,
                 title: "Projeto",
                 children: [
                   informacoesDuasColunasFixas(
@@ -181,7 +181,7 @@ class _PerfilState extends State<Perfil> {
                 height: 10.0,
               ),
               CardOverlapTitle(
-                editable: true,
+                // editable: true,
                 title: "Universitário",
                 children: [
                   nomeCampo(
@@ -202,8 +202,8 @@ class _PerfilState extends State<Perfil> {
                 height: 10.0,
               ),
               CardOverlapTitle(
-                editable: false,
-                addOption: true,
+                // editable: false,
+                // addOption: true,
                 title: "Professor",
                 children: [
                   informacoesDuasColunasFixas(
@@ -215,8 +215,8 @@ class _PerfilState extends State<Perfil> {
                 ],
               ),
               CardOverlapTitle(
-                editable: false,
-                addOption: true,
+                // editable: false,
+                // addOption: true,
                 title: "Aluno",
                 children: [
                   informacoesDuasColunasFixas(
