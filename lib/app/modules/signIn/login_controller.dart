@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/config/constants.dart';
 import 'package:tcc_app/models/Perfil.dart';
@@ -165,7 +166,7 @@ class LoginController extends GetxController {
 
   avaliarEntrada(AuthInfo authInfo) {
     if (authInfo.authStatus == AuthStatus.Authenticated) {
-      Get.offAllNamed(Routes.dummy);
+      Get.offAllNamed(afterLoginRoute(box));
     }
   }
 
@@ -185,6 +186,18 @@ class LoginController extends GetxController {
   String get loginError => _loginError.value;
 
   AuthInfo get authInfo => _authInfo.value;
+  Perfil get perfil => _authInfo.value.perfil!;
+
+  void set perfil(Perfil perfil) {
+    _authInfo.value.perfil = perfil;
+    _authInfo.refresh();
+  }
 }
 
-const String afterLoginRoute = Routes.dummy;
+String afterLoginRoute(GetStorage box) {
+  BottomMenuInfo? read = readBottomMenuInfo(box);
+  if (read != null && read.routeName != null) {
+    return read.routeName!;
+  }
+  return Routes.dummy;
+}

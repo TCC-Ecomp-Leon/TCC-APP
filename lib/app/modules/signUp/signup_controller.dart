@@ -7,6 +7,7 @@ import 'package:tcc_app/models/Localizacao.dart';
 import 'package:tcc_app/services/auth.dart';
 import 'package:tcc_app/services/pesquisaCep.dart';
 import 'package:tcc_app/services/projeto.dart';
+import 'package:tcc_app/utils/conversions.dart';
 import '../../../utils/mock_images.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
@@ -316,10 +317,4 @@ class SignUpController extends GetxController {
   String get imagemProjeto => _imagemProjeto.value;
   Localizacao get localizacaoProjeto => _localizacaoProjeto.value;
   List<CampoRegistro> get campos => _campos.value as List<CampoRegistro>;
-}
-
-int? entradaTextoComCaracteresParaNumero(String entrada) {
-  String processado =
-      entrada.replaceAll("+", "").replaceAll(" ", "").replaceAll("-", "");
-  return int.tryParse(processado);
 }

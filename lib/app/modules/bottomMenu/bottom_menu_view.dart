@@ -20,10 +20,7 @@ class BottomMenuView<T extends BottomMenuController> extends StatelessWidget {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          children: controller.pageList.map((e) => e.page).toList(),
-        ),
+        body: child,
         bottomNavigationBar: BottomNavigationBar(
           items: controller.pageList
               .map(
