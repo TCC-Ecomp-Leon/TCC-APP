@@ -71,6 +71,20 @@ class PerfilView extends GetView<PerfilController> {
               const SizedBox(
                 height: 10.0,
               ),
+              Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: () => controller.loginController.signOut(),
+                  child: const Text("Sair"),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(7.0),
+                    primary: Colors.white,
+                    backgroundColor: Colors.redAccent,
+                    onSurface: Colors.grey,
+                    textStyle: const TextStyle(fontSize: 15.0),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
