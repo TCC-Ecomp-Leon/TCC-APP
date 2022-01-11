@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -5,6 +7,7 @@ import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/config/constants.dart';
 import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/services/auth.dart';
+import 'package:async/async.dart';
 
 enum AuthStatus {
   Authenticated,
@@ -48,6 +51,56 @@ class LoginController extends GetxController {
     }
 
     super.onInit();
+  }
+
+  Future<void> usarTokenEmCache(int msTimeout) async {
+    DateTime fimLimite = DateTime.now().add(Duration(milliseconds: msTimeout));
+
+    Perfil? perfilObtido;
+    Future<Perfil?> obterPerfil = reobterPerfil();
+    CancelableOperation cancelableOperation = CancelableOperation.fromFuture(
+      obterPerfil,
+      onCancel: () => {
+        // ignore: avoid_print
+        print('falha ao obter o perfil usando token em cache')
+      },
+    );
+
+    cancelableOperation.value.then(
+      (value) {
+        perfilObtido = value as Perfil;
+      },
+    );
+
+    // ignore: prefer_function_declarations_over_variables
+    Function definirTempoTimer = (DateTime fim) {
+      final int msTempoRestante = fim.difference(DateTime.now()).inMilliseconds;
+      if (msTempoRestante > 1) {
+        return 1;
+      } else {
+        return msTempoRestante;
+      }
+    };
+
+    while (true) {
+      final int tempoRestante = definirTempoTimer(fimLimite);
+
+      if (tempoRestante < 0) {
+        break;
+      }
+
+      await Future.delayed(Duration(milliseconds: tempoRestante));
+
+      if (perfilObtido != null) {
+        break;
+      }
+    }
+
+    if (perfilObtido != null) {
+      AuthInfo authInfo =
+          AuthInfo(authToken: _authInfo.value.authToken, perfil: perfilObtido);
+      avaliarEntrada(authInfo);
+    }
   }
 
   TextEditingController email = TextEditingController();
@@ -133,3 +186,5 @@ class LoginController extends GetxController {
 
   AuthInfo get authInfo => _authInfo.value;
 }
+
+const String afterLoginRoute = Routes.dummy;

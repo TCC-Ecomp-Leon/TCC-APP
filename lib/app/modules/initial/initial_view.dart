@@ -10,7 +10,7 @@ class InitialView extends GetView<InitialController> {
       body: Stack(
         children: <Widget>[
           SplashScreen.timer(
-            seconds: 5,
+            seconds: controller.splashTime,
             navigateAfterSeconds: controller.navigateAfterSplashTime(),
             title: const Text(
               'Splash Screen',
