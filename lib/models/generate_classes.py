@@ -293,7 +293,7 @@ parametros_perfil = [
                 'String id',
                 'String email',
                 'String nome',
-                'String telefone',
+                'int telefone',
                 'DateTime entradaEm',
                 'String fotoPerfil',
                 'RegraPerfil regra',
@@ -525,5 +525,6 @@ with open('index.dart', 'w') as f:
     f.write(index_str)
 
 os.chdir('../../')
+print('going to run dart build runner')
 subprocess.Popen("dart run build_runner build --delete-conflicting-outputs", shell=True).wait()
 

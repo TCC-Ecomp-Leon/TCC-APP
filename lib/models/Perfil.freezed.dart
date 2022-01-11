@@ -26,7 +26,7 @@ class _$PerfilTearOff {
       String id,
       String email,
       String nome,
-      String telefone,
+      int telefone,
       DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
@@ -60,7 +60,7 @@ mixin _$Perfil {
   String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get nome => throw _privateConstructorUsedError;
-  String get telefone => throw _privateConstructorUsedError;
+  int get telefone => throw _privateConstructorUsedError;
   DateTime get entradaEm => throw _privateConstructorUsedError;
   String get fotoPerfil => throw _privateConstructorUsedError;
   RegraPerfil get regra => throw _privateConstructorUsedError;
@@ -82,7 +82,7 @@ abstract class $PerfilCopyWith<$Res> {
       {String id,
       String email,
       String nome,
-      String telefone,
+      int telefone,
       DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
@@ -131,7 +131,7 @@ class _$PerfilCopyWithImpl<$Res> implements $PerfilCopyWith<$Res> {
       telefone: telefone == freezed
           ? _value.telefone
           : telefone // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       entradaEm: entradaEm == freezed
           ? _value.entradaEm
           : entradaEm // ignore: cast_nullable_to_non_nullable
@@ -192,7 +192,7 @@ abstract class _$PerfilCopyWith<$Res> implements $PerfilCopyWith<$Res> {
       {String id,
       String email,
       String nome,
-      String telefone,
+      int telefone,
       DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
@@ -244,7 +244,7 @@ class __$PerfilCopyWithImpl<$Res> extends _$PerfilCopyWithImpl<$Res>
       telefone == freezed
           ? _value.telefone
           : telefone // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       entradaEm == freezed
           ? _value.entradaEm
           : entradaEm // ignore: cast_nullable_to_non_nullable
@@ -298,7 +298,7 @@ class _$_Perfil implements _Perfil {
   @override
   final String nome;
   @override
-  final String telefone;
+  final int telefone;
   @override
   final DateTime entradaEm;
   @override
@@ -367,7 +367,7 @@ abstract class _Perfil implements Perfil {
       String id,
       String email,
       String nome,
-      String telefone,
+      int telefone,
       DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
@@ -384,7 +384,7 @@ abstract class _Perfil implements Perfil {
   @override
   String get nome;
   @override
-  String get telefone;
+  int get telefone;
   @override
   DateTime get entradaEm;
   @override

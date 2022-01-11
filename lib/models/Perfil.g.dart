@@ -10,7 +10,7 @@ _$_Perfil _$$_PerfilFromJson(Map<String, dynamic> json) => _$_Perfil(
       json['id'] as String,
       json['email'] as String,
       json['nome'] as String,
-      json['telefone'] as String,
+      json['telefone'] as int,
       DateTime.parse(json['entradaEm'] as String),
       json['fotoPerfil'] as String,
       $enumDecode(_$RegraPerfilEnumMap, json['regra']),

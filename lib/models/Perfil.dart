@@ -12,7 +12,7 @@ abstract class Perfil with _$Perfil {
     String id,
     String email,
     String nome,
-    String telefone,
+    int telefone,
     DateTime entradaEm,
     String fotoPerfil,
     RegraPerfil regra,
