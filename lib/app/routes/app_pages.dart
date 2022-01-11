@@ -32,6 +32,7 @@ class AppPages {
       name: Routes.dummy,
       page: () => DummyView(),
       binding: DummyBinding(),
+      transition: Transition.circularReveal,
     ),
   ];
 }
