@@ -6,6 +6,7 @@ os.chdir('./lib/models')
 def criador_class_freezed(class_name, fields):
     ret = '\n@freezed\n'
     ret = ret + 'abstract class '+class_name+' with _$'+class_name+' {\n'
+    ret = ret + '  @JsonSerializable(explicitToJson: true)\n'
     ret = ret + '  const factory '+class_name+'(\n    '
     ret = ret + ',\n    '.join(fields)
     ret = ret + ',\n  ) = _'+class_name+';\n'

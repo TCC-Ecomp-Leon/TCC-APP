@@ -186,7 +186,8 @@ class __$CursoUniversitarioCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_CursoUniversitario implements _CursoUniversitario {
   const _$_CursoUniversitario(this.id, this.nome, this.descricao,
       this.semestresPrevistos, this.cursoAnterior);

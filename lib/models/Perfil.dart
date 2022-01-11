@@ -8,6 +8,7 @@ part 'Perfil.g.dart';
 
 @freezed
 abstract class Perfil with _$Perfil {
+  @JsonSerializable(explicitToJson: true)
   const factory Perfil(
     String id,
     String email,
@@ -31,6 +32,7 @@ abstract class Perfil with _$Perfil {
 
 @freezed
 abstract class PerfilAssociacoes with _$PerfilAssociacoes {
+  @JsonSerializable(explicitToJson: true)
   const factory PerfilAssociacoes(
     InformacoesCurso aluno,
     InformacoesProfessor professor,
@@ -46,6 +48,7 @@ abstract class PerfilAssociacoes with _$PerfilAssociacoes {
 
 @freezed
 abstract class InformacoesCurso with _$InformacoesCurso {
+  @JsonSerializable(explicitToJson: true)
   const factory InformacoesCurso(
     bool alunoParceiro,
     List<Curso>? cursos,
@@ -61,6 +64,7 @@ abstract class InformacoesCurso with _$InformacoesCurso {
 
 @freezed
 abstract class InformacoesProfessor with _$InformacoesProfessor {
+  @JsonSerializable(explicitToJson: true)
   const factory InformacoesProfessor(
     bool professor,
     List<Materia>? materiasProfessor,
@@ -76,6 +80,7 @@ abstract class InformacoesProfessor with _$InformacoesProfessor {
 
 @freezed
 abstract class InformacoesUniversitario with _$InformacoesUniversitario {
+  @JsonSerializable(explicitToJson: true)
   const factory InformacoesUniversitario(
     bool universitario,
     String? email,
@@ -93,6 +98,7 @@ abstract class InformacoesUniversitario with _$InformacoesUniversitario {
 
 @freezed
 abstract class InformacoesUniversitarioGraduacao with _$InformacoesUniversitarioGraduacao {
+  @JsonSerializable(explicitToJson: true)
   const factory InformacoesUniversitarioGraduacao(
     DateTime atualizadoEm,
     CursoUniversitario curso,
@@ -108,6 +114,7 @@ abstract class InformacoesUniversitarioGraduacao with _$InformacoesUniversitario
 
 @freezed
 abstract class ColaboracaoAtividade with _$ColaboracaoAtividade {
+  @JsonSerializable(explicitToJson: true)
   const factory ColaboracaoAtividade(
     String idResposta,
     String idAtividade,

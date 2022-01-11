@@ -6,6 +6,7 @@ part 'BancoDeQuestoes.g.dart';
 
 @freezed
 abstract class BancoDeQuestoes with _$BancoDeQuestoes {
+  @JsonSerializable(explicitToJson: true)
   const factory BancoDeQuestoes(
     String id,
     DateTime criadoEm,

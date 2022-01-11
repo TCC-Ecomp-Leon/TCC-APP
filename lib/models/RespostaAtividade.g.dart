@@ -67,7 +67,7 @@ Map<String, dynamic> _$$_RespostaAtividadeToJson(
       'idCurso': instance.idCurso,
       'idMateria': instance.idMateria,
       'tipo': _$TipoAtividadeEnumMap[instance.tipo],
-      'respostas': instance.respostas,
+      'respostas': instance.respostas.map((e) => e.toJson()).toList(),
       'idAluno': instance.idAluno,
       'idUniversitario': instance.idUniversitario,
       'encerrada': instance.encerrada,
@@ -75,17 +75,18 @@ Map<String, dynamic> _$$_RespostaAtividadeToJson(
       'corrigida': instance.corrigida,
       'horarioCorrecao': instance.horarioCorrecao?.toIso8601String(),
       'idPerfilCorrecao': instance.idPerfilCorrecao,
-      'correcaoQuestao': instance.correcaoQuestao,
+      'correcaoQuestao': instance.correcaoQuestao?.toJson(),
       'revisao': _$EstadoRevisaoEnumMap[instance.revisao],
       'revisaoRequisitadaEm': instance.revisaoRequisitadaEm?.toIso8601String(),
       'revisaoAtendidaEm': instance.revisaoAtendidaEm?.toIso8601String(),
-      'revisaoQuestoes': instance.revisaoQuestoes,
+      'revisaoQuestoes': instance.revisaoQuestoes?.toJson(),
       'notaRevisao': instance.notaRevisao,
       'notaAnteriorRevisao': instance.notaAnteriorRevisao,
       'avaliada': instance.avaliada,
       'avaliadaEm': instance.avaliadaEm?.toIso8601String(),
       'avaliadaPor': instance.avaliadaPor,
-      'avaliacaoQuestoes': instance.avaliacaoQuestoes,
+      'avaliacaoQuestoes':
+          instance.avaliacaoQuestoes?.map((e) => e.toJson()).toList(),
       'comentario': instance.comentario,
     };
 
@@ -135,8 +136,8 @@ Map<String, dynamic> _$$_RespostaAtividadeRespostaToJson(
         _$_RespostaAtividadeResposta instance) =>
     <String, dynamic>{
       'idQuestao': instance.idQuestao,
-      'alternativas': instance.alternativas,
-      'resposta': instance.resposta,
+      'alternativas': instance.alternativas?.map((e) => e.toJson()).toList(),
+      'resposta': instance.resposta?.toJson(),
       'idAtividade': instance.idAtividade,
       'enunciado': instance.enunciado,
     };
@@ -191,7 +192,7 @@ Map<String, dynamic> _$$_QuestaoBancoDeQuestoesToJson(
       'idAtividade': instance.idAtividade,
       'idQuestao': instance.idQuestao,
       'enunciado': instance.enunciado,
-      'alternativas': instance.alternativas,
+      'alternativas': instance.alternativas.map((e) => e.toJson()).toList(),
     };
 
 _$_CorrecaoDissertativa _$$_CorrecaoDissertativaFromJson(

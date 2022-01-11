@@ -6,6 +6,7 @@ part 'Curso.g.dart';
 
 @freezed
 abstract class Curso with _$Curso {
+  @JsonSerializable(explicitToJson: true)
   const factory Curso(
     String id,
     String idProjeto,

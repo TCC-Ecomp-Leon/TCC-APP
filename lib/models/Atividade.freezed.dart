@@ -157,7 +157,8 @@ class __$QuestaoAlternativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoAlternativa implements _QuestaoAlternativa {
   const _$_QuestaoAlternativa(
       this.idQuestao, this.enunciado, this.peso, this.alternativas);
@@ -348,7 +349,8 @@ class __$QuestaoAlternativaAlternativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoAlternativaAlternativa
     implements _QuestaoAlternativaAlternativa {
   const _$_QuestaoAlternativaAlternativa(this.item, this.value);
@@ -568,7 +570,8 @@ class __$QuestaoDissertativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoDissertativa implements _QuestaoDissertativa {
   const _$_QuestaoDissertativa(
       this.idQuestao, this.enunciado, this.peso, this.respostaEsperada);
@@ -773,7 +776,8 @@ class __$QuestaoDissertativaRespostaEsperadaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoDissertativaRespostaEsperada
     implements _QuestaoDissertativaRespostaEsperada {
   const _$_QuestaoDissertativaRespostaEsperada(
@@ -1138,7 +1142,8 @@ class __$AtividadeCopyWithImpl<$Res> extends _$AtividadeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Atividade implements _Atividade {
   const _$_Atividade(
       this.id,
@@ -1482,7 +1487,8 @@ class __$AtividadeItensCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_AtividadeItens implements _AtividadeItens {
   const _$_AtividadeItens(this.idQuestao, this.enunciado, this.peso,
       this.alternativas, this.respostaEsperada);

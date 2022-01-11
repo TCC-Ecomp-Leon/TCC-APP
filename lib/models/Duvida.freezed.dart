@@ -227,7 +227,8 @@ class __$DuvidaCopyWithImpl<$Res> extends _$DuvidaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Duvida implements _Duvida {
   const _$_Duvida(
       this.id,
@@ -467,7 +468,8 @@ class __$DuvidaMensagemCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_DuvidaMensagem implements _DuvidaMensagem {
   const _$_DuvidaMensagem(this.idPerfil, this.horario, this.mensagem);
 

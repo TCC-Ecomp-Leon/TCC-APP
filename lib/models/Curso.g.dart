@@ -29,5 +29,5 @@ Map<String, dynamic> _$$_CursoToJson(_$_Curso instance) => <String, dynamic>{
       'fimCurso': instance.fimCurso.toIso8601String(),
       'atualizadoEm': instance.atualizadoEm.toIso8601String(),
       'turma': instance.turma,
-      'materias': instance.materias,
+      'materias': instance.materias.map((e) => e.toJson()).toList(),
     };

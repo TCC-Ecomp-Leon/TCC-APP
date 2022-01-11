@@ -6,6 +6,7 @@ part 'Endereco.g.dart';
 
 @freezed
 abstract class Endereco with _$Endereco {
+  @JsonSerializable(explicitToJson: true)
   const factory Endereco(
     String rua,
     int numero,

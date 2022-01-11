@@ -5,6 +5,7 @@ part 'CodigoEntrada.g.dart';
 
 @freezed
 abstract class CodigoEntrada with _$CodigoEntrada {
+  @JsonSerializable(explicitToJson: true)
   const factory CodigoEntrada(
     String id,
     String idProjeto,

@@ -216,7 +216,8 @@ class __$BancoDeQuestoesCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_BancoDeQuestoes implements _BancoDeQuestoes {
   const _$_BancoDeQuestoes(this.id, this.criadoEm, this.idProjeto, this.idCurso,
       this.idMateria, this.questao, this.assuntos);

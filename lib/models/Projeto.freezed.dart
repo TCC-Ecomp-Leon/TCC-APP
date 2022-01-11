@@ -269,7 +269,8 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Projeto implements _Projeto {
   const _$_Projeto(
       this.id,

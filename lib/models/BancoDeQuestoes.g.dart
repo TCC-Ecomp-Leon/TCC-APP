@@ -24,6 +24,6 @@ Map<String, dynamic> _$$_BancoDeQuestoesToJson(_$_BancoDeQuestoes instance) =>
       'idProjeto': instance.idProjeto,
       'idCurso': instance.idCurso,
       'idMateria': instance.idMateria,
-      'questao': instance.questao,
+      'questao': instance.questao.toJson(),
       'assuntos': instance.assuntos,
     };

@@ -32,9 +32,9 @@ Map<String, dynamic> _$$_ProjetoToJson(_$_Projeto instance) =>
       'telefone': instance.telefone,
       'requisicaoEntradaEm': instance.requisicaoEntradaEm.toIso8601String(),
       'imgProjeto': instance.imgProjeto,
-      'endereco': instance.endereco,
+      'endereco': instance.endereco.toJson(),
       'aprovado': instance.aprovado,
       'idPerfilResponsavel': instance.idPerfilResponsavel,
       'entradaEm': instance.entradaEm?.toIso8601String(),
-      'cursos': instance.cursos,
+      'cursos': instance.cursos.map((e) => e.toJson()).toList(),
     };

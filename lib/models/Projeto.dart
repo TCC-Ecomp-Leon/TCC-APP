@@ -7,6 +7,7 @@ part 'Projeto.g.dart';
 
 @freezed
 abstract class Projeto with _$Projeto {
+  @JsonSerializable(explicitToJson: true)
   const factory Projeto(
     String id,
     String nome,

@@ -540,7 +540,8 @@ class __$RespostaAtividadeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividade implements _RespostaAtividade {
   const _$_RespostaAtividade(
       this.id,
@@ -934,7 +935,8 @@ class __$RespostaAtividadeAvaliacaoBancoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividadeAvaliacaoBanco
     implements _RespostaAtividadeAvaliacaoBanco {
   const _$_RespostaAtividadeAvaliacaoBanco(this.idQuestao, this.aprovada);
@@ -1179,7 +1181,8 @@ class __$RespostaAtividadeRespostaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividadeResposta implements _RespostaAtividadeResposta {
   const _$_RespostaAtividadeResposta(this.idQuestao, this.alternativas,
       this.resposta, this.idAtividade, this.enunciado);
@@ -1382,7 +1385,8 @@ class __$RespostaAtividadeRespostaAlternativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividadeRespostaAlternativa
     implements _RespostaAtividadeRespostaAlternativa {
   const _$_RespostaAtividadeRespostaAlternativa(this.item, this.value);
@@ -1579,7 +1583,8 @@ class __$RespostaAtividadeDissertativaRespostaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividadeDissertativaResposta
     implements _RespostaAtividadeDissertativaResposta {
   const _$_RespostaAtividadeDissertativaResposta(
@@ -1801,7 +1806,8 @@ class __$QuestaoBancoDeQuestoesCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoBancoDeQuestoes implements _QuestaoBancoDeQuestoes {
   const _$_QuestaoBancoDeQuestoes(
       this.idAtividade, this.idQuestao, this.enunciado, this.alternativas);
@@ -2071,7 +2077,8 @@ class __$CorrecaoDissertativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_CorrecaoDissertativa implements _CorrecaoDissertativa {
   const _$_CorrecaoDissertativa(this.idQuestao, this.nota, this.status,
       this.comentarios, this.idProjeto, this.idCurso, this.idMateria);

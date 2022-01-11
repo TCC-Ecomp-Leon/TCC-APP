@@ -5,6 +5,7 @@ part 'Duvida.g.dart';
 
 @freezed
 abstract class Duvida with _$Duvida {
+  @JsonSerializable(explicitToJson: true)
   const factory Duvida(
     String id,
     String titulo,
@@ -27,6 +28,7 @@ abstract class Duvida with _$Duvida {
 
 @freezed
 abstract class DuvidaMensagem with _$DuvidaMensagem {
+  @JsonSerializable(explicitToJson: true)
   const factory DuvidaMensagem(
     String idPerfil,
     DateTime horario,

@@ -24,7 +24,7 @@ Map<String, dynamic> _$$_QuestaoAlternativaToJson(
       'idQuestao': instance.idQuestao,
       'enunciado': instance.enunciado,
       'peso': instance.peso,
-      'alternativas': instance.alternativas,
+      'alternativas': instance.alternativas.map((e) => e.toJson()).toList(),
     };
 
 _$_QuestaoAlternativaAlternativa _$$_QuestaoAlternativaAlternativaFromJson(
@@ -57,7 +57,7 @@ Map<String, dynamic> _$$_QuestaoDissertativaToJson(
       'idQuestao': instance.idQuestao,
       'enunciado': instance.enunciado,
       'peso': instance.peso,
-      'respostaEsperada': instance.respostaEsperada,
+      'respostaEsperada': instance.respostaEsperada.toJson(),
     };
 
 _$_QuestaoDissertativaRespostaEsperada
@@ -112,7 +112,7 @@ Map<String, dynamic> _$$_AtividadeToJson(_$_Atividade instance) =>
       'assuntos': instance.assuntos,
       'tempoColaboracao': instance.tempoColaboracao,
       'notaReferencia': instance.notaReferencia,
-      'itens': instance.itens,
+      'itens': instance.itens?.map((e) => e.toJson()).toList(),
       'fechamentoCorrecoes': instance.fechamentoCorrecoes?.toIso8601String(),
     };
 
@@ -142,6 +142,6 @@ Map<String, dynamic> _$$_AtividadeItensToJson(_$_AtividadeItens instance) =>
       'idQuestao': instance.idQuestao,
       'enunciado': instance.enunciado,
       'peso': instance.peso,
-      'alternativas': instance.alternativas,
-      'respostaEsperada': instance.respostaEsperada,
+      'alternativas': instance.alternativas?.map((e) => e.toJson()).toList(),
+      'respostaEsperada': instance.respostaEsperada?.toJson(),
     };

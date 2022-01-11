@@ -274,7 +274,8 @@ class __$PerfilCopyWithImpl<$Res> extends _$PerfilCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Perfil implements _Perfil {
   const _$_Perfil(
       this.id,
@@ -534,7 +535,8 @@ class __$PerfilAssociacoesCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_PerfilAssociacoes implements _PerfilAssociacoes {
   const _$_PerfilAssociacoes(this.aluno, this.professor);
 
@@ -704,7 +706,8 @@ class __$InformacoesCursoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_InformacoesCurso implements _InformacoesCurso {
   const _$_InformacoesCurso(this.alunoParceiro, this.cursos);
 
@@ -874,7 +877,8 @@ class __$InformacoesProfessorCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_InformacoesProfessor implements _InformacoesProfessor {
   const _$_InformacoesProfessor(this.professor, this.materiasProfessor);
 
@@ -1103,7 +1107,8 @@ class __$InformacoesUniversitarioCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_InformacoesUniversitario implements _InformacoesUniversitario {
   const _$_InformacoesUniversitario(this.universitario, this.email,
       this.graduacao, this.atividadesQueColaborou);
@@ -1311,7 +1316,8 @@ class __$InformacoesUniversitarioGraduacaoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_InformacoesUniversitarioGraduacao
     implements _InformacoesUniversitarioGraduacao {
   const _$_InformacoesUniversitarioGraduacao(this.atualizadoEm, this.curso);
@@ -1536,7 +1542,8 @@ class __$ColaboracaoAtividadeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_ColaboracaoAtividade implements _ColaboracaoAtividade {
   const _$_ColaboracaoAtividade(this.idResposta, this.idAtividade, this.horas,
       this.aprovado, this.horasEmitidas);

@@ -26,5 +26,5 @@ Map<String, dynamic> _$$_CursoUniversitarioToJson(
       'nome': instance.nome,
       'descricao': instance.descricao,
       'semestresPrevistos': instance.semestresPrevistos,
-      'cursoAnterior': instance.cursoAnterior,
+      'cursoAnterior': instance.cursoAnterior?.toJson(),
     };

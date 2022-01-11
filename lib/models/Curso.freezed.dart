@@ -227,7 +227,8 @@ class __$CursoCopyWithImpl<$Res> extends _$CursoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Curso implements _Curso {
   const _$_Curso(
       this.id,

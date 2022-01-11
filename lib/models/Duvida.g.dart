@@ -29,7 +29,7 @@ Map<String, dynamic> _$$_DuvidaToJson(_$_Duvida instance) => <String, dynamic>{
       'idMateria': instance.idMateria,
       'idCursoUniversitario': instance.idCursoUniversitario,
       'resolvida': instance.resolvida,
-      'mensagens': instance.mensagens,
+      'mensagens': instance.mensagens.map((e) => e.toJson()).toList(),
     };
 
 _$_DuvidaMensagem _$$_DuvidaMensagemFromJson(Map<String, dynamic> json) =>

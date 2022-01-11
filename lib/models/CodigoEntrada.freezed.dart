@@ -234,7 +234,8 @@ class __$CodigoEntradaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_CodigoEntrada implements _CodigoEntrada {
   const _$_CodigoEntrada(this.id, this.idProjeto, this.geradoEm, this.usado,
       this.usadoEm, this.idPerfilUsou, this.tipo, this.idCurso, this.idMateria);

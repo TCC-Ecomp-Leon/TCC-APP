@@ -6,6 +6,7 @@ part 'RespostaAtividade.g.dart';
 
 @freezed
 abstract class RespostaAtividade with _$RespostaAtividade {
+  @JsonSerializable(explicitToJson: true)
   const factory RespostaAtividade(
     String id,
     String idAtividade,
@@ -46,6 +47,7 @@ abstract class RespostaAtividade with _$RespostaAtividade {
 
 @freezed
 abstract class RespostaAtividadeAvaliacaoBanco with _$RespostaAtividadeAvaliacaoBanco {
+  @JsonSerializable(explicitToJson: true)
   const factory RespostaAtividadeAvaliacaoBanco(
     String idQuestao,
     bool aprovada,
@@ -61,6 +63,7 @@ abstract class RespostaAtividadeAvaliacaoBanco with _$RespostaAtividadeAvaliacao
 
 @freezed
 abstract class RespostaAtividadeResposta with _$RespostaAtividadeResposta {
+  @JsonSerializable(explicitToJson: true)
   const factory RespostaAtividadeResposta(
     String idQuestao,
     List<RespostaAtividadeRespostaAlternativa>? alternativas,
@@ -79,6 +82,7 @@ abstract class RespostaAtividadeResposta with _$RespostaAtividadeResposta {
 
 @freezed
 abstract class RespostaAtividadeRespostaAlternativa with _$RespostaAtividadeRespostaAlternativa {
+  @JsonSerializable(explicitToJson: true)
   const factory RespostaAtividadeRespostaAlternativa(
     String item,
     bool value,
@@ -94,6 +98,7 @@ abstract class RespostaAtividadeRespostaAlternativa with _$RespostaAtividadeResp
 
 @freezed
 abstract class RespostaAtividadeDissertativaResposta with _$RespostaAtividadeDissertativaResposta {
+  @JsonSerializable(explicitToJson: true)
   const factory RespostaAtividadeDissertativaResposta(
     bool foto,
     String? texto,
@@ -110,6 +115,7 @@ abstract class RespostaAtividadeDissertativaResposta with _$RespostaAtividadeDis
 
 @freezed
 abstract class QuestaoBancoDeQuestoes with _$QuestaoBancoDeQuestoes {
+  @JsonSerializable(explicitToJson: true)
   const factory QuestaoBancoDeQuestoes(
     String idAtividade,
     String idQuestao,
@@ -127,6 +133,7 @@ abstract class QuestaoBancoDeQuestoes with _$QuestaoBancoDeQuestoes {
 
 @freezed
 abstract class CorrecaoDissertativa with _$CorrecaoDissertativa {
+  @JsonSerializable(explicitToJson: true)
   const factory CorrecaoDissertativa(
     String idQuestao,
     double nota,
