@@ -19,21 +19,6 @@ Future<Perfil?> obterOutroPerfil(String idPerfil) {
   );
 }
 
-Future<Perfil?> obterPerfil() {
-  return executeRequest(
-    () {
-      return httpClient.request(
-        Endpoints.perfilEndpoint,
-        options: Options(method: 'GET'),
-      );
-    },
-    (Response<dynamic> response) {
-      final body = response.data as Map<String, dynamic>;
-      return Perfil.fromJson(body['profile']);
-    },
-  );
-}
-
 Future<bool?> atualizarPerfil(
   String idPerfil,
   String? nome,
