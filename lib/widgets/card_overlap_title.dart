@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
+typedef OnClickEdit = void Function();
+
 class CardOverlapTitle extends StatelessWidget {
   final String title;
   final List<Widget> children;
   final AlignmentGeometry stackAlignment;
-  final bool editable;
-  final bool addOption;
+  IconData? icon;
+  OnClickEdit? onClickEdit;
 
-  const CardOverlapTitle({
+  CardOverlapTitle({
     required this.title,
     required this.children,
     this.stackAlignment = Alignment.topLeft,
-    this.editable = false,
-    this.addOption = false,
+    this.icon,
+    this.onClickEdit,
     Key? key,
   }) : super(key: key);
 
@@ -41,19 +43,13 @@ class CardOverlapTitle extends StatelessWidget {
                     children: children,
                   ),
                 ),
-                editable
+                icon != null
                     ? IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.edit),
+                        onPressed: onClickEdit,
+                        icon: Icon(icon),
                         color: Colors.black,
                       )
-                    : addOption
-                        ? IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.add),
-                            color: Colors.black,
-                          )
-                        : Container(),
+                    : Container(),
               ],
             ),
           ),

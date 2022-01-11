@@ -24,7 +24,16 @@ class PerfilController extends BottomMenuController {
   @override
   void onInit() {
     _perfilEdicao = loginController.perfil.obs;
+    inicializarCamposEdicaoPerfil();
     super.onInit();
+  }
+
+  inicializarCamposEdicaoPerfil() {
+    final perfil = _perfilEdicao.value;
+    _nomeUsuario.value = TextEditingController(text: perfil.nome);
+    _telefoneUsuario.value =
+        TextEditingController(text: perfil.telefone.toString());
+    _cpfUsuario.value = TextEditingController(text: perfil.cpf);
   }
 
   alterarFotoPerfil(String novaImagem) async {
@@ -70,6 +79,7 @@ class PerfilController extends BottomMenuController {
   }
 
   cancelarEdicao() {
+    inicializarCamposEdicaoPerfil();
     _modoEdicao.value = false;
   }
 

@@ -5,15 +5,18 @@ typedef OnChange = void Function();
 
 class TextFieldImplementation extends StatefulWidget {
   final TextEditingController controller;
+  final Color fillColor;
   final String label;
   final double? height;
   final TextInputType textInputType;
+  final TextAlign textAlign;
   final bool useHidden;
   final OnVisibleChanged? onVisibleChanged;
   final OnChange? onChange;
   String? errorMessage;
   bool isHidden;
   final double? width;
+  bool readOnly;
 
   TextFieldImplementation({
     required this.controller,
@@ -26,6 +29,9 @@ class TextFieldImplementation extends StatefulWidget {
     this.onVisibleChanged,
     this.onChange,
     this.errorMessage,
+    this.readOnly = false,
+    this.textAlign = TextAlign.center,
+    this.fillColor = Colors.black,
     Key? key,
   }) : super(key: key);
 
@@ -50,13 +56,14 @@ class _TextFieldImplementationState extends State<TextFieldImplementation> {
         child: Stack(
           children: [
             TextFormField(
+              readOnly: widget.readOnly,
               obscureText: widget.isHidden,
               keyboardType: widget.textInputType,
-              textAlign: TextAlign.center,
+              textAlign: widget.textAlign,
               style: const TextStyle(fontSize: 15.0),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.black,
+                fillColor: widget.fillColor,
                 border: const OutlineInputBorder(),
                 hintText: widget.label,
                 errorText: (widget.errorMessage != null &&

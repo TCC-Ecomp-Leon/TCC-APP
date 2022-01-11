@@ -5,6 +5,7 @@ import 'package:tcc_app/app/modules/perfil/perfil_controller.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/card_overlap_image.dart';
 import 'package:tcc_app/widgets/card_overlap_title.dart';
+import 'package:tcc_app/widgets/change_editable_text_field.dart';
 
 class PerfilView extends GetView<PerfilController> {
   @override
@@ -31,31 +32,41 @@ class PerfilView extends GetView<PerfilController> {
               const SizedBox(
                 height: 10.0,
               ),
-              CardOverlapTitle(
-                editable: true,
-                title: "Perfil",
-                children: [
-                  informacoesDuasColunasFixas(
-                    context,
-                    campo: "Nome:",
-                    valor: controller.getPerfilEdicao.nome,
-                  ),
-                  informacoesDuasColunasFixas(
-                    context,
-                    campo: "Email:",
-                    valor: controller.getPerfilEdicao.email,
-                  ),
-                  informacoesDuasColunasFixas(
-                    context,
-                    campo: "Telefone:",
-                    valor: controller.getPerfilEdicao.telefone.toString(),
-                  ),
-                  informacoesDuasColunasFixas(
-                    context,
-                    campo: "Entrou em:",
-                    valor: diaComAno(controller.getPerfilEdicao.entradaEm),
-                  ),
-                ],
+              Obx(
+                () => CardOverlapTitle(
+                  onClickEdit: controller.modoEdicao
+                      ? controller.cancelarEdicao
+                      : controller.entrarModoEdicao,
+                  title: "Perfil",
+                  icon: controller.modoEdicao ? Icons.cancel : Icons.edit,
+                  children: [
+                    ChangeEditableTextField(
+                      label: "Nome",
+                      editable: controller.modoEdicao,
+                      controller: controller.nomeUsuario,
+                    ),
+                    ChangeEditableTextField(
+                      label: "Email",
+                      editable: false,
+                      controller: TextEditingController(
+                          text: controller.getPerfilEdicao.email),
+                    ),
+                    ChangeEditableTextField(
+                      label: "Telefone",
+                      editable: controller.modoEdicao,
+                      controller: controller.telefoneUsuario,
+                    ),
+                    ChangeEditableTextField(
+                      label: "Entrada em",
+                      editable: false,
+                      controller: TextEditingController(
+                        text: diaComAno(
+                          controller.getPerfilEdicao.entradaEm,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 10.0,
