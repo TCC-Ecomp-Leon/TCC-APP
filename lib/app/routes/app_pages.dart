@@ -1,3 +1,5 @@
+import 'package:tcc_app/app/modules/dummy/dummy_binding.dart';
+import 'package:tcc_app/app/modules/dummy/dummy_view.dart';
 import 'package:tcc_app/app/modules/initial/initial_binding.dart';
 import 'package:tcc_app/app/modules/initial/initial_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_binding.dart';
@@ -25,6 +27,11 @@ class AppPages {
       name: Routes.signUp,
       page: () => SignUpView(),
       binding: SignUpBinding(),
+    ),
+    GetPage(
+      name: Routes.dummy,
+      page: () => DummyView(),
+      binding: DummyBinding(),
     ),
   ];
 }
