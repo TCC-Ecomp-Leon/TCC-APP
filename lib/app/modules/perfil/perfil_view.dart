@@ -20,17 +20,26 @@ class PerfilView extends GetView<PerfilController> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CardOverlapImage(
-                  changeImage: controller.alterarFotoPerfil,
-                  base64image: controller.getPerfilEdicao.fotoPerfil,
-                  child: Text(
-                    controller.getPerfilEdicao.nome,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
+                controller.loadingImagemPerfil
+                    ? const Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.all(30.0),
+                          child: Loading(
+                              color: Colors.white, circleTimeSeconds: 5),
+                        ),
+                      )
+                    : CardOverlapImage(
+                        changeImage: controller.alterarFotoPerfil,
+                        base64image: controller.getPerfilEdicao.fotoPerfil,
+                        child: Text(
+                          controller.getPerfilEdicao.nome,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                 const SizedBox(
                   height: 10.0,
                 ),
