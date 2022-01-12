@@ -342,6 +342,7 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
                                   width: 200.0,
                                   child: Text(
                                     controller.codigoGerado ?? "",
+                                    style: const TextStyle(fontSize: 15.0),
                                   ),
                                 ),
                                 IconButton(
@@ -484,7 +485,7 @@ class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
     return AlertDialog(
       title: const Text("Código de entrada"),
       content: SizedBox(
-          height: 400.0,
+          height: 450.0,
           width: MediaQuery.of(context).size.width * 0.9,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -530,6 +531,7 @@ class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
                         width: 200.0,
                         child: Text(
                           codigoEntrada.id,
+                          style: const TextStyle(fontSize: 15.0),
                         ),
                       ),
                       IconButton(
