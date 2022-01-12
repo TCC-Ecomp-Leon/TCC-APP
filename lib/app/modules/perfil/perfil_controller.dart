@@ -1,9 +1,14 @@
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:search_cep/search_cep.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
+import 'package:tcc_app/app/modules/signUp/signup_controller.dart';
 import 'package:tcc_app/models/Perfil.dart';
+import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/services/perfil.dart';
+import 'package:tcc_app/services/pesquisaCep.dart';
+import 'package:tcc_app/services/projeto.dart';
 import 'package:tcc_app/utils/conversions.dart';
 
 class PerfilController extends BottomMenuController {
@@ -12,6 +17,37 @@ class PerfilController extends BottomMenuController {
   final Rx<bool> _modoEdicao = false.obs;
   final Rx<bool> _salvandoEdicao = false.obs;
   final Rx<String> _falhaEdicao = "".obs;
+
+  late Rx<Projeto?> _projetoEdicao;
+  final Rx<bool> _modoEdicaoProjeto = false.obs;
+  final Rx<bool> _loadingImagemProjeto = false.obs;
+  final Rx<bool> _salvandoEdicaoProjeto = false.obs;
+  late RxList<CampoRegistro> _camposProjeto;
+
+  Future<void> _searchCep(String cep) async {
+    print("pesquisa cep");
+    ViaCepInfo? result = await pesquisaCep(cep);
+    if (result != null) {
+      CampoRegistro campoRua = camposProjeto[4];
+      CampoRegistro campoBairro = camposProjeto[5];
+      CampoRegistro campoCidade = camposProjeto[6];
+      CampoRegistro campoEstado = camposProjeto[7];
+      if (campoRua.controller.text.isEmpty && result.logradouro != null) {
+        campoRua.controller.value = TextEditingValue(text: result.logradouro!);
+      }
+      if (campoBairro.controller.text.isEmpty && result.bairro != null) {
+        campoBairro.controller.value = TextEditingValue(text: result.bairro!);
+      }
+      if (campoCidade.controller.text.isEmpty && result.localidade != null) {
+        campoCidade.controller.value =
+            TextEditingValue(text: result.localidade!);
+      }
+      if (campoEstado.controller.text.isEmpty && result.uf != null) {
+        campoEstado.controller.value = TextEditingValue(text: result.uf!);
+      }
+    }
+    update();
+  }
 
   final Rx<TextEditingController> _nomeUsuario = TextEditingController().obs;
   final Rx<String> _errorNomeUsuario = "".obs;
@@ -24,8 +60,90 @@ class PerfilController extends BottomMenuController {
   @override
   void onInit() {
     _perfilEdicao = loginController.perfil.obs;
+    _projetoEdicao = loginController.authInfo.projeto.obs;
     inicializarCamposEdicaoPerfil();
+    inicializarCamposEdicaoProjeto();
     super.onInit();
+  }
+
+  inicializarCamposEdicaoProjeto() {
+    final Projeto? projeto = loginController.authInfo.projeto;
+    if (projeto != null) {
+      _camposProjeto = [
+        CampoRegistro(
+            label: "Nome",
+            textInputType: TextInputType.text,
+            validateFunction: (String input) => input.isNotEmpty,
+            controller: TextEditingController(text: projeto.nome)),
+        CampoRegistro(
+            label: "Descrição",
+            textInputType: TextInputType.text,
+            validateFunction: (String input) => input.isNotEmpty,
+            controller: TextEditingController(text: projeto.descricao)),
+        CampoRegistro(
+            label: "Teletone",
+            textInputType: TextInputType.phone,
+            validateFunction: GetUtils.isPhoneNumber,
+            controller:
+                TextEditingController(text: projeto.telefone.toString())),
+        CampoRegistro(
+            label: "CEP",
+            textInputType: TextInputType.text,
+            validateFunction: (String input) {
+              _searchCep(input);
+              return input.isNotEmpty;
+            },
+            controller:
+                TextEditingController(text: projeto.endereco.cep.toString())),
+        CampoRegistro(
+            label: "Rua",
+            textInputType: TextInputType.text,
+            validateFunction: (String input) => input.isNotEmpty,
+            controller: TextEditingController(text: projeto.endereco.rua)),
+        CampoRegistro(
+            label: "Número",
+            textInputType: TextInputType.number,
+            validateFunction: (String input) => input.isNotEmpty,
+            controller: TextEditingController(
+                text: projeto.endereco.numero.toString())),
+        CampoRegistro(
+            label: "Complemento",
+            textInputType: TextInputType.text,
+            validateFunction: (String input) => true,
+            controller:
+                TextEditingController(text: projeto.endereco.complemento)),
+        CampoRegistro(
+            label: "Bairro",
+            textInputType: TextInputType.text,
+            validateFunction: (String input) => input.isNotEmpty,
+            controller: TextEditingController(text: projeto.endereco.bairro)),
+        CampoRegistro(
+            label: "Cidade",
+            textInputType: TextInputType.text,
+            validateFunction: (String input) => input.isNotEmpty,
+            controller: TextEditingController(text: projeto.endereco.cidade)),
+        CampoRegistro(
+            label: "Estado",
+            textInputType: TextInputType.text,
+            validateFunction: (String input) => input.isNotEmpty,
+            controller: TextEditingController(text: projeto.endereco.estado)),
+      ].obs;
+    } else {
+      _camposProjeto = ([] as List<CampoRegistro>).obs;
+    }
+  }
+
+  onChangeCampoProjeto(int index) {
+    CampoRegistro campoRegistro = _camposProjeto.value[index];
+    bool valido = campoRegistro.errorMessage == null;
+    if (!campoRegistro.validateFunction(campoRegistro.controller.text)) {
+      campoRegistro.errorMessage =
+          campoRegistro.label.toLowerCase() + " inválido";
+    } else if (!valido) {
+      campoRegistro.errorMessage = null;
+    }
+    _camposProjeto.value[index] = campoRegistro;
+    _camposProjeto.refresh();
   }
 
   inicializarCamposEdicaoPerfil() {
@@ -65,8 +183,43 @@ class PerfilController extends BottomMenuController {
     _loadingImagemPerfil.value = false;
   }
 
+  alterarImagemProjeto(String novaImagem) async {
+    if (_projetoEdicao.value != null) {
+      final Projeto projeto = loginController.authInfo.projeto!;
+
+      String imagemAntiga = projeto.imgProjeto;
+
+      _loadingImagemProjeto.value = true;
+
+      _projetoEdicao.value =
+          _projetoEdicao.value!.copyWith(imgProjeto: novaImagem);
+
+      bool? result = await atualizarProjeto(
+        projeto.id,
+        null,
+        null,
+        null,
+        novaImagem,
+        null,
+      );
+      if (result != null && result) {
+      } else {
+        _projetoEdicao.value =
+            _projetoEdicao.value!.copyWith(imgProjeto: imagemAntiga);
+      }
+
+      setProjeto(_projetoEdicao.value!);
+
+      _loadingImagemProjeto.value = false;
+    }
+  }
+
   setPerfilLogin(Perfil perfil) {
     loginController.perfil = perfil;
+  }
+
+  setProjeto(Projeto projeto) {
+    loginController.projeto = projeto;
   }
 
   entrarModoEdicao() {
@@ -78,9 +231,18 @@ class PerfilController extends BottomMenuController {
     _modoEdicao.value = true;
   }
 
+  entrarModoEdicaoProjeto() {
+    _modoEdicaoProjeto.value = true;
+  }
+
   cancelarEdicao() {
     inicializarCamposEdicaoPerfil();
-    _modoEdicao.value = false;
+    _modoEdicaoProjeto.value = false;
+  }
+
+  cancelarEdicaoProjeto() {
+    inicializarCamposEdicaoProjeto();
+    _modoEdicaoProjeto.value = false;
   }
 
   onChangeNome() {
@@ -113,7 +275,7 @@ class PerfilController extends BottomMenuController {
     }
   }
 
-  salvarEdicao() async {
+  salvarEdicaoPerfil() async {
     onChangeNome();
     onChangeTelefone();
     onChangeTelefone();
@@ -155,6 +317,8 @@ class PerfilController extends BottomMenuController {
     }
   }
 
+  salvarEdicaoProjeto() async {}
+
   Perfil get getPerfilEdicao => _perfilEdicao.value;
   bool get loadingImagemPerfil => _loadingImagemPerfil.value;
   bool get modoEdicao => _modoEdicao.value;
@@ -176,4 +340,11 @@ class PerfilController extends BottomMenuController {
 
   String? get falhaEdicao =>
       _falhaEdicao.value.isNotEmpty ? _falhaEdicao.value : null;
+
+  bool get loadingImagemProjeto => _loadingImagemProjeto.value;
+  bool get modoEdicaoProjeto => _modoEdicaoProjeto.value;
+
+  Projeto? get projetoEmEdicao => _projetoEdicao.value;
+  List<CampoRegistro> get camposProjeto => _camposProjeto.value;
+  bool get salvandoEdicaoProjeto => _salvandoEdicaoProjeto.value;
 }

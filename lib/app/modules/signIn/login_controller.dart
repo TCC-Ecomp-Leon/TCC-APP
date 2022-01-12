@@ -215,6 +215,11 @@ class LoginController extends GetxController {
     _authInfo.value.perfil = perfil;
     _authInfo.refresh();
   }
+
+  void set projeto(Projeto projeto) {
+    _authInfo.value.projeto = projeto;
+    _authInfo.refresh();
+  }
 }
 
 String afterLoginRoute(GetStorage box) {

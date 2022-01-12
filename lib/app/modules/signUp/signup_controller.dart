@@ -17,7 +17,7 @@ typedef ValidateFunction = bool Function(String campo);
 typedef OnVisibleChanged = void Function();
 
 class CampoRegistro {
-  TextEditingController controller = TextEditingController();
+  late TextEditingController controller;
   TextInputType textInputType;
   String label;
   bool useHidden;
@@ -34,7 +34,14 @@ class CampoRegistro {
     this.errorMessage,
     this.visible = true,
     this.onVisibleChanged,
-  });
+    TextEditingController? controller,
+  }) {
+    if (controller != null) {
+      this.controller = controller;
+    } else {
+      this.controller = TextEditingController();
+    }
+  }
 }
 
 class SignUpController extends GetxController {
