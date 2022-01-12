@@ -173,8 +173,6 @@ class LoginController extends GetxController {
         _loginError.value = "";
       }
 
-      box.write(Constants.authBoxKey, _authInfo.toJson());
-
       _loading.value = false;
       avaliarEntrada(_authInfo.value);
     }
@@ -184,8 +182,9 @@ class LoginController extends GetxController {
     _visiblePassword.value = !_visiblePassword.value;
   }
 
-  avaliarEntrada(AuthInfo authInfo) {
+  avaliarEntrada(AuthInfo authInfo) async {
     if (authInfo.authStatus == AuthStatus.Authenticated) {
+      box.write(Constants.authBoxKey, _authInfo.toJson());
       Get.offAllNamed(afterLoginRoute(box));
     }
   }

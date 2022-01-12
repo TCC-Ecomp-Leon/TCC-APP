@@ -29,7 +29,7 @@ class PerfilController extends BottomMenuController {
   }
 
   inicializarCamposEdicaoPerfil() {
-    final perfil = _perfilEdicao.value;
+    final perfil = loginController.perfil;
     _nomeUsuario.value = TextEditingController(text: perfil.nome);
     _telefoneUsuario.value =
         TextEditingController(text: perfil.telefone.toString());
@@ -143,7 +143,7 @@ class PerfilController extends BottomMenuController {
           telefone: telefone,
           cpf: cpf,
         );
-        loginController.perfil = setPerfilLogin(perfil);
+        setPerfilLogin(perfil);
         _perfilEdicao.value = perfil;
 
         _modoEdicao.value = false;

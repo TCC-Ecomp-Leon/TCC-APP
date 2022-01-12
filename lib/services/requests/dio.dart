@@ -36,8 +36,9 @@ Future<T?> executeRequest<T>(
   RequestFunction requestFunction,
   ProcessFunction<T> processFunction,
 ) async {
+  Response<dynamic>? response;
   try {
-    final response = await requestFunction();
+    response = await requestFunction();
 
     if (response.statusCode == 401) {
       clearAuthToken();
@@ -51,6 +52,10 @@ Future<T?> executeRequest<T>(
   } catch (e, stacktrace) {
     // ignore: avoid_print
     print("API REQUEST ERROR");
+    if (response != null) {
+      // ignore: avoid_print
+      print(response.data);
+    }
     // ignore: avoid_print
     print(e);
     // ignore: avoid_print

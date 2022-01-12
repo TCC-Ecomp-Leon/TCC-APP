@@ -34,15 +34,15 @@ Future<bool?> atualizarPerfil(
         camposAtualizacaoPerfil ??= {};
         camposAtualizacaoPerfil['nome'] = nome;
       }
-      if (nome != null) {
+      if (telefone != null) {
         camposAtualizacaoPerfil ??= {};
         camposAtualizacaoPerfil['telefone'] = telefone;
       }
-      if (nome != null) {
+      if (fotoPerfil != null) {
         camposAtualizacaoPerfil ??= {};
         camposAtualizacaoPerfil['fotoPerfil'] = fotoPerfil;
       }
-      if (nome != null) {
+      if (cpf != null) {
         camposAtualizacaoPerfil ??= {};
         camposAtualizacaoPerfil['cpf'] = cpf;
       }
@@ -62,7 +62,7 @@ Future<bool?> atualizarPerfil(
             camposAtualizacaoCursoUniversitario;
       }
       return httpClient.request(
-        Endpoints.perfilEndpoint + "/" + idPerfil,
+        Endpoints.perfilEndpoint,
         data: camposAtualizacao,
         options: Options(method: 'PUT'),
       );
