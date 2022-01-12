@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/models/Perfil.dart';
+import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/services/Endpoints.dart';
 
 import './requests/dio.dart';
@@ -14,7 +16,7 @@ class LoginResult {
   });
 }
 
-Future<LoginResult?> signIn(
+Future<AuthInfo?> signIn(
   String email,
   String senha,
 ) {
@@ -31,9 +33,11 @@ Future<LoginResult?> signIn(
     },
     (Response<dynamic> response) {
       final body = response.data as Map<String, dynamic>;
-      return LoginResult(
+      return AuthInfo(
         authToken: body['authToken'] as String,
         perfil: Perfil.fromJson(body['profile']),
+        projeto:
+            body['projeto'] != null ? Projeto.fromJson(body['projeto']) : null,
       );
     },
   );
@@ -105,7 +109,7 @@ Future<bool?> changeEmailAndPassord(
   );
 }
 
-Future<Perfil?> reobterPerfil() {
+Future<AuthInfo?> reobterPerfil() {
   return executeRequest(
     () {
       return httpClient.request(
@@ -115,8 +119,13 @@ Future<Perfil?> reobterPerfil() {
     },
     (Response<dynamic> response) {
       final body = response.data as Map<String, dynamic>;
-      return Perfil.fromJson(
-        body['profile'],
+      return AuthInfo(
+        perfil: Perfil.fromJson(
+          body['profile'],
+        ),
+        authToken: getAuthToken(),
+        projeto:
+            body['projeto'] != null ? Projeto.fromJson(body['projeto']) : null,
       );
     },
   );

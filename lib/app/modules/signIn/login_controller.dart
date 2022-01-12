@@ -7,6 +7,7 @@ import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/config/constants.dart';
 import 'package:tcc_app/models/Perfil.dart';
+import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/services/auth.dart';
 import 'package:async/async.dart';
 
@@ -18,22 +19,27 @@ enum AuthStatus {
 class AuthInfo {
   String? authToken;
   Perfil? perfil;
+  Projeto? projeto;
 
   AuthInfo({
     required this.authToken,
     required this.perfil,
+    required this.projeto,
   });
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {};
     json['authToken'] = authToken;
     json['perfil'] = perfil == null ? perfil : perfil!.toJson();
+    json['projeto'] = projeto == null ? projeto : projeto!.toJson();
     return json;
   }
 
   AuthInfo.fromJson(Map<String, dynamic> json) {
     authToken = json['authToken'];
     perfil = json['perfil'] != null ? Perfil.fromJson(json['perfil']) : null;
+    projeto =
+        json['projeto'] != null ? Projeto.fromJson(json['projeto']) : null;
   }
 
   AuthStatus get authStatus => (perfil == null || authToken == null)
@@ -42,7 +48,11 @@ class AuthInfo {
 }
 
 class LoginController extends GetxController {
-  final Rx<AuthInfo> _authInfo = AuthInfo(authToken: null, perfil: null).obs;
+  final Rx<AuthInfo> _authInfo = AuthInfo(
+    authToken: null,
+    perfil: null,
+    projeto: null,
+  ).obs;
 
   @override
   void onInit() {
@@ -57,8 +67,8 @@ class LoginController extends GetxController {
   Future<void> usarTokenEmCache(int msTimeout) async {
     DateTime fimLimite = DateTime.now().add(Duration(milliseconds: msTimeout));
 
-    Perfil? perfilObtido;
-    Future<Perfil?> obterPerfil = reobterPerfil();
+    AuthInfo? informacoesObtidas;
+    Future<AuthInfo?> obterPerfil = reobterPerfil();
     CancelableOperation cancelableOperation = CancelableOperation.fromFuture(
       obterPerfil,
       onCancel: () => {
@@ -69,7 +79,7 @@ class LoginController extends GetxController {
 
     cancelableOperation.value.then(
       (value) {
-        perfilObtido = value as Perfil;
+        informacoesObtidas = value as AuthInfo;
       },
     );
 
@@ -92,15 +102,20 @@ class LoginController extends GetxController {
 
       await Future.delayed(Duration(milliseconds: tempoRestante));
 
-      if (perfilObtido != null) {
+      if (informacoesObtidas != null) {
         break;
       }
     }
 
-    if (perfilObtido != null) {
-      AuthInfo authInfo =
-          AuthInfo(authToken: _authInfo.value.authToken, perfil: perfilObtido);
-      avaliarEntrada(authInfo);
+    if (informacoesObtidas != null) {
+      _authInfo.value = informacoesObtidas!;
+      // ignore: avoid_print
+      print("reobitidos ");
+      // ignore: avoid_print
+      print(informacoesObtidas!.perfil);
+      // ignore: avoid_print
+      print(informacoesObtidas!.projeto);
+      avaliarEntrada(informacoesObtidas!);
     }
   }
 
@@ -139,15 +154,20 @@ class LoginController extends GetxController {
     if (validate()) {
       _loading.value = true;
 
-      LoginResult? loginResult = await signIn(email.text, password.text);
+      AuthInfo? loginResult = await signIn(email.text, password.text);
 
       if (loginResult == null) {
-        _authInfo.value = AuthInfo(authToken: null, perfil: null);
+        _authInfo.value = AuthInfo(
+          authToken: null,
+          perfil: null,
+          projeto: null,
+        );
         _loginError.value = "Email ou senha errados";
       } else {
         _authInfo.value = AuthInfo(
           authToken: loginResult.authToken,
           perfil: loginResult.perfil,
+          projeto: loginResult.projeto,
         );
 
         _loginError.value = "";
@@ -171,7 +191,11 @@ class LoginController extends GetxController {
   }
 
   signOut() {
-    _authInfo.value = AuthInfo(authToken: null, perfil: null);
+    _authInfo.value = AuthInfo(
+      authToken: null,
+      perfil: null,
+      projeto: null,
+    );
     Get.offAllNamed(Routes.login);
   }
 
