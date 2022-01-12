@@ -288,7 +288,7 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
                         QrImage(
                           data: controller.codigoGerado ?? "",
                           version: QrVersions.auto,
-                          size: 250.0,
+                          size: 200.0,
                           foregroundColor: Colors.white,
                         ),
                         const SizedBox(
@@ -301,8 +301,11 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  controller.codigoGerado ?? "",
+                                SizedBox(
+                                  width: 200.0,
+                                  child: Text(
+                                    controller.codigoGerado ?? "",
+                                  ),
                                 ),
                                 IconButton(
                                   onPressed: () {
