@@ -53,7 +53,6 @@ class BottomMenuController extends GetxController {
   }
 
   void setPage(int index) {
-    print('goto ' + pageList[index].routeName);
     _tabIndex.value = index;
     writeBottomMenuInfo(
       box,
@@ -80,8 +79,12 @@ BottomMenuInfo? readBottomMenuInfo(GetStorage box) {
   }
 }
 
-void writeBottomMenuInfo(GetStorage box, BottomMenuInfo info) async {
+Future<void> writeBottomMenuInfo(GetStorage box, BottomMenuInfo info) async {
   await box.write(Constants.navigationMenuBoxKey, info.toJson());
+}
+
+Future<void> clearBottomMenuInfo(GetStorage box) async {
+  await box.remove(Constants.navigationMenuBoxKey);
 }
 
 List<BottomMenuPage> obterPaginasComPermisssao(

@@ -186,6 +186,8 @@ class LoginController extends GetxController {
     if (authInfo.authStatus == AuthStatus.Authenticated) {
       box.write(Constants.authBoxKey, _authInfo.toJson());
       Get.offAllNamed(afterLoginRoute(box));
+    } else {
+      clearBottomMenuInfo(box);
     }
   }
 
@@ -196,6 +198,7 @@ class LoginController extends GetxController {
       projeto: null,
     );
     Get.offAllNamed(Routes.login);
+    clearBottomMenuInfo(box);
   }
 
   register() {
