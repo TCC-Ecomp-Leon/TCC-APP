@@ -4,6 +4,7 @@ import 'package:tcc_app/config/constants.dart';
 import 'package:tcc_app/models/CursoUniversitario.dart';
 import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/models/Perfil.dart';
+import 'package:tcc_app/models/Curso.dart';
 import 'package:tcc_app/services/cursoUniversitario.dart';
 import 'package:tcc_app/services/perfil.dart';
 import 'package:tcc_app/services/projeto.dart';
@@ -129,6 +130,26 @@ class CollectionsController extends GetxController {
   UsuariosCarregados get usuariosCarregados => _usuariosCarregados.value;
   CursosUniversitariosCarregados get cursosCarregados =>
       _cursosUniversitariosCarregados.value;
+
+  List<Curso>? _getCursosAluno() {
+    Perfil perfil = loginController.perfil;
+    if (perfil.regra != RegraPerfil.Geral) {
+      return null;
+    }
+
+    if (perfil.associacoes == null ||
+        !perfil.associacoes!.aluno.alunoParceiro) {
+      return null;
+    }
+    return perfil.associacoes!.aluno.cursos;
+  }
+
+  List<Curso>? get getCursosAluno => _getCursosAluno();
+  List<CursoUniversitario> get cursosUniversitarios =>
+      _cursosUniversitariosCarregados.value
+          .getItems()
+          .map((e) => e.cursoUniversitario)
+          .toList();
 }
 
 class UsuariosCarregados extends CollectionCarregada<UsuarioItem> {

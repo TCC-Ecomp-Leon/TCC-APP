@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_controller.dart';
+import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/screens/dummy.dart';
+import 'package:tcc_app/widgets/loading.dart';
 
 class DuvidasView extends GetView<DuvidasController> {
   Widget buildCriarDuvida(BuildContext context) {
     final double width = MediaQuery.of(context).size.width - 100.0;
-    return GestureDetector(
-      onTap: () {},
+    return InkWell(
+      onTap: () async {
+        await Get.toNamed(Routes.criacaoDuvida);
+        controller.carregarDuvidas();
+      },
       child: Column(
         children: [
           Card(
@@ -65,21 +70,34 @@ class DuvidasView extends GetView<DuvidasController> {
             children: [
               buildCriarDuvida(context),
               Obx(
-                () => controller.duvidas.isEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height - 200.0,
-                        child: const Center(
-                          child: Text("Nenhuma dúvida"),
+                () => controller.carregandoDuvidas
+                    ? Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height - 200.0,
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 100.0,
+                            child: const Loading(
+                                color: Colors.white, circleTimeSeconds: 2),
+                          ),
                         ),
                       )
-                    : ListView.builder(
-                        padding: const EdgeInsets.only(top: 0.0),
-                        itemCount: controller.duvidas.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container();
-                        },
-                      ),
+                    : controller.duvidas.isEmpty
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height - 200.0,
+                            child: const Center(
+                              child: Text("Nenhuma dúvida"),
+                            ),
+                          )
+                        : ListView.builder(
+                            padding: const EdgeInsets.only(top: 0.0),
+                            itemCount: controller.duvidas.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container();
+                            },
+                          ),
               ),
             ],
           ),

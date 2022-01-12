@@ -5,6 +5,7 @@ import 'package:tcc_app/services/duvida.dart';
 
 class DuvidasController extends BottomMenuController {
   final RxList<dynamic> _duvidas = [].obs;
+  final Rx<bool> _carregando = false.obs;
 
   @override
   void onInit() {
@@ -13,12 +14,17 @@ class DuvidasController extends BottomMenuController {
   }
 
   carregarDuvidas() async {
+    _carregando.value = true;
+
     List<Duvida>? result = await obterDuvidas(null);
     if (result != null) {
       _duvidas.value = result;
       _duvidas.refresh();
     }
+
+    _carregando.value = false;
   }
 
   List<Duvida> get duvidas => _duvidas.value as List<Duvida>;
+  bool get carregandoDuvidas => _carregando.value;
 }
