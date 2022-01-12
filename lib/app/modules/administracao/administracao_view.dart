@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/administracao/administracao_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
+import 'package:tcc_app/app/modules/signIn/login_controller.dart';
+import 'package:tcc_app/models/CodigoEntrada.dart';
+import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/dropdown.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
 import 'package:tcc_app/widgets/list_view.dart';
@@ -10,6 +13,8 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class AdministracaoView extends GetView<AdministracaoController> {
+  final loginController = Get.find<LoginController>();
+
   Widget buildCriarCodigoDeEntrada(BuildContext context) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
@@ -100,13 +105,19 @@ class AdministracaoView extends GetView<AdministracaoController> {
                               child: Text("Nenhum código de entrada"),
                             ),
                           )
-                        : GenericListView(
+                        : GenericListView<CodigoEntrada>(
+                            shrinkWrap: true,
+                            paddingLeft: 0.0,
+                            paddingRight: 0.0,
                             itens: controller.codigosDeEntrada,
-                            render: (value, index) {
+                            render: (CodigoEntrada codigoEntrada, index) {
                               return IconLabelDescriptionCard(
                                 value: IconLabelDescriptionCardProps(
                                   base64Image: controller.projeto.imgProjeto,
-                                  label: value,
+                                  label: codigoEntrada.tipo ==
+                                          TipoCodigoDeEntrada.Aluno
+                                      ? "Código Aluno"
+                                      : "Código Professor",
                                   description: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -118,12 +129,20 @@ class AdministracaoView extends GetView<AdministracaoController> {
                                             MediaQuery.of(context).size.width *
                                                 0.4,
                                         child: Text(
-                                          value,
+                                          loginController
+                                              .authInfo.projeto!.cursos
+                                              .firstWhere((element) =>
+                                                  element.id ==
+                                                  codigoEntrada.idCurso)
+                                              .nome,
                                           textScaleFactor: 0.6,
                                         ),
                                       ),
-                                      const Text(
-                                        "Gerado em: ",
+                                      Text(
+                                        "Gerado em: " +
+                                            diaComAno(codigoEntrada.geradoEm) +
+                                            " " +
+                                            horario(codigoEntrada.geradoEm),
                                         textScaleFactor: 0.6,
                                       ),
                                     ],
