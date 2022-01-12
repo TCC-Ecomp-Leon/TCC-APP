@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:tcc_app/app/modules/duvidas/duvidas_view.dart';
 import 'package:tcc_app/app/modules/perfil/perfil_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
@@ -108,10 +109,10 @@ final List<BottomMenuPage> pages = [
     routeName: Routes.dummy,
   ),
   BottomMenuPage(
-    page: const Dummy(),
+    page: DuvidasView(),
     label: "Dúvidas",
     icon: const Icon(Icons.question_answer),
-    routeName: Routes.dummy,
+    routeName: Routes.duvidas,
   ),
   BottomMenuPage(
     page: PerfilView(),

@@ -1,5 +1,7 @@
 import 'package:tcc_app/app/modules/dummy/dummy_binding.dart';
 import 'package:tcc_app/app/modules/dummy/dummy_view.dart';
+import 'package:tcc_app/app/modules/duvidas/duvidas_binding.dart';
+import 'package:tcc_app/app/modules/duvidas/duvidas_view.dart';
 import 'package:tcc_app/app/modules/initial/initial_binding.dart';
 import 'package:tcc_app/app/modules/initial/initial_view.dart';
 import 'package:tcc_app/app/modules/perfil/perfil_binding.dart';
@@ -40,6 +42,18 @@ class AppPages {
       name: Routes.perfil,
       page: () => PerfilView(),
       binding: PerfilBinding(),
+      transition: Transition.circularReveal,
+    ),
+    GetPage(
+      name: Routes.perfil,
+      page: () => PerfilView(),
+      binding: PerfilBinding(),
+      transition: Transition.circularReveal,
+    ),
+    GetPage(
+      name: Routes.duvidas,
+      page: () => DuvidasView(),
+      binding: DuvidasBinding(),
       transition: Transition.circularReveal,
     ),
   ];
