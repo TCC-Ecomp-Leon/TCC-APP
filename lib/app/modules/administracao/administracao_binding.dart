@@ -7,6 +7,7 @@ import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 class AdministracaoBinding implements Bindings {
   @override
   void dependencies() {
+    Get.put<CollectionsController>(CollectionsController());
     Get.lazyPut<LoginController>(() => LoginController());
     Get.lazyPut<AdministracaoController>(() => AdministracaoController());
   }

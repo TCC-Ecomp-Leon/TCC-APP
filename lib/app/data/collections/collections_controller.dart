@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:tcc_app/config/constants.dart';
 import 'package:tcc_app/models/CursoUniversitario.dart';
+import 'package:tcc_app/models/Materia.dart';
 import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Curso.dart';
@@ -150,6 +151,46 @@ class CollectionsController extends GetxController {
           .getItems()
           .map((e) => e.cursoUniversitario)
           .toList();
+
+  Projeto? obterProjeto(String id) {
+    ProjetoItem? projetoItem = _projetosCarregados.value.getItem(id);
+    if (projetoItem != null) return projetoItem.projeto;
+    return null;
+  }
+
+  Curso? obterCurso(String id, String? idProjeto) {
+    List<Curso> cursos = [];
+    if (idProjeto != null) {
+      Projeto? projeto = obterProjeto(idProjeto);
+      if (projeto == null) return null;
+
+      cursos = projeto.cursos;
+    } else {
+      List<ProjetoItem> projetosItems = _projetosCarregados.value.getItems();
+      List<Curso> cursos = [];
+      projetosItems.forEach((element) {
+        cursos = [...cursos, ...element.projeto.cursos];
+      });
+    }
+
+    final int indexOf = cursos.indexWhere((element) => element.id == id);
+    if (indexOf < 0) return null;
+
+    return cursos[indexOf];
+  }
+
+  Materia? obterMateira(String id, String idCurso, String? idProjeto) {
+    Curso? curso = obterCurso(idCurso, idProjeto);
+
+    if (curso == null) return null;
+
+    List<Materia> materias = curso.materias;
+
+    final int indexOf = materias.indexWhere((element) => element.id == id);
+    if (indexOf < 0) return null;
+
+    return materias[indexOf];
+  }
 }
 
 class UsuariosCarregados extends CollectionCarregada<UsuarioItem> {

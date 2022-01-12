@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/administracao/administracao_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/models/CodigoEntrada.dart';
+import 'package:tcc_app/models/Curso.dart';
+import 'package:tcc_app/models/Materia.dart';
+import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/dropdown.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
@@ -111,41 +115,55 @@ class AdministracaoView extends GetView<AdministracaoController> {
                             paddingRight: 0.0,
                             itens: controller.codigosDeEntrada,
                             render: (CodigoEntrada codigoEntrada, index) {
-                              return IconLabelDescriptionCard(
-                                value: IconLabelDescriptionCardProps(
-                                  base64Image: controller.projeto.imgProjeto,
-                                  label: codigoEntrada.tipo ==
-                                          TipoCodigoDeEntrada.Aluno
-                                      ? "Código Aluno"
-                                      : "Código Professor",
-                                  description: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.4,
-                                        child: Text(
-                                          loginController
-                                              .authInfo.projeto!.cursos
-                                              .firstWhere((element) =>
-                                                  element.id ==
-                                                  codigoEntrada.idCurso)
-                                              .nome,
+                              return InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return PopUpVisualizarCodigoDeEntrada(
+                                        codigoEntrada: codigoEntrada,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: IconLabelDescriptionCard(
+                                  value: IconLabelDescriptionCardProps(
+                                    base64Image: controller.projeto.imgProjeto,
+                                    label: codigoEntrada.tipo ==
+                                            TipoCodigoDeEntrada.Aluno
+                                        ? "Código Aluno"
+                                        : "Código Professor",
+                                    description: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: Text(
+                                            loginController
+                                                .authInfo.projeto!.cursos
+                                                .firstWhere((element) =>
+                                                    element.id ==
+                                                    codigoEntrada.idCurso)
+                                                .nome,
+                                            textScaleFactor: 0.6,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Gerado em: " +
+                                              diaComAno(
+                                                  codigoEntrada.geradoEm) +
+                                              " " +
+                                              horario(codigoEntrada.geradoEm),
                                           textScaleFactor: 0.6,
                                         ),
-                                      ),
-                                      Text(
-                                        "Gerado em: " +
-                                            diaComAno(codigoEntrada.geradoEm) +
-                                            " " +
-                                            horario(codigoEntrada.geradoEm),
-                                        textScaleFactor: 0.6,
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -435,6 +453,117 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
                     ),
         ),
       ),
+    );
+  }
+}
+
+class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
+  final CodigoEntrada codigoEntrada;
+  final loginController = Get.find<LoginController>();
+  Curso? curso;
+  Materia? materia;
+  PopUpVisualizarCodigoDeEntrada({required this.codigoEntrada, Key? key})
+      : super(key: key) {
+    Projeto projeto = loginController.authInfo.projeto!;
+
+    try {
+      curso = projeto.cursos
+          .firstWhere((element) => element.id == codigoEntrada.idCurso);
+    } catch (e) {}
+
+    if (codigoEntrada.idMateria != null && curso != null) {
+      try {
+        materia = curso!.materias
+            .firstWhere((element) => element.id == codigoEntrada.idMateria);
+      } catch (e) {}
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Código de entrada"),
+      content: SizedBox(
+          height: 400.0,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                codigoEntrada.tipo == TipoCodigoDeEntrada.Aluno
+                    ? "Código aluno"
+                    : "Código Professor",
+                style: const TextStyle(fontSize: 20.0),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Text(curso != null ? "Curso: " + curso!.nome : "Curso: ??"),
+              codigoEntrada.idMateria != null
+                  ? Text(
+                      materia != null
+                          ? "Matéria: " + materia!.nome
+                          : "Matéria: ??",
+                    )
+                  : Container(),
+              const SizedBox(
+                height: 10.0,
+              ),
+              QrImage(
+                data: codigoEntrada.id,
+                version: QrVersions.auto,
+                size: 200.0,
+                foregroundColor: Colors.white,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 200.0,
+                        child: Text(
+                          codigoEntrada.id,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Clipboard.setData(
+                            ClipboardData(
+                              text: codigoEntrada.id,
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.copy),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text("Fechar"),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(10.0),
+                  primary: Colors.white,
+                  backgroundColor: Colors.teal,
+                  onSurface: Colors.grey,
+                  textStyle: const TextStyle(fontSize: 17.0),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
