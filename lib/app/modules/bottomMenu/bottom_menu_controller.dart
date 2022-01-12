@@ -97,7 +97,7 @@ final List<BottomMenuPage> pages = [
     page: const Dummy(),
     label: "Administração",
     icon: const Icon(Icons.admin_panel_settings),
-    routeName: Routes.dummy,
+    routeName: Routes.administracao,
   ),
   BottomMenuPage(
     page: const Dummy(),

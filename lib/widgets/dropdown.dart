@@ -9,12 +9,14 @@ class DropDown<T> extends StatelessWidget {
   final OnChangeDropDown onChangeDropDown;
   final GetItemText getItemText;
   final int selectedIndex;
+  final Alignment alignment;
 
   const DropDown({
     required this.getItemText,
     required this.onChangeDropDown,
     required this.items,
     required this.selectedIndex,
+    this.alignment = Alignment.centerLeft,
     Key? key,
   }) : super(key: key);
 
@@ -22,12 +24,15 @@ class DropDown<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButton<int>(
       iconEnabledColor: Colors.black,
+      alignment: alignment,
       dropdownColor: Colors.white,
       underline: const SizedBox(
         height: 0.0,
       ),
       value: selectedIndex >= 0 ? selectedIndex : null,
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(
+        color: Colors.black,
+      ),
       items: items
           .mapIndexed(
             (e, index) => DropdownMenuItem<int>(
