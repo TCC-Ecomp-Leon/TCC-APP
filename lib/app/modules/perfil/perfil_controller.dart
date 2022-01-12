@@ -22,7 +22,7 @@ class PerfilController extends BottomMenuController {
   final Rx<bool> _modoEdicaoProjeto = false.obs;
   final Rx<bool> _loadingImagemProjeto = false.obs;
   final Rx<bool> _salvandoEdicaoProjeto = false.obs;
-  late RxList<CampoRegistro> _camposProjeto;
+  late RxList<dynamic> _camposProjeto;
 
   Future<void> _searchCep(String cep) async {
     print("pesquisa cep");
@@ -129,7 +129,7 @@ class PerfilController extends BottomMenuController {
             controller: TextEditingController(text: projeto.endereco.estado)),
       ].obs;
     } else {
-      _camposProjeto = ([] as List<CampoRegistro>).obs;
+      _camposProjeto = [].obs;
     }
   }
 
@@ -345,6 +345,7 @@ class PerfilController extends BottomMenuController {
   bool get modoEdicaoProjeto => _modoEdicaoProjeto.value;
 
   Projeto? get projetoEmEdicao => _projetoEdicao.value;
-  List<CampoRegistro> get camposProjeto => _camposProjeto.value;
+  List<CampoRegistro> get camposProjeto =>
+      _camposProjeto.value as List<CampoRegistro>;
   bool get salvandoEdicaoProjeto => _salvandoEdicaoProjeto.value;
 }

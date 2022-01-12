@@ -159,124 +159,135 @@ class PerfilView extends GetView<PerfilController> {
                           ),
                   ],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    controller.loadingImagemProjeto
-                        ? const Align(
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                              padding: EdgeInsets.all(30.0),
-                              child: Loading(
-                                  color: Colors.white, circleTimeSeconds: 5),
-                            ),
-                          )
-                        : CardOverlapImage(
-                            changeImage: controller.alterarImagemProjeto,
-                            base64image: controller.projetoEmEdicao!.imgProjeto,
-                            child: Text(
-                              controller.projetoEmEdicao!.nome,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
+                controller.projetoEmEdicao != null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 20,
                           ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    controller.salvandoEdicaoProjeto
-                        ? const Align(
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                              padding: EdgeInsets.all(30.0),
-                              child: Loading(
-                                  color: Colors.white, circleTimeSeconds: 5),
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              CardOverlapTitle(
-                                onClickEdit: controller.modoEdicaoProjeto
-                                    ? controller.cancelarEdicaoProjeto
-                                    : controller.entrarModoEdicaoProjeto,
-                                title: "Projeto",
-                                icon: controller.modoEdicaoProjeto
-                                    ? Icons.cancel
-                                    : Icons.edit,
-                                children: [
-                                  ...controller.camposProjeto
-                                      .mapIndexed(
-                                        (e, index) => ChangeEditableTextField(
-                                          label: e.label,
-                                          editable:
-                                              controller.modoEdicaoProjeto,
-                                          controller: e.controller,
-                                          onChange: () {
-                                            controller
-                                                .onChangeCampoProjeto(index);
-                                          },
-                                          errorMessage: e.errorMessage,
-                                        ),
-                                      )
-                                      .toList(),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
-                              controller.modoEdicaoProjeto
-                                  ? Align(
-                                      alignment: Alignment.center,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          TextButton(
-                                            onPressed: () => controller
-                                                .cancelarEdicaoProjeto(),
-                                            child: const Text("Cancelar"),
-                                            style: TextButton.styleFrom(
-                                              padding:
-                                                  const EdgeInsets.all(7.0),
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.redAccent,
-                                              onSurface: Colors.grey,
-                                              textStyle: const TextStyle(
-                                                  fontSize: 15.0),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10.0,
-                                          ),
-                                          TextButton(
-                                            onPressed: () => controller
-                                                .salvarEdicaoProjeto(),
-                                            child: const Text("Salvar"),
-                                            style: TextButton.styleFrom(
-                                              padding:
-                                                  const EdgeInsets.all(7.0),
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.green,
-                                              onSurface: Colors.grey,
-                                              textStyle: const TextStyle(
-                                                  fontSize: 15.0),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Container(),
-                            ],
+                          controller.loadingImagemProjeto
+                              ? const Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(30.0),
+                                    child: Loading(
+                                        color: Colors.white,
+                                        circleTimeSeconds: 5),
+                                  ),
+                                )
+                              : CardOverlapImage(
+                                  changeImage: controller.alterarImagemProjeto,
+                                  base64image:
+                                      controller.projetoEmEdicao!.imgProjeto,
+                                  child: Text(
+                                    controller.projetoEmEdicao!.nome,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                          const SizedBox(
+                            height: 10.0,
                           ),
-                  ],
-                ),
+                          controller.salvandoEdicaoProjeto
+                              ? const Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(30.0),
+                                    child: Loading(
+                                        color: Colors.white,
+                                        circleTimeSeconds: 5),
+                                  ),
+                                )
+                              : Column(
+                                  children: [
+                                    CardOverlapTitle(
+                                      onClickEdit: controller.modoEdicaoProjeto
+                                          ? controller.cancelarEdicaoProjeto
+                                          : controller.entrarModoEdicaoProjeto,
+                                      title: "Projeto",
+                                      icon: controller.modoEdicaoProjeto
+                                          ? Icons.cancel
+                                          : Icons.edit,
+                                      children: [
+                                        ...controller.camposProjeto
+                                            .mapIndexed(
+                                              (e, index) =>
+                                                  ChangeEditableTextField(
+                                                label: e.label,
+                                                editable: controller
+                                                    .modoEdicaoProjeto,
+                                                controller: e.controller,
+                                                onChange: () {
+                                                  controller
+                                                      .onChangeCampoProjeto(
+                                                          index);
+                                                },
+                                                errorMessage: e.errorMessage,
+                                              ),
+                                            )
+                                            .toList(),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    controller.modoEdicaoProjeto
+                                        ? Align(
+                                            alignment: Alignment.center,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                TextButton(
+                                                  onPressed: () => controller
+                                                      .cancelarEdicaoProjeto(),
+                                                  child: const Text("Cancelar"),
+                                                  style: TextButton.styleFrom(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            7.0),
+                                                    primary: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.redAccent,
+                                                    onSurface: Colors.grey,
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 15.0),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10.0,
+                                                ),
+                                                TextButton(
+                                                  onPressed: () => controller
+                                                      .salvarEdicaoProjeto(),
+                                                  child: const Text("Salvar"),
+                                                  style: TextButton.styleFrom(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            7.0),
+                                                    primary: Colors.white,
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    onSurface: Colors.grey,
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 15.0),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Container(),
+                                  ],
+                                ),
+                        ],
+                      )
+                    : Container(),
               ],
             ),
           ),
