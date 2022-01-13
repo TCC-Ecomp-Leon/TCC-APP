@@ -64,7 +64,7 @@ class LoginController extends GetxController {
     super.onInit();
   }
 
-  Future<void> usarTokenEmCache(int msTimeout) async {
+  Future<String?> usarTokenEmCache(int msTimeout) async {
     DateTime fimLimite = DateTime.now().add(Duration(milliseconds: msTimeout));
 
     AuthInfo? informacoesObtidas;
@@ -115,8 +115,12 @@ class LoginController extends GetxController {
       print(informacoesObtidas!.perfil);
       // ignore: avoid_print
       print(informacoesObtidas!.projeto);
-      avaliarEntrada(informacoesObtidas!);
+      if (_authInfo.value.authStatus == AuthStatus.Authenticated) {
+        box.write(Constants.authBoxKey, _authInfo.value.toJson());
+        return afterLoginRoute(box);
+      }
     }
+    return null;
   }
 
   TextEditingController email = TextEditingController();

@@ -17,7 +17,17 @@ class InitialController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loginController.usarTokenEmCache(splashSecondsTime * 1000);
+    tentativaReentradaComToken();
+  }
+
+  tentativaReentradaComToken() async {
+    String? nextPage =
+        await loginController.usarTokenEmCache(splashSecondsTime * 1000);
+    if (nextPage != null) {
+      Get.offAllNamed(nextPage);
+    } else {
+      Get.offAllNamed(navigateAfterSplashTime());
+    }
   }
 
   int get splashTime => splashSecondsTime;
