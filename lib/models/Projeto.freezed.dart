@@ -28,12 +28,12 @@ class _$ProjetoTearOff {
       String descricao,
       String email,
       int telefone,
-      DateTime requisicaoEntradaEm,
+      @DateTimeConverter() DateTime requisicaoEntradaEm,
       String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
-      DateTime? entradaEm,
+      @NullableDateTimeConverter() DateTime? entradaEm,
       List<Curso> cursos) {
     return _Projeto(
       id,
@@ -66,11 +66,13 @@ mixin _$Projeto {
   String get descricao => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   int get telefone => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get requisicaoEntradaEm => throw _privateConstructorUsedError;
   String get imgProjeto => throw _privateConstructorUsedError;
   Endereco get endereco => throw _privateConstructorUsedError;
   bool get aprovado => throw _privateConstructorUsedError;
   String? get idPerfilResponsavel => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get entradaEm => throw _privateConstructorUsedError;
   List<Curso> get cursos => throw _privateConstructorUsedError;
 
@@ -89,12 +91,12 @@ abstract class $ProjetoCopyWith<$Res> {
       String descricao,
       String email,
       int telefone,
-      DateTime requisicaoEntradaEm,
+      @DateTimeConverter() DateTime requisicaoEntradaEm,
       String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
-      DateTime? entradaEm,
+      @NullableDateTimeConverter() DateTime? entradaEm,
       List<Curso> cursos});
 
   $EnderecoCopyWith<$Res> get endereco;
@@ -194,12 +196,12 @@ abstract class _$ProjetoCopyWith<$Res> implements $ProjetoCopyWith<$Res> {
       String descricao,
       String email,
       int telefone,
-      DateTime requisicaoEntradaEm,
+      @DateTimeConverter() DateTime requisicaoEntradaEm,
       String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
-      DateTime? entradaEm,
+      @NullableDateTimeConverter() DateTime? entradaEm,
       List<Curso> cursos});
 
   @override
@@ -293,12 +295,12 @@ class _$_Projeto implements _Projeto {
       this.descricao,
       this.email,
       this.telefone,
-      this.requisicaoEntradaEm,
+      @DateTimeConverter() this.requisicaoEntradaEm,
       this.imgProjeto,
       this.endereco,
       this.aprovado,
       this.idPerfilResponsavel,
-      this.entradaEm,
+      @NullableDateTimeConverter() this.entradaEm,
       this.cursos);
 
   factory _$_Projeto.fromJson(Map<String, dynamic> json) =>
@@ -315,6 +317,7 @@ class _$_Projeto implements _Projeto {
   @override
   final int telefone;
   @override
+  @DateTimeConverter()
   final DateTime requisicaoEntradaEm;
   @override
   final String imgProjeto;
@@ -325,6 +328,7 @@ class _$_Projeto implements _Projeto {
   @override
   final String? idPerfilResponsavel;
   @override
+  @NullableDateTimeConverter()
   final DateTime? entradaEm;
   @override
   final List<Curso> cursos;
@@ -390,12 +394,12 @@ abstract class _Projeto implements Projeto {
       String descricao,
       String email,
       int telefone,
-      DateTime requisicaoEntradaEm,
+      @DateTimeConverter() DateTime requisicaoEntradaEm,
       String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
-      DateTime? entradaEm,
+      @NullableDateTimeConverter() DateTime? entradaEm,
       List<Curso> cursos) = _$_Projeto;
 
   factory _Projeto.fromJson(Map<String, dynamic> json) = _$_Projeto.fromJson;
@@ -411,6 +415,7 @@ abstract class _Projeto implements Projeto {
   @override
   int get telefone;
   @override
+  @DateTimeConverter()
   DateTime get requisicaoEntradaEm;
   @override
   String get imgProjeto;
@@ -421,6 +426,7 @@ abstract class _Projeto implements Projeto {
   @override
   String? get idPerfilResponsavel;
   @override
+  @NullableDateTimeConverter()
   DateTime? get entradaEm;
   @override
   List<Curso> get cursos;

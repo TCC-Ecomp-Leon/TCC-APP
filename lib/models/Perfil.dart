@@ -1,3 +1,4 @@
+import 'package:tcc_app/models/core/date_time_converter.dart';
 import './Curso.dart';
 import './Materia.dart';
 import './CursoUniversitario.dart';
@@ -14,7 +15,7 @@ abstract class Perfil with _$Perfil {
     String email,
     String nome,
     int telefone,
-    DateTime entradaEm,
+    @DateTimeConverter() DateTime entradaEm,
     String fotoPerfil,
     RegraPerfil regra,
     String? cpf,
@@ -100,7 +101,7 @@ abstract class InformacoesUniversitario with _$InformacoesUniversitario {
 abstract class InformacoesUniversitarioGraduacao with _$InformacoesUniversitarioGraduacao {
   @JsonSerializable(explicitToJson: true)
   const factory InformacoesUniversitarioGraduacao(
-    DateTime atualizadoEm,
+    @DateTimeConverter() DateTime atualizadoEm,
     CursoUniversitario curso,
   ) = _InformacoesUniversitarioGraduacao;
 

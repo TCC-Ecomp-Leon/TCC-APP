@@ -80,40 +80,42 @@ Map<String, dynamic> _$$_QuestaoDissertativaRespostaEsperadaToJson(
 _$_Atividade _$$_AtividadeFromJson(Map<String, dynamic> json) => _$_Atividade(
       json['id'] as String,
       json['nome'] as String,
-      DateTime.parse(json['criadoEm'] as String),
+      const DateTimeConverter().fromJson(json['criadoEm'] as String),
       json['idProjeto'] as String,
       json['idCurso'] as String,
       json['idMateria'] as String?,
       $enumDecode(_$TipoAtividadeEnumMap, json['tipoAtividade']),
-      DateTime.parse(json['aberturaRespostas'] as String),
-      DateTime.parse(json['fechamentoRespostas'] as String),
+      const DateTimeConverter().fromJson(json['aberturaRespostas'] as String),
+      const DateTimeConverter().fromJson(json['fechamentoRespostas'] as String),
       (json['assuntos'] as List<dynamic>?)?.map((e) => e as String).toList(),
       (json['tempoColaboracao'] as num?)?.toDouble(),
       (json['notaReferencia'] as num?)?.toDouble(),
       (json['itens'] as List<dynamic>?)
           ?.map((e) => AtividadeItens.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['fechamentoCorrecoes'] == null
-          ? null
-          : DateTime.parse(json['fechamentoCorrecoes'] as String),
+      const NullableDateTimeConverter()
+          .fromJson(json['fechamentoCorrecoes'] as String?),
     );
 
 Map<String, dynamic> _$$_AtividadeToJson(_$_Atividade instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nome': instance.nome,
-      'criadoEm': instance.criadoEm.toIso8601String(),
+      'criadoEm': const DateTimeConverter().toJson(instance.criadoEm),
       'idProjeto': instance.idProjeto,
       'idCurso': instance.idCurso,
       'idMateria': instance.idMateria,
       'tipoAtividade': _$TipoAtividadeEnumMap[instance.tipoAtividade],
-      'aberturaRespostas': instance.aberturaRespostas.toIso8601String(),
-      'fechamentoRespostas': instance.fechamentoRespostas.toIso8601String(),
+      'aberturaRespostas':
+          const DateTimeConverter().toJson(instance.aberturaRespostas),
+      'fechamentoRespostas':
+          const DateTimeConverter().toJson(instance.fechamentoRespostas),
       'assuntos': instance.assuntos,
       'tempoColaboracao': instance.tempoColaboracao,
       'notaReferencia': instance.notaReferencia,
       'itens': instance.itens?.map((e) => e.toJson()).toList(),
-      'fechamentoCorrecoes': instance.fechamentoCorrecoes?.toIso8601String(),
+      'fechamentoCorrecoes': const NullableDateTimeConverter()
+          .toJson(instance.fechamentoCorrecoes),
     };
 
 const _$TipoAtividadeEnumMap = {

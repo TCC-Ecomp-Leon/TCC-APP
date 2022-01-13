@@ -1,3 +1,4 @@
+import 'package:tcc_app/models/core/date_time_converter.dart';
 import './Atividade.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -10,7 +11,7 @@ abstract class RespostaAtividade with _$RespostaAtividade {
   const factory RespostaAtividade(
     String id,
     String idAtividade,
-    DateTime respondidoEm,
+    @DateTimeConverter() DateTime respondidoEm,
     String idProjeto,
     String? idCurso,
     String? idMateria,
@@ -21,17 +22,17 @@ abstract class RespostaAtividade with _$RespostaAtividade {
     bool? encerrada,
     String? nota,
     bool? corrigida,
-    DateTime? horarioCorrecao,
+    @NullableDateTimeConverter() DateTime? horarioCorrecao,
     String? idPerfilCorrecao,
     CorrecaoDissertativa? correcaoQuestao,
     EstadoRevisao? revisao,
-    DateTime? revisaoRequisitadaEm,
-    DateTime? revisaoAtendidaEm,
+    @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+    @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
     CorrecaoDissertativa? revisaoQuestoes,
     double? notaRevisao,
     double? notaAnteriorRevisao,
     bool? avaliada,
-    DateTime? avaliadaEm,
+    @NullableDateTimeConverter() DateTime? avaliadaEm,
     String? avaliadaPor,
     List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
     String? comentario,

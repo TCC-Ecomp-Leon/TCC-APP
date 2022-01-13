@@ -11,7 +11,7 @@ _$_Perfil _$$_PerfilFromJson(Map<String, dynamic> json) => _$_Perfil(
       json['email'] as String,
       json['nome'] as String,
       json['telefone'] as int,
-      DateTime.parse(json['entradaEm'] as String),
+      const DateTimeConverter().fromJson(json['entradaEm'] as String),
       json['fotoPerfil'] as String,
       $enumDecode(_$RegraPerfilEnumMap, json['regra']),
       json['cpf'] as String?,
@@ -30,7 +30,7 @@ Map<String, dynamic> _$$_PerfilToJson(_$_Perfil instance) => <String, dynamic>{
       'email': instance.email,
       'nome': instance.nome,
       'telefone': instance.telefone,
-      'entradaEm': instance.entradaEm.toIso8601String(),
+      'entradaEm': const DateTimeConverter().toJson(instance.entradaEm),
       'fotoPerfil': instance.fotoPerfil,
       'regra': _$RegraPerfilEnumMap[instance.regra],
       'cpf': instance.cpf,
@@ -115,14 +115,14 @@ Map<String, dynamic> _$$_InformacoesUniversitarioToJson(
 _$_InformacoesUniversitarioGraduacao
     _$$_InformacoesUniversitarioGraduacaoFromJson(Map<String, dynamic> json) =>
         _$_InformacoesUniversitarioGraduacao(
-          DateTime.parse(json['atualizadoEm'] as String),
+          const DateTimeConverter().fromJson(json['atualizadoEm'] as String),
           CursoUniversitario.fromJson(json['curso'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$_InformacoesUniversitarioGraduacaoToJson(
         _$_InformacoesUniversitarioGraduacao instance) =>
     <String, dynamic>{
-      'atualizadoEm': instance.atualizadoEm.toIso8601String(),
+      'atualizadoEm': const DateTimeConverter().toJson(instance.atualizadoEm),
       'curso': instance.curso.toJson(),
     };
 

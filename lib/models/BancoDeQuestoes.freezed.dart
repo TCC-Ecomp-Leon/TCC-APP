@@ -24,7 +24,7 @@ class _$BancoDeQuestoesTearOff {
 
   _BancoDeQuestoes call(
       String id,
-      DateTime criadoEm,
+      @DateTimeConverter() DateTime criadoEm,
       String idProjeto,
       String idCurso,
       String? idMateria,
@@ -52,6 +52,7 @@ const $BancoDeQuestoes = _$BancoDeQuestoesTearOff();
 /// @nodoc
 mixin _$BancoDeQuestoes {
   String get id => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get criadoEm => throw _privateConstructorUsedError;
   String get idProjeto => throw _privateConstructorUsedError;
   String get idCurso => throw _privateConstructorUsedError;
@@ -72,7 +73,7 @@ abstract class $BancoDeQuestoesCopyWith<$Res> {
       _$BancoDeQuestoesCopyWithImpl<$Res>;
   $Res call(
       {String id,
-      DateTime criadoEm,
+      @DateTimeConverter() DateTime criadoEm,
       String idProjeto,
       String idCurso,
       String? idMateria,
@@ -150,7 +151,7 @@ abstract class _$BancoDeQuestoesCopyWith<$Res>
   @override
   $Res call(
       {String id,
-      DateTime criadoEm,
+      @DateTimeConverter() DateTime criadoEm,
       String idProjeto,
       String idCurso,
       String? idMateria,
@@ -219,8 +220,14 @@ class __$BancoDeQuestoesCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$_BancoDeQuestoes implements _BancoDeQuestoes {
-  const _$_BancoDeQuestoes(this.id, this.criadoEm, this.idProjeto, this.idCurso,
-      this.idMateria, this.questao, this.assuntos);
+  const _$_BancoDeQuestoes(
+      this.id,
+      @DateTimeConverter() this.criadoEm,
+      this.idProjeto,
+      this.idCurso,
+      this.idMateria,
+      this.questao,
+      this.assuntos);
 
   factory _$_BancoDeQuestoes.fromJson(Map<String, dynamic> json) =>
       _$$_BancoDeQuestoesFromJson(json);
@@ -228,6 +235,7 @@ class _$_BancoDeQuestoes implements _BancoDeQuestoes {
   @override
   final String id;
   @override
+  @DateTimeConverter()
   final DateTime criadoEm;
   @override
   final String idProjeto;
@@ -284,7 +292,7 @@ class _$_BancoDeQuestoes implements _BancoDeQuestoes {
 abstract class _BancoDeQuestoes implements BancoDeQuestoes {
   const factory _BancoDeQuestoes(
       String id,
-      DateTime criadoEm,
+      @DateTimeConverter() DateTime criadoEm,
       String idProjeto,
       String idCurso,
       String? idMateria,
@@ -297,6 +305,7 @@ abstract class _BancoDeQuestoes implements BancoDeQuestoes {
   @override
   String get id;
   @override
+  @DateTimeConverter()
   DateTime get criadoEm;
   @override
   String get idProjeto;

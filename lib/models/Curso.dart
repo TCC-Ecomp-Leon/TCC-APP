@@ -1,3 +1,4 @@
+import 'package:tcc_app/models/core/date_time_converter.dart';
 import './Materia.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,9 +13,9 @@ abstract class Curso with _$Curso {
     String idProjeto,
     String nome,
     String descricao,
-    DateTime inicioCurso,
-    DateTime fimCurso,
-    DateTime atualizadoEm,
+    @DateTimeConverter() DateTime inicioCurso,
+    @DateTimeConverter() DateTime fimCurso,
+    @DateTimeConverter() DateTime atualizadoEm,
     List<String> turma,
     List<Materia> materias,
   ) = _Curso;

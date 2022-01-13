@@ -10,7 +10,7 @@ _$_RespostaAtividade _$$_RespostaAtividadeFromJson(Map<String, dynamic> json) =>
     _$_RespostaAtividade(
       json['id'] as String,
       json['idAtividade'] as String,
-      DateTime.parse(json['respondidoEm'] as String),
+      const DateTimeConverter().fromJson(json['respondidoEm'] as String),
       json['idProjeto'] as String,
       json['idCurso'] as String?,
       json['idMateria'] as String?,
@@ -24,21 +24,18 @@ _$_RespostaAtividade _$$_RespostaAtividadeFromJson(Map<String, dynamic> json) =>
       json['encerrada'] as bool?,
       json['nota'] as String?,
       json['corrigida'] as bool?,
-      json['horarioCorrecao'] == null
-          ? null
-          : DateTime.parse(json['horarioCorrecao'] as String),
+      const NullableDateTimeConverter()
+          .fromJson(json['horarioCorrecao'] as String?),
       json['idPerfilCorrecao'] as String?,
       json['correcaoQuestao'] == null
           ? null
           : CorrecaoDissertativa.fromJson(
               json['correcaoQuestao'] as Map<String, dynamic>),
       $enumDecodeNullable(_$EstadoRevisaoEnumMap, json['revisao']),
-      json['revisaoRequisitadaEm'] == null
-          ? null
-          : DateTime.parse(json['revisaoRequisitadaEm'] as String),
-      json['revisaoAtendidaEm'] == null
-          ? null
-          : DateTime.parse(json['revisaoAtendidaEm'] as String),
+      const NullableDateTimeConverter()
+          .fromJson(json['revisaoRequisitadaEm'] as String?),
+      const NullableDateTimeConverter()
+          .fromJson(json['revisaoAtendidaEm'] as String?),
       json['revisaoQuestoes'] == null
           ? null
           : CorrecaoDissertativa.fromJson(
@@ -46,9 +43,7 @@ _$_RespostaAtividade _$$_RespostaAtividadeFromJson(Map<String, dynamic> json) =>
       (json['notaRevisao'] as num?)?.toDouble(),
       (json['notaAnteriorRevisao'] as num?)?.toDouble(),
       json['avaliada'] as bool?,
-      json['avaliadaEm'] == null
-          ? null
-          : DateTime.parse(json['avaliadaEm'] as String),
+      const NullableDateTimeConverter().fromJson(json['avaliadaEm'] as String?),
       json['avaliadaPor'] as String?,
       (json['avaliacaoQuestoes'] as List<dynamic>?)
           ?.map((e) => RespostaAtividadeAvaliacaoBanco.fromJson(
@@ -62,7 +57,7 @@ Map<String, dynamic> _$$_RespostaAtividadeToJson(
     <String, dynamic>{
       'id': instance.id,
       'idAtividade': instance.idAtividade,
-      'respondidoEm': instance.respondidoEm.toIso8601String(),
+      'respondidoEm': const DateTimeConverter().toJson(instance.respondidoEm),
       'idProjeto': instance.idProjeto,
       'idCurso': instance.idCurso,
       'idMateria': instance.idMateria,
@@ -73,17 +68,21 @@ Map<String, dynamic> _$$_RespostaAtividadeToJson(
       'encerrada': instance.encerrada,
       'nota': instance.nota,
       'corrigida': instance.corrigida,
-      'horarioCorrecao': instance.horarioCorrecao?.toIso8601String(),
+      'horarioCorrecao':
+          const NullableDateTimeConverter().toJson(instance.horarioCorrecao),
       'idPerfilCorrecao': instance.idPerfilCorrecao,
       'correcaoQuestao': instance.correcaoQuestao?.toJson(),
       'revisao': _$EstadoRevisaoEnumMap[instance.revisao],
-      'revisaoRequisitadaEm': instance.revisaoRequisitadaEm?.toIso8601String(),
-      'revisaoAtendidaEm': instance.revisaoAtendidaEm?.toIso8601String(),
+      'revisaoRequisitadaEm': const NullableDateTimeConverter()
+          .toJson(instance.revisaoRequisitadaEm),
+      'revisaoAtendidaEm':
+          const NullableDateTimeConverter().toJson(instance.revisaoAtendidaEm),
       'revisaoQuestoes': instance.revisaoQuestoes?.toJson(),
       'notaRevisao': instance.notaRevisao,
       'notaAnteriorRevisao': instance.notaAnteriorRevisao,
       'avaliada': instance.avaliada,
-      'avaliadaEm': instance.avaliadaEm?.toIso8601String(),
+      'avaliadaEm':
+          const NullableDateTimeConverter().toJson(instance.avaliadaEm),
       'avaliadaPor': instance.avaliadaPor,
       'avaliacaoQuestoes':
           instance.avaliacaoQuestoes?.map((e) => e.toJson()).toList(),

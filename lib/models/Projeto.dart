@@ -1,3 +1,4 @@
+import 'package:tcc_app/models/core/date_time_converter.dart';
 import './Curso.dart';
 import './Endereco.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,12 +15,12 @@ abstract class Projeto with _$Projeto {
     String descricao,
     String email,
     int telefone,
-    DateTime requisicaoEntradaEm,
+    @DateTimeConverter() DateTime requisicaoEntradaEm,
     String imgProjeto,
     Endereco endereco,
     bool aprovado,
     String? idPerfilResponsavel,
-    DateTime? entradaEm,
+    @NullableDateTimeConverter() DateTime? entradaEm,
     List<Curso> cursos,
   ) = _Projeto;
 

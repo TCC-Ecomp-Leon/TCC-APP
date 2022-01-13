@@ -35,13 +35,13 @@ Map<String, dynamic> _$$_DuvidaToJson(_$_Duvida instance) => <String, dynamic>{
 _$_DuvidaMensagem _$$_DuvidaMensagemFromJson(Map<String, dynamic> json) =>
     _$_DuvidaMensagem(
       json['idPerfil'] as String,
-      DateTime.parse(json['horario'] as String),
+      const DateTimeConverter().fromJson(json['horario'] as String),
       json['mensagem'] as String,
     );
 
 Map<String, dynamic> _$$_DuvidaMensagemToJson(_$_DuvidaMensagem instance) =>
     <String, dynamic>{
       'idPerfil': instance.idPerfil,
-      'horario': instance.horario.toIso8601String(),
+      'horario': const DateTimeConverter().toJson(instance.horario),
       'mensagem': instance.mensagem,
     };

@@ -27,7 +27,7 @@ class _$PerfilTearOff {
       String email,
       String nome,
       int telefone,
-      DateTime entradaEm,
+      @DateTimeConverter() DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
       String? cpf,
@@ -61,6 +61,7 @@ mixin _$Perfil {
   String get email => throw _privateConstructorUsedError;
   String get nome => throw _privateConstructorUsedError;
   int get telefone => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get entradaEm => throw _privateConstructorUsedError;
   String get fotoPerfil => throw _privateConstructorUsedError;
   RegraPerfil get regra => throw _privateConstructorUsedError;
@@ -83,7 +84,7 @@ abstract class $PerfilCopyWith<$Res> {
       String email,
       String nome,
       int telefone,
-      DateTime entradaEm,
+      @DateTimeConverter() DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
       String? cpf,
@@ -193,7 +194,7 @@ abstract class _$PerfilCopyWith<$Res> implements $PerfilCopyWith<$Res> {
       String email,
       String nome,
       int telefone,
-      DateTime entradaEm,
+      @DateTimeConverter() DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
       String? cpf,
@@ -282,7 +283,7 @@ class _$_Perfil implements _Perfil {
       this.email,
       this.nome,
       this.telefone,
-      this.entradaEm,
+      @DateTimeConverter() this.entradaEm,
       this.fotoPerfil,
       this.regra,
       this.cpf,
@@ -301,6 +302,7 @@ class _$_Perfil implements _Perfil {
   @override
   final int telefone;
   @override
+  @DateTimeConverter()
   final DateTime entradaEm;
   @override
   final String fotoPerfil;
@@ -369,7 +371,7 @@ abstract class _Perfil implements Perfil {
       String email,
       String nome,
       int telefone,
-      DateTime entradaEm,
+      @DateTimeConverter() DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
       String? cpf,
@@ -387,6 +389,7 @@ abstract class _Perfil implements Perfil {
   @override
   int get telefone;
   @override
+  @DateTimeConverter()
   DateTime get entradaEm;
   @override
   String get fotoPerfil;
@@ -1198,7 +1201,7 @@ class _$InformacoesUniversitarioGraduacaoTearOff {
   const _$InformacoesUniversitarioGraduacaoTearOff();
 
   _InformacoesUniversitarioGraduacao call(
-      DateTime atualizadoEm, CursoUniversitario curso) {
+      @DateTimeConverter() DateTime atualizadoEm, CursoUniversitario curso) {
     return _InformacoesUniversitarioGraduacao(
       atualizadoEm,
       curso,
@@ -1216,6 +1219,7 @@ const $InformacoesUniversitarioGraduacao =
 
 /// @nodoc
 mixin _$InformacoesUniversitarioGraduacao {
+  @DateTimeConverter()
   DateTime get atualizadoEm => throw _privateConstructorUsedError;
   CursoUniversitario get curso => throw _privateConstructorUsedError;
 
@@ -1231,7 +1235,8 @@ abstract class $InformacoesUniversitarioGraduacaoCopyWith<$Res> {
           InformacoesUniversitarioGraduacao value,
           $Res Function(InformacoesUniversitarioGraduacao) then) =
       _$InformacoesUniversitarioGraduacaoCopyWithImpl<$Res>;
-  $Res call({DateTime atualizadoEm, CursoUniversitario curso});
+  $Res call(
+      {@DateTimeConverter() DateTime atualizadoEm, CursoUniversitario curso});
 
   $CursoUniversitarioCopyWith<$Res> get curso;
 }
@@ -1278,7 +1283,8 @@ abstract class _$InformacoesUniversitarioGraduacaoCopyWith<$Res>
           $Res Function(_InformacoesUniversitarioGraduacao) then) =
       __$InformacoesUniversitarioGraduacaoCopyWithImpl<$Res>;
   @override
-  $Res call({DateTime atualizadoEm, CursoUniversitario curso});
+  $Res call(
+      {@DateTimeConverter() DateTime atualizadoEm, CursoUniversitario curso});
 
   @override
   $CursoUniversitarioCopyWith<$Res> get curso;
@@ -1320,13 +1326,15 @@ class __$InformacoesUniversitarioGraduacaoCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_InformacoesUniversitarioGraduacao
     implements _InformacoesUniversitarioGraduacao {
-  const _$_InformacoesUniversitarioGraduacao(this.atualizadoEm, this.curso);
+  const _$_InformacoesUniversitarioGraduacao(
+      @DateTimeConverter() this.atualizadoEm, this.curso);
 
   factory _$_InformacoesUniversitarioGraduacao.fromJson(
           Map<String, dynamic> json) =>
       _$$_InformacoesUniversitarioGraduacaoFromJson(json);
 
   @override
+  @DateTimeConverter()
   final DateTime atualizadoEm;
   @override
   final CursoUniversitario curso;
@@ -1368,14 +1376,15 @@ class _$_InformacoesUniversitarioGraduacao
 abstract class _InformacoesUniversitarioGraduacao
     implements InformacoesUniversitarioGraduacao {
   const factory _InformacoesUniversitarioGraduacao(
-          DateTime atualizadoEm, CursoUniversitario curso) =
-      _$_InformacoesUniversitarioGraduacao;
+      @DateTimeConverter() DateTime atualizadoEm,
+      CursoUniversitario curso) = _$_InformacoesUniversitarioGraduacao;
 
   factory _InformacoesUniversitarioGraduacao.fromJson(
           Map<String, dynamic> json) =
       _$_InformacoesUniversitarioGraduacao.fromJson;
 
   @override
+  @DateTimeConverter()
   DateTime get atualizadoEm;
   @override
   CursoUniversitario get curso;

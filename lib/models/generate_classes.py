@@ -3,6 +3,22 @@ import os
 
 os.chdir('./lib/models')
 
+def add_date_converter(processed_input):
+    processed_output = processed_input
+    need_import = False
+    search_date = processed_input.split("DateTime ")
+    if(len(search_date)>1):
+        need_import = True
+        processed_output = "@DateTimeConverter() DateTime ".join(search_date)
+    search_nullable_date = processed_output.split("DateTime? ")
+    if(len(search_nullable_date)>1):
+        need_import = True
+        processed_output = "@NullableDateTimeConverter() DateTime? ".join(search_nullable_date)
+    if(need_import):
+        processed_output = "import 'package:tcc_app/models/core/date_time_converter.dart';\n" + processed_output
+    return processed_output
+
+
 def criador_class_freezed(class_name, fields):
     ret = '\n@freezed\n'
     ret = ret + 'abstract class '+class_name+' with _$'+class_name+' {\n'
@@ -48,7 +64,7 @@ def arquivo_freezed(nome_arquivo, classes, imports, enums):
             texto_conversor = texto_conversor + '}\n'
         conteudo = conteudo + '\n' + texto_conversor + '\n'
     with open(nome_arquivo+'.dart', 'w') as f:
-        f.write(conteudo)
+        f.write(add_date_converter(conteudo))
 
 
 parametros_localizacao = [

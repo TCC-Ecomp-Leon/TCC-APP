@@ -1,3 +1,4 @@
+import 'package:tcc_app/models/core/date_time_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'Duvida.freezed.dart';
@@ -31,7 +32,7 @@ abstract class DuvidaMensagem with _$DuvidaMensagem {
   @JsonSerializable(explicitToJson: true)
   const factory DuvidaMensagem(
     String idPerfil,
-    DateTime horario,
+    @DateTimeConverter() DateTime horario,
     String mensagem,
   ) = _DuvidaMensagem;
 

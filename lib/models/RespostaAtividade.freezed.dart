@@ -25,7 +25,7 @@ class _$RespostaAtividadeTearOff {
   _RespostaAtividade call(
       String id,
       String idAtividade,
-      DateTime respondidoEm,
+      @DateTimeConverter() DateTime respondidoEm,
       String idProjeto,
       String? idCurso,
       String? idMateria,
@@ -36,17 +36,17 @@ class _$RespostaAtividadeTearOff {
       bool? encerrada,
       String? nota,
       bool? corrigida,
-      DateTime? horarioCorrecao,
+      @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
       CorrecaoDissertativa? correcaoQuestao,
       EstadoRevisao? revisao,
-      DateTime? revisaoRequisitadaEm,
-      DateTime? revisaoAtendidaEm,
+      @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+      @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
       CorrecaoDissertativa? revisaoQuestoes,
       double? notaRevisao,
       double? notaAnteriorRevisao,
       bool? avaliada,
-      DateTime? avaliadaEm,
+      @NullableDateTimeConverter() DateTime? avaliadaEm,
       String? avaliadaPor,
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario) {
@@ -93,6 +93,7 @@ const $RespostaAtividade = _$RespostaAtividadeTearOff();
 mixin _$RespostaAtividade {
   String get id => throw _privateConstructorUsedError;
   String get idAtividade => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get respondidoEm => throw _privateConstructorUsedError;
   String get idProjeto => throw _privateConstructorUsedError;
   String? get idCurso => throw _privateConstructorUsedError;
@@ -105,18 +106,22 @@ mixin _$RespostaAtividade {
   bool? get encerrada => throw _privateConstructorUsedError;
   String? get nota => throw _privateConstructorUsedError;
   bool? get corrigida => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get horarioCorrecao => throw _privateConstructorUsedError;
   String? get idPerfilCorrecao => throw _privateConstructorUsedError;
   CorrecaoDissertativa? get correcaoQuestao =>
       throw _privateConstructorUsedError;
   EstadoRevisao? get revisao => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get revisaoRequisitadaEm => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get revisaoAtendidaEm => throw _privateConstructorUsedError;
   CorrecaoDissertativa? get revisaoQuestoes =>
       throw _privateConstructorUsedError;
   double? get notaRevisao => throw _privateConstructorUsedError;
   double? get notaAnteriorRevisao => throw _privateConstructorUsedError;
   bool? get avaliada => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get avaliadaEm => throw _privateConstructorUsedError;
   String? get avaliadaPor => throw _privateConstructorUsedError;
   List<RespostaAtividadeAvaliacaoBanco>? get avaliacaoQuestoes =>
@@ -137,7 +142,7 @@ abstract class $RespostaAtividadeCopyWith<$Res> {
   $Res call(
       {String id,
       String idAtividade,
-      DateTime respondidoEm,
+      @DateTimeConverter() DateTime respondidoEm,
       String idProjeto,
       String? idCurso,
       String? idMateria,
@@ -148,17 +153,17 @@ abstract class $RespostaAtividadeCopyWith<$Res> {
       bool? encerrada,
       String? nota,
       bool? corrigida,
-      DateTime? horarioCorrecao,
+      @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
       CorrecaoDissertativa? correcaoQuestao,
       EstadoRevisao? revisao,
-      DateTime? revisaoRequisitadaEm,
-      DateTime? revisaoAtendidaEm,
+      @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+      @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
       CorrecaoDissertativa? revisaoQuestoes,
       double? notaRevisao,
       double? notaAnteriorRevisao,
       bool? avaliada,
-      DateTime? avaliadaEm,
+      @NullableDateTimeConverter() DateTime? avaliadaEm,
       String? avaliadaPor,
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario});
@@ -353,7 +358,7 @@ abstract class _$RespostaAtividadeCopyWith<$Res>
   $Res call(
       {String id,
       String idAtividade,
-      DateTime respondidoEm,
+      @DateTimeConverter() DateTime respondidoEm,
       String idProjeto,
       String? idCurso,
       String? idMateria,
@@ -364,17 +369,17 @@ abstract class _$RespostaAtividadeCopyWith<$Res>
       bool? encerrada,
       String? nota,
       bool? corrigida,
-      DateTime? horarioCorrecao,
+      @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
       CorrecaoDissertativa? correcaoQuestao,
       EstadoRevisao? revisao,
-      DateTime? revisaoRequisitadaEm,
-      DateTime? revisaoAtendidaEm,
+      @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+      @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
       CorrecaoDissertativa? revisaoQuestoes,
       double? notaRevisao,
       double? notaAnteriorRevisao,
       bool? avaliada,
-      DateTime? avaliadaEm,
+      @NullableDateTimeConverter() DateTime? avaliadaEm,
       String? avaliadaPor,
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario});
@@ -546,7 +551,7 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   const _$_RespostaAtividade(
       this.id,
       this.idAtividade,
-      this.respondidoEm,
+      @DateTimeConverter() this.respondidoEm,
       this.idProjeto,
       this.idCurso,
       this.idMateria,
@@ -557,17 +562,17 @@ class _$_RespostaAtividade implements _RespostaAtividade {
       this.encerrada,
       this.nota,
       this.corrigida,
-      this.horarioCorrecao,
+      @NullableDateTimeConverter() this.horarioCorrecao,
       this.idPerfilCorrecao,
       this.correcaoQuestao,
       this.revisao,
-      this.revisaoRequisitadaEm,
-      this.revisaoAtendidaEm,
+      @NullableDateTimeConverter() this.revisaoRequisitadaEm,
+      @NullableDateTimeConverter() this.revisaoAtendidaEm,
       this.revisaoQuestoes,
       this.notaRevisao,
       this.notaAnteriorRevisao,
       this.avaliada,
-      this.avaliadaEm,
+      @NullableDateTimeConverter() this.avaliadaEm,
       this.avaliadaPor,
       this.avaliacaoQuestoes,
       this.comentario);
@@ -580,6 +585,7 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final String idAtividade;
   @override
+  @DateTimeConverter()
   final DateTime respondidoEm;
   @override
   final String idProjeto;
@@ -602,6 +608,7 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final bool? corrigida;
   @override
+  @NullableDateTimeConverter()
   final DateTime? horarioCorrecao;
   @override
   final String? idPerfilCorrecao;
@@ -610,8 +617,10 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final EstadoRevisao? revisao;
   @override
+  @NullableDateTimeConverter()
   final DateTime? revisaoRequisitadaEm;
   @override
+  @NullableDateTimeConverter()
   final DateTime? revisaoAtendidaEm;
   @override
   final CorrecaoDissertativa? revisaoQuestoes;
@@ -622,6 +631,7 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final bool? avaliada;
   @override
+  @NullableDateTimeConverter()
   final DateTime? avaliadaEm;
   @override
   final String? avaliadaPor;
@@ -731,7 +741,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   const factory _RespostaAtividade(
       String id,
       String idAtividade,
-      DateTime respondidoEm,
+      @DateTimeConverter() DateTime respondidoEm,
       String idProjeto,
       String? idCurso,
       String? idMateria,
@@ -742,17 +752,17 @@ abstract class _RespostaAtividade implements RespostaAtividade {
       bool? encerrada,
       String? nota,
       bool? corrigida,
-      DateTime? horarioCorrecao,
+      @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
       CorrecaoDissertativa? correcaoQuestao,
       EstadoRevisao? revisao,
-      DateTime? revisaoRequisitadaEm,
-      DateTime? revisaoAtendidaEm,
+      @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+      @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
       CorrecaoDissertativa? revisaoQuestoes,
       double? notaRevisao,
       double? notaAnteriorRevisao,
       bool? avaliada,
-      DateTime? avaliadaEm,
+      @NullableDateTimeConverter() DateTime? avaliadaEm,
       String? avaliadaPor,
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario) = _$_RespostaAtividade;
@@ -765,6 +775,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   String get idAtividade;
   @override
+  @DateTimeConverter()
   DateTime get respondidoEm;
   @override
   String get idProjeto;
@@ -787,6 +798,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   bool? get corrigida;
   @override
+  @NullableDateTimeConverter()
   DateTime? get horarioCorrecao;
   @override
   String? get idPerfilCorrecao;
@@ -795,8 +807,10 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   EstadoRevisao? get revisao;
   @override
+  @NullableDateTimeConverter()
   DateTime? get revisaoRequisitadaEm;
   @override
+  @NullableDateTimeConverter()
   DateTime? get revisaoAtendidaEm;
   @override
   CorrecaoDissertativa? get revisaoQuestoes;
@@ -807,6 +821,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   bool? get avaliada;
   @override
+  @NullableDateTimeConverter()
   DateTime? get avaliadaEm;
   @override
   String? get avaliadaPor;

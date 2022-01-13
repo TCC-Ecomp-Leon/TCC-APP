@@ -25,9 +25,9 @@ class _$CodigoEntradaTearOff {
   _CodigoEntrada call(
       String id,
       String idProjeto,
-      DateTime geradoEm,
+      @DateTimeConverter() DateTime geradoEm,
       bool usado,
-      DateTime? usadoEm,
+      @NullableDateTimeConverter() DateTime? usadoEm,
       String? idPerfilUsou,
       TipoCodigoDeEntrada tipo,
       String idCurso,
@@ -57,8 +57,10 @@ const $CodigoEntrada = _$CodigoEntradaTearOff();
 mixin _$CodigoEntrada {
   String get id => throw _privateConstructorUsedError;
   String get idProjeto => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get geradoEm => throw _privateConstructorUsedError;
   bool get usado => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get usadoEm => throw _privateConstructorUsedError;
   String? get idPerfilUsou => throw _privateConstructorUsedError;
   TipoCodigoDeEntrada get tipo => throw _privateConstructorUsedError;
@@ -79,9 +81,9 @@ abstract class $CodigoEntradaCopyWith<$Res> {
   $Res call(
       {String id,
       String idProjeto,
-      DateTime geradoEm,
+      @DateTimeConverter() DateTime geradoEm,
       bool usado,
-      DateTime? usadoEm,
+      @NullableDateTimeConverter() DateTime? usadoEm,
       String? idPerfilUsou,
       TipoCodigoDeEntrada tipo,
       String idCurso,
@@ -160,9 +162,9 @@ abstract class _$CodigoEntradaCopyWith<$Res>
   $Res call(
       {String id,
       String idProjeto,
-      DateTime geradoEm,
+      @DateTimeConverter() DateTime geradoEm,
       bool usado,
-      DateTime? usadoEm,
+      @NullableDateTimeConverter() DateTime? usadoEm,
       String? idPerfilUsou,
       TipoCodigoDeEntrada tipo,
       String idCurso,
@@ -237,8 +239,16 @@ class __$CodigoEntradaCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$_CodigoEntrada implements _CodigoEntrada {
-  const _$_CodigoEntrada(this.id, this.idProjeto, this.geradoEm, this.usado,
-      this.usadoEm, this.idPerfilUsou, this.tipo, this.idCurso, this.idMateria);
+  const _$_CodigoEntrada(
+      this.id,
+      this.idProjeto,
+      @DateTimeConverter() this.geradoEm,
+      this.usado,
+      @NullableDateTimeConverter() this.usadoEm,
+      this.idPerfilUsou,
+      this.tipo,
+      this.idCurso,
+      this.idMateria);
 
   factory _$_CodigoEntrada.fromJson(Map<String, dynamic> json) =>
       _$$_CodigoEntradaFromJson(json);
@@ -248,10 +258,12 @@ class _$_CodigoEntrada implements _CodigoEntrada {
   @override
   final String idProjeto;
   @override
+  @DateTimeConverter()
   final DateTime geradoEm;
   @override
   final bool usado;
   @override
+  @NullableDateTimeConverter()
   final DateTime? usadoEm;
   @override
   final String? idPerfilUsou;
@@ -312,9 +324,9 @@ abstract class _CodigoEntrada implements CodigoEntrada {
   const factory _CodigoEntrada(
       String id,
       String idProjeto,
-      DateTime geradoEm,
+      @DateTimeConverter() DateTime geradoEm,
       bool usado,
-      DateTime? usadoEm,
+      @NullableDateTimeConverter() DateTime? usadoEm,
       String? idPerfilUsou,
       TipoCodigoDeEntrada tipo,
       String idCurso,
@@ -328,10 +340,12 @@ abstract class _CodigoEntrada implements CodigoEntrada {
   @override
   String get idProjeto;
   @override
+  @DateTimeConverter()
   DateTime get geradoEm;
   @override
   bool get usado;
   @override
+  @NullableDateTimeConverter()
   DateTime? get usadoEm;
   @override
   String? get idPerfilUsou;

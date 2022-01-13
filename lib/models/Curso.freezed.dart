@@ -27,9 +27,9 @@ class _$CursoTearOff {
       String idProjeto,
       String nome,
       String descricao,
-      DateTime inicioCurso,
-      DateTime fimCurso,
-      DateTime atualizadoEm,
+      @DateTimeConverter() DateTime inicioCurso,
+      @DateTimeConverter() DateTime fimCurso,
+      @DateTimeConverter() DateTime atualizadoEm,
       List<String> turma,
       List<Materia> materias) {
     return _Curso(
@@ -59,8 +59,11 @@ mixin _$Curso {
   String get idProjeto => throw _privateConstructorUsedError;
   String get nome => throw _privateConstructorUsedError;
   String get descricao => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get inicioCurso => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get fimCurso => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get atualizadoEm => throw _privateConstructorUsedError;
   List<String> get turma => throw _privateConstructorUsedError;
   List<Materia> get materias => throw _privateConstructorUsedError;
@@ -79,9 +82,9 @@ abstract class $CursoCopyWith<$Res> {
       String idProjeto,
       String nome,
       String descricao,
-      DateTime inicioCurso,
-      DateTime fimCurso,
-      DateTime atualizadoEm,
+      @DateTimeConverter() DateTime inicioCurso,
+      @DateTimeConverter() DateTime fimCurso,
+      @DateTimeConverter() DateTime atualizadoEm,
       List<String> turma,
       List<Materia> materias});
 }
@@ -157,9 +160,9 @@ abstract class _$CursoCopyWith<$Res> implements $CursoCopyWith<$Res> {
       String idProjeto,
       String nome,
       String descricao,
-      DateTime inicioCurso,
-      DateTime fimCurso,
-      DateTime atualizadoEm,
+      @DateTimeConverter() DateTime inicioCurso,
+      @DateTimeConverter() DateTime fimCurso,
+      @DateTimeConverter() DateTime atualizadoEm,
       List<String> turma,
       List<Materia> materias});
 }
@@ -235,9 +238,9 @@ class _$_Curso implements _Curso {
       this.idProjeto,
       this.nome,
       this.descricao,
-      this.inicioCurso,
-      this.fimCurso,
-      this.atualizadoEm,
+      @DateTimeConverter() this.inicioCurso,
+      @DateTimeConverter() this.fimCurso,
+      @DateTimeConverter() this.atualizadoEm,
       this.turma,
       this.materias);
 
@@ -253,10 +256,13 @@ class _$_Curso implements _Curso {
   @override
   final String descricao;
   @override
+  @DateTimeConverter()
   final DateTime inicioCurso;
   @override
+  @DateTimeConverter()
   final DateTime fimCurso;
   @override
+  @DateTimeConverter()
   final DateTime atualizadoEm;
   @override
   final List<String> turma;
@@ -316,9 +322,9 @@ abstract class _Curso implements Curso {
       String idProjeto,
       String nome,
       String descricao,
-      DateTime inicioCurso,
-      DateTime fimCurso,
-      DateTime atualizadoEm,
+      @DateTimeConverter() DateTime inicioCurso,
+      @DateTimeConverter() DateTime fimCurso,
+      @DateTimeConverter() DateTime atualizadoEm,
       List<String> turma,
       List<Materia> materias) = _$_Curso;
 
@@ -333,10 +339,13 @@ abstract class _Curso implements Curso {
   @override
   String get descricao;
   @override
+  @DateTimeConverter()
   DateTime get inicioCurso;
   @override
+  @DateTimeConverter()
   DateTime get fimCurso;
   @override
+  @DateTimeConverter()
   DateTime get atualizadoEm;
   @override
   List<String> get turma;
