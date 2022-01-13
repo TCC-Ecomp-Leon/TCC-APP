@@ -230,5 +230,5 @@ String afterLoginRoute(GetStorage box) {
   if (read != null && read.routeName != null) {
     return read.routeName!;
   }
-  return Routes.dummy;
+  return Routes.perfil;
 }
