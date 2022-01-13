@@ -192,12 +192,12 @@ class LoginController extends GetxController {
   }
 
   signOut() {
+    Get.offAllNamed(Routes.login);
     _authInfo.value = AuthInfo(
       authToken: null,
       perfil: null,
       projeto: null,
     );
-    Get.offAllNamed(Routes.login);
     clearBottomMenuInfo(box);
   }
 
