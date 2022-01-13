@@ -214,12 +214,16 @@ class LoginController extends GetxController {
   AuthInfo get authInfo => _authInfo.value;
   Perfil get perfil => _authInfo.value.perfil!;
 
-  void set perfil(Perfil perfil) {
+  void set authToken(String? authToken) {
+    _authInfo.value.authToken = authToken;
+  }
+
+  void set perfil(Perfil? perfil) {
     _authInfo.value.perfil = perfil;
     _authInfo.refresh();
   }
 
-  void set projeto(Projeto projeto) {
+  void set projeto(Projeto? projeto) {
     _authInfo.value.projeto = projeto;
     _authInfo.refresh();
   }

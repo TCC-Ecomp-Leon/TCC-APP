@@ -3,13 +3,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:search_cep/search_cep.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
+import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/modules/signUp/signup_controller.dart';
 import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Projeto.dart';
+import 'package:tcc_app/services/auth.dart';
+import 'package:tcc_app/services/codigoDeEntrada.dart';
 import 'package:tcc_app/services/perfil.dart';
 import 'package:tcc_app/services/pesquisaCep.dart';
 import 'package:tcc_app/services/projeto.dart';
 import 'package:tcc_app/utils/conversions.dart';
+
+enum EstadoAdicaoCodigoEntrada {
+  Nenhum,
+  Carregando,
+  Adicionado,
+  Erro,
+}
 
 class PerfilController extends BottomMenuController {
   late Rx<Perfil> _perfilEdicao;
@@ -24,8 +34,10 @@ class PerfilController extends BottomMenuController {
   final Rx<bool> _salvandoEdicaoProjeto = false.obs;
   late RxList<dynamic> _camposProjeto;
 
+  final Rx<EstadoAdicaoCodigoEntrada> _estadoAdicaoCodigoEntrada =
+      EstadoAdicaoCodigoEntrada.Nenhum.obs;
+
   Future<void> _searchCep(String cep) async {
-    print("pesquisa cep");
     ViaCepInfo? result = await pesquisaCep(cep);
     if (result != null) {
       CampoRegistro campoRua = camposProjeto[4];
@@ -319,6 +331,28 @@ class PerfilController extends BottomMenuController {
 
   salvarEdicaoProjeto() async {}
 
+  inicioInsercaoCodigoEntrada() {
+    _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Nenhum;
+  }
+
+  adicionarCodigoDeEntrada(String codigo) async {
+    _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Carregando;
+
+    bool? result = await usarCodigoDeEntrada(codigo);
+    if (result != null && result) {
+      _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Adicionado;
+    } else {
+      _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Erro;
+    }
+
+    AuthInfo? perfilAtualizado = await reobterPerfil();
+    if (perfilAtualizado != null) {
+      loginController.authToken = perfilAtualizado.authToken;
+      loginController.perfil = perfilAtualizado.perfil;
+      loginController.projeto = perfilAtualizado.projeto;
+    }
+  }
+
   Perfil get getPerfilEdicao => _perfilEdicao.value;
   bool get loadingImagemPerfil => _loadingImagemPerfil.value;
   bool get modoEdicao => _modoEdicao.value;
@@ -348,4 +382,8 @@ class PerfilController extends BottomMenuController {
   List<CampoRegistro> get camposProjeto =>
       _camposProjeto.value.map((e) => e as CampoRegistro).toList();
   bool get salvandoEdicaoProjeto => _salvandoEdicaoProjeto.value;
+
+  bool get usuarioGeral => loginController.perfil.regra == RegraPerfil.Geral;
+  EstadoAdicaoCodigoEntrada get estadoAdicaoCodigoEntrada =>
+      _estadoAdicaoCodigoEntrada.value;
 }
