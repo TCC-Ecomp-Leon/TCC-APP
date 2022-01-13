@@ -184,7 +184,7 @@ class LoginController extends GetxController {
 
   avaliarEntrada(AuthInfo authInfo) async {
     if (authInfo.authStatus == AuthStatus.Authenticated) {
-      box.write(Constants.authBoxKey, _authInfo.toJson());
+      box.write(Constants.authBoxKey, _authInfo.value.toJson());
       Get.offAllNamed(afterLoginRoute(box));
     } else {
       clearBottomMenuInfo(box);
@@ -192,12 +192,13 @@ class LoginController extends GetxController {
   }
 
   signOut() {
-    Get.offAllNamed(Routes.login);
     _authInfo.value = AuthInfo(
       authToken: null,
       perfil: _authInfo.value.perfil,
       projeto: _authInfo.value.projeto,
     );
+    box.write(Constants.authBoxKey, _authInfo.value.toJson());
+    Get.offAllNamed(Routes.login);
     clearBottomMenuInfo(box);
   }
 
