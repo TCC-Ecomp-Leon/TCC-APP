@@ -320,57 +320,61 @@ class ViewProjeto extends StatelessWidget {
                       itens: controller.codigosDeEntrada,
                       render: (CodigoEntrada codigoEntrada, index) {
                         return InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return PopUpVisualizarCodigoDeEntrada(
-                                  codigoEntrada: codigoEntrada,
-                                );
-                              },
-                            );
-                          },
-                          child: IconLabelDescriptionCard(
-                            value: IconLabelDescriptionCardProps(
-                              base64Image: controller.projeto.imgProjeto,
-                              label: codigoEntrada.tipo ==
-                                      TipoCodigoDeEntrada.Aluno
-                                  ? "Código Aluno"
-                                  : "Código Professor",
-                              description: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: Text(
-                                      loginController
-                                                  .authInfo.projeto!.cursos !=
-                                              null
-                                          ? loginController
-                                              .authInfo.projeto!.cursos!
-                                              .firstWhere((element) =>
-                                                  element.id ==
-                                                  codigoEntrada.idCurso)
-                                              .nome
-                                          : "??",
-                                      textScaleFactor: 0.6,
-                                    ),
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return PopUpVisualizarCodigoDeEntrada(
+                                    codigoEntrada: codigoEntrada,
+                                  );
+                                },
+                              );
+                            },
+                            child: Opacity(
+                              opacity: codigoEntrada.usado ? 0.5 : 1.0,
+                              child: IconLabelDescriptionCard(
+                                value: IconLabelDescriptionCardProps(
+                                  base64Image: controller.projeto.imgProjeto,
+                                  label: codigoEntrada.tipo ==
+                                          TipoCodigoDeEntrada.Aluno
+                                      ? "Código Aluno"
+                                      : "Código Professor",
+                                  description: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        child: Text(
+                                          loginController.authInfo.projeto!
+                                                      .cursos !=
+                                                  null
+                                              ? loginController
+                                                  .authInfo.projeto!.cursos!
+                                                  .firstWhere((element) =>
+                                                      element.id ==
+                                                      codigoEntrada.idCurso)
+                                                  .nome
+                                              : "??",
+                                          textScaleFactor: 0.6,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Gerado em: " +
+                                            diaComAno(codigoEntrada.geradoEm) +
+                                            " " +
+                                            horario(codigoEntrada.geradoEm),
+                                        textScaleFactor: 0.6,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    "Gerado em: " +
-                                        diaComAno(codigoEntrada.geradoEm) +
-                                        " " +
-                                        horario(codigoEntrada.geradoEm),
-                                    textScaleFactor: 0.6,
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        );
+                            ));
                       },
                     ),
         ),
@@ -758,6 +762,15 @@ class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
                     ? "Código aluno"
                     : "Código Professor",
                 style: const TextStyle(fontSize: 20.0),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                codigoEntrada.usado
+                    ? "Situação: Usado"
+                    : "Situação: Ainda não usado",
+                style: const TextStyle(fontSize: 17.0),
               ),
               const SizedBox(
                 height: 10.0,
