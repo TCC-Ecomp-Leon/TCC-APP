@@ -34,7 +34,7 @@ class _$ProjetoTearOff {
       bool aprovado,
       String? idPerfilResponsavel,
       @NullableDateTimeConverter() DateTime? entradaEm,
-      List<Curso> cursos) {
+      List<Curso>? cursos) {
     return _Projeto(
       id,
       nome,
@@ -74,7 +74,7 @@ mixin _$Projeto {
   String? get idPerfilResponsavel => throw _privateConstructorUsedError;
   @NullableDateTimeConverter()
   DateTime? get entradaEm => throw _privateConstructorUsedError;
-  List<Curso> get cursos => throw _privateConstructorUsedError;
+  List<Curso>? get cursos => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -97,7 +97,7 @@ abstract class $ProjetoCopyWith<$Res> {
       bool aprovado,
       String? idPerfilResponsavel,
       @NullableDateTimeConverter() DateTime? entradaEm,
-      List<Curso> cursos});
+      List<Curso>? cursos});
 
   $EnderecoCopyWith<$Res> get endereco;
 }
@@ -173,7 +173,7 @@ class _$ProjetoCopyWithImpl<$Res> implements $ProjetoCopyWith<$Res> {
       cursos: cursos == freezed
           ? _value.cursos
           : cursos // ignore: cast_nullable_to_non_nullable
-              as List<Curso>,
+              as List<Curso>?,
     ));
   }
 
@@ -202,7 +202,7 @@ abstract class _$ProjetoCopyWith<$Res> implements $ProjetoCopyWith<$Res> {
       bool aprovado,
       String? idPerfilResponsavel,
       @NullableDateTimeConverter() DateTime? entradaEm,
-      List<Curso> cursos});
+      List<Curso>? cursos});
 
   @override
   $EnderecoCopyWith<$Res> get endereco;
@@ -280,7 +280,7 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
       cursos == freezed
           ? _value.cursos
           : cursos // ignore: cast_nullable_to_non_nullable
-              as List<Curso>,
+              as List<Curso>?,
     ));
   }
 }
@@ -331,7 +331,7 @@ class _$_Projeto implements _Projeto {
   @NullableDateTimeConverter()
   final DateTime? entradaEm;
   @override
-  final List<Curso> cursos;
+  final List<Curso>? cursos;
 
   @override
   String toString() {
@@ -400,7 +400,7 @@ abstract class _Projeto implements Projeto {
       bool aprovado,
       String? idPerfilResponsavel,
       @NullableDateTimeConverter() DateTime? entradaEm,
-      List<Curso> cursos) = _$_Projeto;
+      List<Curso>? cursos) = _$_Projeto;
 
   factory _Projeto.fromJson(Map<String, dynamic> json) = _$_Projeto.fromJson;
 
@@ -429,7 +429,7 @@ abstract class _Projeto implements Projeto {
   @NullableDateTimeConverter()
   DateTime? get entradaEm;
   @override
-  List<Curso> get cursos;
+  List<Curso>? get cursos;
   @override
   @JsonKey(ignore: true)
   _$ProjetoCopyWith<_Projeto> get copyWith =>

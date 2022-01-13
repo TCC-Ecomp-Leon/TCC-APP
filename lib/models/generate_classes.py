@@ -395,7 +395,7 @@ parametros_projeto = [
                 'bool aprovado',
                 'String? idPerfilResponsavel',
                 'DateTime? entradaEm',
-                'List<Curso> cursos',
+                'List<Curso>? cursos',
             ], 
         ],
     ],

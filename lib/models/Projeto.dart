@@ -21,7 +21,7 @@ abstract class Projeto with _$Projeto {
     bool aprovado,
     String? idPerfilResponsavel,
     @NullableDateTimeConverter() DateTime? entradaEm,
-    List<Curso> cursos,
+    List<Curso>? cursos,
   ) = _Projeto;
 
   factory Projeto.fromJson(

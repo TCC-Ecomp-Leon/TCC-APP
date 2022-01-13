@@ -18,8 +18,8 @@ _$_Projeto _$$_ProjetoFromJson(Map<String, dynamic> json) => _$_Projeto(
       json['aprovado'] as bool,
       json['idPerfilResponsavel'] as String?,
       const NullableDateTimeConverter().fromJson(json['entradaEm'] as String?),
-      (json['cursos'] as List<dynamic>)
-          .map((e) => Curso.fromJson(e as Map<String, dynamic>))
+      (json['cursos'] as List<dynamic>?)
+          ?.map((e) => Curso.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -37,5 +37,5 @@ Map<String, dynamic> _$$_ProjetoToJson(_$_Projeto instance) =>
       'aprovado': instance.aprovado,
       'idPerfilResponsavel': instance.idPerfilResponsavel,
       'entradaEm': const NullableDateTimeConverter().toJson(instance.entradaEm),
-      'cursos': instance.cursos.map((e) => e.toJson()).toList(),
+      'cursos': instance.cursos?.map((e) => e.toJson()).toList(),
     };
