@@ -104,9 +104,10 @@ List<BottomMenuPage> obterPaginasComPermisssao(
 
   if (perfil!.regra == RegraPerfil.Geral) {
     return [pages[1], pages[2], pages[3], pages[4]];
-  } else if (perfil.regra == RegraPerfil.Projeto) {
-    return [pages[0], pages[1], pages[3], pages[4]];
   }
+  // else if (perfil.regra == RegraPerfil.Projeto) {
+  //   return [pages[0], pages[1], pages[3], pages[4]];
+  // }
 
   return pages;
 }
