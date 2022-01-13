@@ -385,7 +385,7 @@ class CardInformacoesUniversitario extends StatelessWidget {
       "Curso",
       "Nenhum",
       controller.cursosUniversitarios.map((e) => e.nome).toList(),
-      controller.indiceCursoUniversitarioSelecionado,
+      controller.indiceCursoUniversitarioSelecionado + 1,
       controller.selecionarCursoUniversitario,
     );
   }
@@ -452,7 +452,9 @@ class CardInformacoesUniversitario extends StatelessWidget {
                         width: 10.0,
                       ),
                       TextButton(
-                        onPressed: () => {},
+                        onPressed: () => {
+                          controller.salvarEdicaoCursoUniversitario(),
+                        },
                         child: const Text("Salvar"),
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.all(7.0),

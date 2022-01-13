@@ -56,6 +56,8 @@ Future<bool?> atualizarPerfil(
       Map<String, dynamic> camposAtualizacao = {};
       if (camposAtualizacaoPerfil != null) {
         camposAtualizacao['profile'] = camposAtualizacaoPerfil;
+      } else {
+        camposAtualizacao['profile'] = {};
       }
       if (camposAtualizacaoCursoUniversitario != null) {
         camposAtualizacao['cursoUniversitario'] =

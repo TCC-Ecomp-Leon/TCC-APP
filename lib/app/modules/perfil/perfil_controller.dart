@@ -412,6 +412,21 @@ class PerfilController extends BottomMenuController {
     _edicaoUniversitario.value = false;
   }
 
+  void salvarEdicaoCursoUniversitario() async {
+    _edicaoUniversitario.value = false;
+    await atualizarPerfil(
+      perfil.id,
+      null,
+      null,
+      null,
+      null,
+      indiceCursoUniversitarioSelecionado > -1
+          ? cursosUniversitarios[indiceCursoUniversitarioSelecionado].id
+          : null,
+    );
+    loginController.usarTokenEmCache(2000);
+  }
+
   bool get edicaoUniversitario => _edicaoUniversitario.value;
   List<CursoUniversitario> get cursosUniversitarios =>
       collectionsController.cursosUniversitarios;
