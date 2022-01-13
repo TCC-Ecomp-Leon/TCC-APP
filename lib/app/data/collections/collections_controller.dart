@@ -55,7 +55,7 @@ class CollectionsController extends GetxController {
     _carregandoCursosUniversitarios.value = false;
   }
 
-  carregarProjetos() async {
+  Future<void> carregarProjetos() async {
     _carregandoProjetos.value = true;
 
     List<Projeto>? result = await obterProjetos();
@@ -131,6 +131,9 @@ class CollectionsController extends GetxController {
   UsuariosCarregados get usuariosCarregados => _usuariosCarregados.value;
   CursosUniversitariosCarregados get cursosCarregados =>
       _cursosUniversitariosCarregados.value;
+
+  List<Projeto> get projetos =>
+      _projetosCarregados.value.getItems().map((e) => e.projeto).toList();
 
   List<Curso>? _getCursosAluno() {
     Perfil perfil = loginController.perfil;

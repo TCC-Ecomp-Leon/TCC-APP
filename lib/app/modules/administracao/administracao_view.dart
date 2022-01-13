@@ -8,8 +8,10 @@ import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/models/CodigoEntrada.dart';
 import 'package:tcc_app/models/Curso.dart';
 import 'package:tcc_app/models/Materia.dart';
+import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
+import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/dropdown.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
 import 'package:tcc_app/widgets/list_view.dart';
@@ -17,7 +19,248 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class AdministracaoView extends GetView<AdministracaoController> {
-  final loginController = Get.find<LoginController>();
+  final LoginController loginController = Get.find<LoginController>();
+  @override
+  Widget build(BuildContext context) {
+    return BottomMenuView(
+      controller: controller,
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.only(top: 30.0, left: 5.0, right: 5.0),
+          child: loginController.perfil.regra == RegraPerfil.Administrador
+              ? ViewAdministrador(
+                  controller: controller,
+                  loginController: loginController,
+                )
+              : ViewProjeto(
+                  controller: controller,
+                  loginController: loginController,
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+class ViewAdministrador extends StatelessWidget {
+  final AdministracaoController controller;
+  final LoginController loginController;
+
+  const ViewAdministrador({
+    required this.controller,
+    required this.loginController,
+    Key? key,
+  }) : super(key: key);
+
+  Widget buildProjeto(BuildContext context, Projeto projeto) {
+    return InkWell(
+      onTap: () {},
+      child: IconLabelDescriptionCard(
+        value: IconLabelDescriptionCardProps(
+          base64Image: projeto.imgProjeto,
+          label: projeto.nome,
+          description: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Text(
+                  projeto.endereco.cidade,
+                  textScaleFactor: 0.6,
+                ),
+              ),
+              Text(
+                projeto.aprovado
+                    ? "Aprovado em: " +
+                        diaComAno(projeto.entradaEm!) +
+                        horario(projeto.entradaEm!)
+                    : "Requisitado em: " +
+                        diaComAno(projeto.requisicaoEntradaEm) +
+                        horario(projeto.requisicaoEntradaEm),
+                textScaleFactor: 0.6,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselIndicator(
+      children: [
+        Obx(
+          () => ListView(
+            shrinkWrap: true,
+            children: [
+              const Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  "Projetos aprovados",
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              controller.carregandoProjetosAprovados
+                  ? Container(
+                      alignment: Alignment.center,
+                      height: 100.0,
+                      child: const Loading(
+                          color: Colors.white, circleTimeSeconds: 2),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.projetosAprovados.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return buildProjeto(
+                          context,
+                          controller.projetosAprovados[index],
+                        );
+                      },
+                    ),
+            ],
+          ),
+        ),
+        Obx(
+          () => ListView(
+            shrinkWrap: true,
+            children: [
+              const Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  "Projetos necessitando aprovação",
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              controller.carregandoProjetosNaoAprovados
+                  ? Container(
+                      alignment: Alignment.center,
+                      height: 100.0,
+                      child: const Loading(
+                          color: Colors.white, circleTimeSeconds: 2),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.projetosNaoAprovados.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return buildProjeto(
+                          context,
+                          controller.projetosNaoAprovados[index],
+                        );
+                      },
+                    ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ViewProjeto extends StatelessWidget {
+  final AdministracaoController controller;
+  final LoginController loginController;
+
+  const ViewProjeto({
+    required this.controller,
+    required this.loginController,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        buildCriarCodigoDeEntrada(context),
+        Obx(
+          () => controller.carregandoCodigosDeEntrada
+              ? Align(
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height - 200.0,
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 100.0,
+                      child: const Loading(
+                          color: Colors.white, circleTimeSeconds: 2),
+                    ),
+                  ),
+                )
+              : controller.codigosDeEntrada.isEmpty
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height - 200.0,
+                      child: const Center(
+                        child: Text("Nenhum código de entrada"),
+                      ),
+                    )
+                  : GenericListView<CodigoEntrada>(
+                      shrinkWrap: true,
+                      paddingLeft: 0.0,
+                      paddingRight: 0.0,
+                      itens: controller.codigosDeEntrada,
+                      render: (CodigoEntrada codigoEntrada, index) {
+                        return InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return PopUpVisualizarCodigoDeEntrada(
+                                  codigoEntrada: codigoEntrada,
+                                );
+                              },
+                            );
+                          },
+                          child: IconLabelDescriptionCard(
+                            value: IconLabelDescriptionCardProps(
+                              base64Image: controller.projeto.imgProjeto,
+                              label: codigoEntrada.tipo ==
+                                      TipoCodigoDeEntrada.Aluno
+                                  ? "Código Aluno"
+                                  : "Código Professor",
+                              description: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    child: Text(
+                                      loginController.authInfo.projeto!.cursos
+                                          .firstWhere((element) =>
+                                              element.id ==
+                                              codigoEntrada.idCurso)
+                                          .nome,
+                                      textScaleFactor: 0.6,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Gerado em: " +
+                                        diaComAno(codigoEntrada.geradoEm) +
+                                        " " +
+                                        horario(codigoEntrada.geradoEm),
+                                    textScaleFactor: 0.6,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+        ),
+      ],
+    );
+  }
 
   Widget buildCriarCodigoDeEntrada(BuildContext context) {
     final double width = MediaQuery.of(context).size.width - 100.0;
@@ -74,105 +317,6 @@ class AdministracaoView extends GetView<AdministracaoController> {
           ),
           const Divider(height: 3.0, color: Colors.black),
         ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomMenuView(
-      controller: controller,
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.only(top: 30.0, left: 5.0, right: 5.0),
-          child: Column(
-            children: [
-              buildCriarCodigoDeEntrada(context),
-              Obx(
-                () => controller.carregandoCodigosDeEntrada
-                    ? Align(
-                        alignment: Alignment.topCenter,
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height - 200.0,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 100.0,
-                            child: const Loading(
-                                color: Colors.white, circleTimeSeconds: 2),
-                          ),
-                        ),
-                      )
-                    : controller.codigosDeEntrada.isEmpty
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height - 200.0,
-                            child: const Center(
-                              child: Text("Nenhum código de entrada"),
-                            ),
-                          )
-                        : GenericListView<CodigoEntrada>(
-                            shrinkWrap: true,
-                            paddingLeft: 0.0,
-                            paddingRight: 0.0,
-                            itens: controller.codigosDeEntrada,
-                            render: (CodigoEntrada codigoEntrada, index) {
-                              return InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return PopUpVisualizarCodigoDeEntrada(
-                                        codigoEntrada: codigoEntrada,
-                                      );
-                                    },
-                                  );
-                                },
-                                child: IconLabelDescriptionCard(
-                                  value: IconLabelDescriptionCardProps(
-                                    base64Image: controller.projeto.imgProjeto,
-                                    label: codigoEntrada.tipo ==
-                                            TipoCodigoDeEntrada.Aluno
-                                        ? "Código Aluno"
-                                        : "Código Professor",
-                                    description: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.4,
-                                          child: Text(
-                                            loginController
-                                                .authInfo.projeto!.cursos
-                                                .firstWhere((element) =>
-                                                    element.id ==
-                                                    codigoEntrada.idCurso)
-                                                .nome,
-                                            textScaleFactor: 0.6,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Gerado em: " +
-                                              diaComAno(
-                                                  codigoEntrada.geradoEm) +
-                                              " " +
-                                              horario(codigoEntrada.geradoEm),
-                                          textScaleFactor: 0.6,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

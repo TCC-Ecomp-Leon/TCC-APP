@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/models/CodigoEntrada.dart';
 import 'package:tcc_app/models/Curso.dart';
 import 'package:tcc_app/models/Materia.dart';
+import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/services/codigoDeEntrada.dart';
+import 'package:tcc_app/services/projeto.dart';
 import 'package:tcc_app/widgets/page_controller.dart';
 
 // Controlador para fornecer os estados da página que irá mostrar
@@ -23,11 +26,52 @@ enum EstadoAdicaoCodigoDeEntrada {
 }
 
 class AdministracaoController extends BottomMenuController {
+  final collectionsController = Get.find<CollectionsController>();
+
   @override
   void onInit() {
     super.onInit();
     carregarCodigosDeEntrada();
+    if (loginController.perfil.regra == RegraPerfil.Administrador) {
+      _carregandoProjetosAprovados.value = true;
+      _carregandoProjetosNaoAprovados.value = true;
+      carregarInformacoesAdm();
+    }
   }
+
+  carregarProjetosAprovados() async {
+    _carregandoProjetosAprovados.value = true;
+
+    await collectionsController.carregarProjetos();
+
+    _carregandoProjetosAprovados.value = false;
+  }
+
+  carregarProjetosNaoAprovados() async {
+    _carregandoProjetosNaoAprovados.value = true;
+
+    List<Projeto>? result = await obterListaDeProjetosNaoAprovados();
+
+    if (result != null) {
+      _projetosNaoAprovados.value = result;
+    }
+
+    _carregandoProjetosNaoAprovados.value = false;
+  }
+
+  carregarInformacoesAdm() async {
+    //TODO: Remover essa prevenção de erro no backend
+    await Future.delayed(const Duration(seconds: 1));
+    await carregarProjetosAprovados();
+
+    //TODO: Remover essa prevenção de erro no backend
+    await Future.delayed(const Duration(seconds: 1));
+    await carregarProjetosNaoAprovados();
+  }
+
+  final Rx<bool> _carregandoProjetosAprovados = false.obs;
+  final Rx<bool> _carregandoProjetosNaoAprovados = false.obs;
+  final RxList<dynamic> _projetosNaoAprovados = [].obs;
 
   final Rx<bool> _carregandoCodigosDeEntrada = false.obs;
   final RxList<dynamic> _codigosDeEntrada = [].obs;
@@ -131,4 +175,12 @@ class AdministracaoController extends BottomMenuController {
       _erroAdicaoCodigoDeEntrada.value.isEmpty
           ? null
           : _erroAdicaoCodigoDeEntrada.value;
+
+  bool get carregandoProjetosAprovados => _carregandoProjetosAprovados.value;
+  bool get carregandoProjetosNaoAprovados =>
+      _carregandoProjetosNaoAprovados.value;
+
+  List<Projeto> get projetosAprovados => collectionsController.projetos;
+  List<Projeto> get projetosNaoAprovados =>
+      _projetosNaoAprovados.value as List<Projeto>;
 }
