@@ -6,6 +6,7 @@ import 'package:tcc_app/app/modules/perfil/perfil_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/config/constants.dart';
+import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/screens/dummy.dart';
 
 class BottomMenuInfo {
@@ -89,6 +90,17 @@ Future<void> clearBottomMenuInfo(GetStorage box) async {
 
 List<BottomMenuPage> obterPaginasComPermisssao(
     LoginController loginController) {
+  final Perfil? perfil = loginController.authInfo.perfil;
+  if (perfil == null) {
+    loginController.signOut();
+  }
+
+  if (perfil!.regra == RegraPerfil.Geral) {
+    return [pages[1], pages[2], pages[3], pages[4]];
+  } else if (perfil.regra == RegraPerfil.Projeto) {
+    return [pages[0], pages[1], pages[3], pages[4]];
+  }
+
   return pages;
 }
 
