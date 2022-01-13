@@ -84,9 +84,11 @@ class ViewAdministrador extends StatelessWidget {
                 projeto.aprovado
                     ? "Aprovado em: " +
                         diaComAno(projeto.entradaEm!) +
+                        " " +
                         horario(projeto.entradaEm!)
                     : "Requisitado em: " +
                         diaComAno(projeto.requisicaoEntradaEm) +
+                        " " +
                         horario(projeto.requisicaoEntradaEm),
                 textScaleFactor: 0.6,
               ),
