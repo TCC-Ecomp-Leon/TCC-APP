@@ -1,3 +1,4 @@
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/models/CodigoEntrada.dart';
 import 'package:tcc_app/models/Curso.dart';
+import 'package:tcc_app/models/CursoUniversitario.dart';
 import 'package:tcc_app/models/Materia.dart';
 import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Projeto.dart';
@@ -14,6 +16,7 @@ import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/dropdown.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
+import 'package:tcc_app/widgets/label_description_card.dart';
 import 'package:tcc_app/widgets/list_view.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -99,6 +102,71 @@ class ViewAdministrador extends StatelessWidget {
     );
   }
 
+  Widget buildNovoCursoUniversitario(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width * 0.9;
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        children: [
+          Card(
+            color: Colors.green,
+            child: Container(
+              height: 70.0,
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CircleAvatar(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Icon(
+                        Icons.add_circle,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: width * 0.8,
+                    child: const Text("Criar curso"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Divider(height: 3.0, color: Colors.black),
+        ],
+      ),
+    );
+  }
+
+  Widget buildCursoUniversitario(
+      BuildContext context, CursoUniversitario curso) {
+    final double espacoDisponivel = MediaQuery.of(context).size.width - 50.0;
+    return LabelDescriptionCard(
+      value: LabelDescriptionCardProps(
+        label: curso.nome,
+        labelSufix: curso.semestresPrevistos.toString() + " semestres",
+        description: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: espacoDisponivel,
+              child: Text(
+                curso.cursoAnterior != null
+                    ? "Curso Anterior: " + curso.cursoAnterior!.nome
+                    : "Curso Anterior: Nenhum",
+                textScaleFactor: 0.6,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return CarouselIndicator(
@@ -167,6 +235,45 @@ class ViewAdministrador extends StatelessWidget {
                         return buildProjeto(
                           context,
                           controller.projetosNaoAprovados[index],
+                        );
+                      },
+                    ),
+            ],
+          ),
+        ),
+        Obx(
+          () => ListView(
+            shrinkWrap: true,
+            children: [
+              const Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  "Cursos Universitários",
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              buildNovoCursoUniversitario(context),
+              const SizedBox(
+                height: 10.0,
+              ),
+              controller.carregandoCursosUniversitarios
+                  ? Container(
+                      alignment: Alignment.center,
+                      height: 100.0,
+                      child: const Loading(
+                          color: Colors.white, circleTimeSeconds: 2),
+                    )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.cursosUniversitarios.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return buildCursoUniversitario(
+                          context,
+                          controller.cursosUniversitarios[index],
                         );
                       },
                     ),

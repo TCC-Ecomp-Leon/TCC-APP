@@ -5,6 +5,7 @@ import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/models/CodigoEntrada.dart';
 import 'package:tcc_app/models/Curso.dart';
+import 'package:tcc_app/models/CursoUniversitario.dart';
 import 'package:tcc_app/models/Materia.dart';
 import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Projeto.dart';
@@ -35,6 +36,7 @@ class AdministracaoController extends BottomMenuController {
     if (loginController.perfil.regra == RegraPerfil.Administrador) {
       _carregandoProjetosAprovados.value = true;
       _carregandoProjetosNaoAprovados.value = true;
+      _carregandoCursosUniversitarios.value = true;
       carregarInformacoesAdm();
     }
   }
@@ -59,6 +61,14 @@ class AdministracaoController extends BottomMenuController {
     _carregandoProjetosNaoAprovados.value = false;
   }
 
+  carregarCursosUniversitarios() async {
+    _carregandoCursosUniversitarios.value = true;
+
+    await collectionsController.carregarCursosUniversitarios();
+
+    _carregandoCursosUniversitarios.value = false;
+  }
+
   carregarInformacoesAdm() async {
     //TODO: Remover essa prevenção de erro no backend
     await Future.delayed(const Duration(seconds: 1));
@@ -67,10 +77,15 @@ class AdministracaoController extends BottomMenuController {
     //TODO: Remover essa prevenção de erro no backend
     await Future.delayed(const Duration(seconds: 1));
     await carregarProjetosNaoAprovados();
+
+    //TODO: Remover essa prevenção de erro no backend
+    await Future.delayed(const Duration(seconds: 1));
+    await carregarCursosUniversitarios();
   }
 
   final Rx<bool> _carregandoProjetosAprovados = false.obs;
   final Rx<bool> _carregandoProjetosNaoAprovados = false.obs;
+  final Rx<bool> _carregandoCursosUniversitarios = false.obs;
   final Rx<bool> _aprovandoProjeto = false.obs;
   final RxList<dynamic> _projetosNaoAprovados = [].obs;
 
@@ -201,4 +216,9 @@ class AdministracaoController extends BottomMenuController {
   List<Projeto> get projetosAprovados => collectionsController.projetos;
   List<Projeto> get projetosNaoAprovados =>
       _projetosNaoAprovados.value.map((e) => e as Projeto).toList();
+
+  bool get carregandoCursosUniversitarios =>
+      _carregandoCursosUniversitarios.value;
+  List<CursoUniversitario> get cursosUniversitarios =>
+      collectionsController.cursosUniversitarios;
 }

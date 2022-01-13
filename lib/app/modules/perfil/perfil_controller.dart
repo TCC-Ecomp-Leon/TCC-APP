@@ -400,7 +400,6 @@ class PerfilController extends BottomMenuController {
   }
 
   void entrarModoEdicaoCursoUniversitario() {
-    print('aqui');
     _edicaoUniversitario.value = true;
     final cursosUniversitariosCarregagos =
         collectionsController.cursosUniversitarios;
