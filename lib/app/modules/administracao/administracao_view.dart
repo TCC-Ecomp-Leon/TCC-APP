@@ -54,7 +54,17 @@ class ViewAdministrador extends StatelessWidget {
 
   Widget buildProjeto(BuildContext context, Projeto projeto) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return PopUpViewProjeto(
+              controller: controller,
+              projeto: projeto,
+            );
+          },
+        );
+      },
       child: IconLabelDescriptionCard(
         value: IconLabelDescriptionCardProps(
           base64Image: projeto.imgProjeto,
@@ -162,6 +172,105 @@ class ViewAdministrador extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class PopUpViewProjeto extends StatelessWidget {
+  final AdministracaoController controller;
+  final Projeto projeto;
+
+  const PopUpViewProjeto({
+    required this.controller,
+    required this.projeto,
+    Key? key,
+  }) : super(key: key);
+
+  Widget buildCampo(String nomeCampo, String? campo) {
+    if (campo == null) return Container();
+
+    return Text(nomeCampo + ": " + campo);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Projeto"),
+      content: Obx(
+        () => SizedBox(
+          height: 450.0,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: controller.aprovandoProjeto
+              ? Container(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  child:
+                      const Loading(color: Colors.white, circleTimeSeconds: 2),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildCampo("Nome", projeto.nome),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    buildCampo("Descrição", projeto.descricao),
+                    buildCampo("Email", projeto.email),
+                    buildCampo("Telefone", projeto.telefone.toString()),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    buildCampo(
+                        "Rua",
+                        projeto.endereco.rua +
+                            " " +
+                            projeto.endereco.numero.toString()),
+                    buildCampo("Telefone", projeto.endereco.cep.toString()),
+                    buildCampo("Telefone", projeto.endereco.bairro),
+                    buildCampo("Telefone", projeto.endereco.cidade),
+                    buildCampo("Telefone", projeto.endereco.estado),
+                    projeto.aprovado
+                        ? buildCampo(
+                            "Aprovado em", diaComAno(projeto.entradaEm!))
+                        : buildCampo("Aprovado", "Não"),
+                    buildCampo("Requisição entrada",
+                        diaComAno(projeto.requisicaoEntradaEm)),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    !projeto.aprovado
+                        ? TextButton(
+                            onPressed: () {
+                              controller.aprovarProjeto(projeto);
+                            },
+                            child: const Text("Aprovar"),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.all(10.0),
+                              primary: Colors.white,
+                              backgroundColor: Colors.green,
+                              onSurface: Colors.grey,
+                              textStyle: const TextStyle(fontSize: 17.0),
+                            ),
+                          )
+                        : Container(),
+                    TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: const Text("Fechar"),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.all(10.0),
+                        primary: Colors.white,
+                        backgroundColor: Colors.teal,
+                        onSurface: Colors.grey,
+                        textStyle: const TextStyle(fontSize: 17.0),
+                      ),
+                    ),
+                  ],
+                ),
+        ),
+      ),
     );
   }
 }

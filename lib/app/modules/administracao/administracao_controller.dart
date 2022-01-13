@@ -71,6 +71,7 @@ class AdministracaoController extends BottomMenuController {
 
   final Rx<bool> _carregandoProjetosAprovados = false.obs;
   final Rx<bool> _carregandoProjetosNaoAprovados = false.obs;
+  final Rx<bool> _aprovandoProjeto = false.obs;
   final RxList<dynamic> _projetosNaoAprovados = [].obs;
 
   final Rx<bool> _carregandoCodigosDeEntrada = false.obs;
@@ -83,6 +84,20 @@ class AdministracaoController extends BottomMenuController {
   final Rx<int> _indiceMateriaSeleciona = (-1).obs;
   final Rx<String> _codigoGerado = "".obs;
   final Rx<String> _erroAdicaoCodigoDeEntrada = "".obs;
+
+  aprovarProjeto(Projeto projeto) async {
+    if (!projeto.aprovado) {
+      _aprovandoProjeto.value = true;
+
+      bool? result = await aprovacaoProjeto(projeto.id);
+      if (result != null && result) {
+        Get.back();
+        carregarInformacoesAdm();
+      }
+
+      _aprovandoProjeto.value = false;
+    }
+  }
 
   carregarCodigosDeEntrada() async {
     _carregandoCodigosDeEntrada.value = true;
@@ -179,6 +194,7 @@ class AdministracaoController extends BottomMenuController {
   bool get carregandoProjetosAprovados => _carregandoProjetosAprovados.value;
   bool get carregandoProjetosNaoAprovados =>
       _carregandoProjetosNaoAprovados.value;
+  bool get aprovandoProjeto => _aprovandoProjeto.value;
 
   List<Projeto> get projetosAprovados => collectionsController.projetos;
   List<Projeto> get projetosNaoAprovados =>
