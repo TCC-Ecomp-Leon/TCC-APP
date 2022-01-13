@@ -195,8 +195,8 @@ class LoginController extends GetxController {
     Get.offAllNamed(Routes.login);
     _authInfo.value = AuthInfo(
       authToken: null,
-      perfil: null,
-      projeto: null,
+      perfil: _authInfo.value.perfil,
+      projeto: _authInfo.value.projeto,
     );
     clearBottomMenuInfo(box);
   }
