@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
+import 'package:tcc_app/models/Duvida.dart';
 import 'package:tcc_app/screens/dummy.dart';
+import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/loading.dart';
 
 class DuvidasView extends GetView<DuvidasController> {
@@ -59,6 +61,68 @@ class DuvidasView extends GetView<DuvidasController> {
     );
   }
 
+  Widget buildDuvida(BuildContext context, Duvida duvida) {
+    final double width = MediaQuery.of(context).size.width - 100.0;
+    return InkWell(
+      onTap: () {},
+      child: Opacity(
+        opacity: duvida.resolvida ? 0.5 : 1.0,
+        child: Column(
+          children: [
+            Card(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(
+                      Icons.question_answer,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: width * 0.8,
+                      child: Text(duvida.titulo),
+                    ),
+                    SizedBox(
+                      child: Text(
+                        duvida.mensagens.isEmpty
+                            ? ""
+                            : diaMes(
+                                  duvida.mensagens.last.horario,
+                                ) +
+                                "\n" +
+                                horario(
+                                  duvida.mensagens.last.horario,
+                                ),
+                      ),
+                    )
+                  ],
+                ),
+                subtitle: Container(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Text(
+                    duvida.mensagens.isEmpty
+                        ? ""
+                        : textoParaTamanhoFixo(
+                            duvida.mensagens.last.mensagem,
+                            30,
+                          ),
+                  ),
+                ),
+              ),
+            ),
+            const Divider(height: 3.0, color: Colors.black),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomMenuView(
@@ -66,11 +130,11 @@ class DuvidasView extends GetView<DuvidasController> {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.only(top: 30.0, left: 5.0, right: 5.0),
-          child: Column(
-            children: [
-              buildCriarDuvida(context),
-              Obx(
-                () => controller.carregandoDuvidas
+          child: Obx(
+            () => Column(
+              children: [
+                controller.aluno ? buildCriarDuvida(context) : Container(),
+                controller.carregandoDuvidas
                     ? Align(
                         alignment: Alignment.topCenter,
                         child: SizedBox(
@@ -95,11 +159,14 @@ class DuvidasView extends GetView<DuvidasController> {
                             itemCount: controller.duvidas.length,
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
-                              return Container();
+                              return buildDuvida(
+                                context,
+                                controller.duvidas[index],
+                              );
                             },
                           ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

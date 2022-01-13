@@ -27,4 +27,7 @@ class DuvidasController extends BottomMenuController {
 
   List<Duvida> get duvidas => _duvidas.value.map((e) => e as Duvida).toList();
   bool get carregandoDuvidas => _carregando.value;
+
+  bool get aluno =>
+      loginController.perfil.associacoes?.aluno.alunoParceiro == true;
 }

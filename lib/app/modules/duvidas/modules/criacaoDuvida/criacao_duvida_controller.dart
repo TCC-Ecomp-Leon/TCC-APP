@@ -8,6 +8,14 @@ import 'package:tcc_app/models/Materia.dart';
 import 'package:tcc_app/services/duvida.dart';
 
 class CriacaoDuvidaController extends GetxController {
+  @override
+  void onInit() {
+    super.onInit();
+    if (collectionsController.cursosUniversitarios.isEmpty) {
+      collectionsController.carregarCursosUniversitarios();
+    }
+  }
+
   final collectionsController = Get.find<CollectionsController>();
   final loginController = Get.find<LoginController>();
 

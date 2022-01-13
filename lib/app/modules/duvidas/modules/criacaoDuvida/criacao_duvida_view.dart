@@ -102,7 +102,7 @@ class CriacaoDuvidaView extends GetView<CriacaoDuvidaController> {
                   ),
                   Container(
                     alignment: Alignment.centerRight,
-                    width: width * 0.5,
+                    width: width * 0.6,
                     padding: const EdgeInsets.only(
                       right: 8.0,
                     ),
@@ -113,6 +113,7 @@ class CriacaoDuvidaView extends GetView<CriacaoDuvidaController> {
                         onChange(index - 1);
                       },
                       getItemText: (value) => value,
+                      alignment: Alignment.centerRight,
                     ),
                   ),
                 ],
@@ -171,7 +172,7 @@ class CriacaoDuvidaView extends GetView<CriacaoDuvidaController> {
                               controller.cursosAluno
                                   .map((e) => e.nome)
                                   .toList(),
-                              controller.indiceCursoSelecionado,
+                              controller.indiceCursoSelecionado + 1,
                               controller.selecionarCurso,
                             ),
                             buildDropDown(
@@ -183,7 +184,7 @@ class CriacaoDuvidaView extends GetView<CriacaoDuvidaController> {
                                   : controller.materiasCursoSelecionado!
                                       .map((e) => e.nome)
                                       .toList(),
-                              controller.indiceMateriaSelecionada,
+                              controller.indiceMateriaSelecionada + 1,
                               controller.selecionarMateria,
                             ),
                             buildDropDown(
@@ -193,7 +194,8 @@ class CriacaoDuvidaView extends GetView<CriacaoDuvidaController> {
                               controller.cursosUniversitarios
                                   .map((e) => e.nome)
                                   .toList(),
-                              controller.indiceCursoUniversitarioSelecionado,
+                              controller.indiceCursoUniversitarioSelecionado +
+                                  1,
                               controller.selecionarCursoUniversitario,
                             ),
                             buildTextField(
