@@ -9,6 +9,7 @@ import 'package:tcc_app/utils/iterable.dart';
 import 'package:tcc_app/widgets/card_overlap_image.dart';
 import 'package:tcc_app/widgets/card_overlap_title.dart';
 import 'package:tcc_app/widgets/change_editable_text_field.dart';
+import 'package:tcc_app/widgets/dropdown.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/qr_code_reader.dart';
 
@@ -296,6 +297,7 @@ class PerfilView extends GetView<PerfilController> {
                     controller: controller,
                   ),
                 ),
+                CardInformacoesUniversitario(controller: controller),
               ],
             ),
           ),
@@ -303,6 +305,171 @@ class PerfilView extends GetView<PerfilController> {
       ),
       controller: controller,
     );
+  }
+}
+
+typedef OnChangeDropDown = void Function(int index);
+
+class CardInformacoesUniversitario extends StatelessWidget {
+  final PerfilController controller;
+  const CardInformacoesUniversitario({
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
+
+  Widget buildDropDown(
+    BuildContext context,
+    String text,
+    String emptyText,
+    List<String> items,
+    int selectedIndex,
+    OnChangeDropDown onChange,
+  ) {
+    double width = MediaQuery.of(context).size.width - 50.0;
+
+    return Column(
+      children: [
+        Text(text),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+              left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Container(
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: width * 0.4,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                      ),
+                      child: Text(
+                        text,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    width: width * 0.5,
+                    padding: const EdgeInsets.only(
+                      right: 8.0,
+                    ),
+                    child: DropDown<String>(
+                      selectedIndex: selectedIndex,
+                      items: [emptyText, ...items],
+                      onChangeDropDown: (index) {
+                        onChange(index - 1);
+                      },
+                      getItemText: (value) => value,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget dropDownCursosUniversitario(BuildContext context) {
+    return buildDropDown(
+      context,
+      "Curso",
+      "Nenhum",
+      controller.cursosUniversitarios.map((e) => e.nome).toList(),
+      controller.indiceCursoUniversitarioSelecionado,
+      controller.selecionarCursoUniversitario,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (controller.perfil.universitario != null &&
+        controller.perfil.universitario!.universitario) {
+      return Obx(
+        () => Column(
+          children: [
+            CardOverlapTitle(
+              onClickEdit: !controller.edicaoUniversitario
+                  ? controller.entrarModoEdicaoCursoUniversitario
+                  : controller.sairModoEdicaoCursoUniversitario,
+              title: "Universitário",
+              icon: controller.edicaoUniversitario ? Icons.cancel : Icons.edit,
+              children: (!controller.edicaoUniversitario
+                      ? [
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                          Text(
+                            controller.perfil.universitario!.graduacao != null
+                                ? "Curso: " +
+                                    controller.perfil.universitario!.graduacao!
+                                        .curso.nome
+                                : "Curso: Não preenchido",
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                          const SizedBox(
+                            height: 5.0,
+                          ),
+                        ]
+                      : [
+                          dropDownCursosUniversitario(context),
+                        ])
+                  .map(
+                    (e) => SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: e,
+                    ),
+                  )
+                  .toList(),
+            ),
+            controller.edicaoUniversitario
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () =>
+                            controller.sairModoEdicaoCursoUniversitario(),
+                        child: const Text("Cancelar"),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(7.0),
+                          primary: Colors.white,
+                          backgroundColor: Colors.redAccent,
+                          onSurface: Colors.grey,
+                          textStyle: const TextStyle(fontSize: 15.0),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      TextButton(
+                        onPressed: () => {},
+                        child: const Text("Salvar"),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(7.0),
+                          primary: Colors.white,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                          textStyle: const TextStyle(fontSize: 15.0),
+                        ),
+                      ),
+                    ],
+                  )
+                : Container()
+          ],
+        ),
+      );
+    }
+    return Container();
   }
 }
 

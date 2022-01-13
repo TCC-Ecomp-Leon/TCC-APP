@@ -2,9 +2,11 @@ import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:search_cep/search_cep.dart';
+import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/modules/signUp/signup_controller.dart';
+import 'package:tcc_app/models/CursoUniversitario.dart';
 import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/services/auth.dart';
@@ -22,6 +24,8 @@ enum EstadoAdicaoCodigoEntrada {
 }
 
 class PerfilController extends BottomMenuController {
+  final CollectionsController collectionsController =
+      Get.find<CollectionsController>();
   late Rx<Perfil> _perfilEdicao;
   final Rx<bool> _loadingImagemPerfil = false.obs;
   final Rx<bool> _modoEdicao = false.obs;
@@ -33,6 +37,8 @@ class PerfilController extends BottomMenuController {
   final Rx<bool> _loadingImagemProjeto = false.obs;
   final Rx<bool> _salvandoEdicaoProjeto = false.obs;
   late RxList<dynamic> _camposProjeto;
+
+  final Rx<bool> _edicaoUniversitario = false.obs;
 
   final Rx<EstadoAdicaoCodigoEntrada> _estadoAdicaoCodigoEntrada =
       EstadoAdicaoCodigoEntrada.Nenhum.obs;
@@ -386,4 +392,30 @@ class PerfilController extends BottomMenuController {
   bool get usuarioGeral => loginController.perfil.regra == RegraPerfil.Geral;
   EstadoAdicaoCodigoEntrada get estadoAdicaoCodigoEntrada =>
       _estadoAdicaoCodigoEntrada.value;
+
+  final Rx<int> _indiceCursoUniversitarioSelecionado = (-1).obs;
+
+  void selecionarCursoUniversitario(int index) {
+    _indiceCursoUniversitarioSelecionado.value = index;
+  }
+
+  void entrarModoEdicaoCursoUniversitario() {
+    print('aqui');
+    _edicaoUniversitario.value = true;
+    final cursosUniversitariosCarregagos =
+        collectionsController.cursosUniversitarios;
+    if (cursosUniversitariosCarregagos.isEmpty) {
+      collectionsController.carregarCursosUniversitarios();
+    }
+  }
+
+  void sairModoEdicaoCursoUniversitario() {
+    _edicaoUniversitario.value = false;
+  }
+
+  bool get edicaoUniversitario => _edicaoUniversitario.value;
+  List<CursoUniversitario> get cursosUniversitarios =>
+      collectionsController.cursosUniversitarios;
+  int get indiceCursoUniversitarioSelecionado =>
+      _indiceCursoUniversitarioSelecionado.value;
 }
