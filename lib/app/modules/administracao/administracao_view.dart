@@ -346,11 +346,16 @@ class ViewProjeto extends StatelessWidget {
                                     width:
                                         MediaQuery.of(context).size.width * 0.4,
                                     child: Text(
-                                      loginController.authInfo.projeto!.cursos
-                                          .firstWhere((element) =>
-                                              element.id ==
-                                              codigoEntrada.idCurso)
-                                          .nome,
+                                      loginController
+                                                  .authInfo.projeto!.cursos !=
+                                              null
+                                          ? loginController
+                                              .authInfo.projeto!.cursos!
+                                              .firstWhere((element) =>
+                                                  element.id ==
+                                                  codigoEntrada.idCurso)
+                                              .nome
+                                          : "??",
                                       textScaleFactor: 0.6,
                                     ),
                                   ),
@@ -723,8 +728,10 @@ class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
     Projeto projeto = loginController.authInfo.projeto!;
 
     try {
-      curso = projeto.cursos
-          .firstWhere((element) => element.id == codigoEntrada.idCurso);
+      if (projeto.cursos != null) {
+        curso = projeto.cursos!
+            .firstWhere((element) => element.id == codigoEntrada.idCurso);
+      }
     } catch (e) {}
 
     if (codigoEntrada.idMateria != null && curso != null) {

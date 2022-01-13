@@ -167,12 +167,15 @@ class CollectionsController extends GetxController {
       Projeto? projeto = obterProjeto(idProjeto);
       if (projeto == null) return null;
 
-      cursos = projeto.cursos;
+      if (projeto.cursos == null) return null;
+      cursos = projeto.cursos!;
     } else {
       List<ProjetoItem> projetosItems = _projetosCarregados.value.getItems();
       List<Curso> cursos = [];
       projetosItems.forEach((element) {
-        cursos = [...cursos, ...element.projeto.cursos];
+        if (element.projeto.cursos != null) {
+          cursos = [...cursos, ...element.projeto.cursos!];
+        }
       });
     }
 

@@ -163,7 +163,9 @@ class AdministracaoController extends BottomMenuController {
   abrirCodigo() {}
 
   Projeto get projeto => loginController.authInfo.projeto!;
-  List<Curso> get cursos => loginController.authInfo.projeto!.cursos;
+  List<Curso> get cursos => loginController.authInfo.projeto!.cursos == null
+      ? []
+      : loginController.authInfo.projeto!.cursos!;
   List<Materia> get materiasCurso => _materiasCursoSelecionado();
   List<CodigoEntrada> get codigosDeEntrada =>
       _codigosDeEntrada.value.map((e) => e as CodigoEntrada).toList();
