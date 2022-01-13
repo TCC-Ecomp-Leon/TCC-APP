@@ -6,6 +6,7 @@ import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/administracao/administracao_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
+import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/CodigoEntrada.dart';
 import 'package:tcc_app/models/Curso.dart';
 import 'package:tcc_app/models/CursoUniversitario.dart';
@@ -105,14 +106,22 @@ class ViewAdministrador extends StatelessWidget {
   Widget buildNovoCursoUniversitario(BuildContext context) {
     final double width = MediaQuery.of(context).size.width * 0.9;
     return InkWell(
-      onTap: () {},
+      onTap: () async {
+        await Get.offNamed(Routes.adicaoCursoUniversitario);
+        controller.carregarCursosUniversitarios();
+      },
       child: Column(
         children: [
           Card(
             color: Colors.green,
             child: Container(
               height: 70.0,
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+              padding: const EdgeInsets.only(
+                left: 10.0,
+                right: 10.0,
+                top: 5.0,
+                bottom: 5.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,6 +155,10 @@ class ViewAdministrador extends StatelessWidget {
     final double espacoDisponivel = MediaQuery.of(context).size.width - 50.0;
     return LabelDescriptionCard(
       value: LabelDescriptionCardProps(
+        rightPadding: 10.0,
+        leftPadding: 10.0,
+        bottomPadding: 5.0,
+        topPadding: 5.0,
         label: curso.nome,
         labelSufix: curso.semestresPrevistos.toString() + " semestres",
         description: Row(
@@ -158,7 +171,7 @@ class ViewAdministrador extends StatelessWidget {
                 curso.cursoAnterior != null
                     ? "Curso Anterior: " + curso.cursoAnterior!.nome
                     : "Curso Anterior: Nenhum",
-                textScaleFactor: 0.6,
+                textScaleFactor: 0.8,
               ),
             ),
           ],

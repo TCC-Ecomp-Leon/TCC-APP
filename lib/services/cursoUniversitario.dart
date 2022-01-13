@@ -35,7 +35,7 @@ Future<bool?> registrarCursoUniversitario(
           'nome': nome,
           'descricao': descricao,
           'semestresPrevistos': semestresPrevistos,
-          'cursoAnterior': cursoAnterior,
+          'cursoAnterior': cursoAnterior?.toJson(),
         },
         options: Options(method: 'POST'),
       );

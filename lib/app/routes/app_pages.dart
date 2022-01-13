@@ -1,5 +1,7 @@
 import 'package:tcc_app/app/modules/administracao/administracao_binding.dart';
 import 'package:tcc_app/app/modules/administracao/administracao_view.dart';
+import 'package:tcc_app/app/modules/administracao/modules/adicao_curso_universitario_binding.dart';
+import 'package:tcc_app/app/modules/administracao/modules/adicao_curso_universitario_view.dart';
 import 'package:tcc_app/app/modules/dummy/dummy_binding.dart';
 import 'package:tcc_app/app/modules/dummy/dummy_view.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_binding.dart';
@@ -69,6 +71,11 @@ class AppPages {
       name: Routes.administracao,
       page: () => AdministracaoView(),
       binding: AdministracaoBinding(),
+    ),
+    GetPage(
+      name: Routes.adicaoCursoUniversitario,
+      page: () => AdicaoCursoUniversitarioView(),
+      binding: AdicaoCursoUniversitarioBinding(),
     ),
   ];
 }
