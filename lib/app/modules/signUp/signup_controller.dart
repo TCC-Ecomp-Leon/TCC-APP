@@ -232,7 +232,7 @@ class SignUpController extends GetxController {
   }
 
   CampoRegistro getElementoViaLabel(String label) {
-    final campos = _campos.value as List<CampoRegistro>;
+    final campos = _campos.value.map((e) => e as CampoRegistro).toList();
     CampoRegistro find = campos.firstWhere(
         (element) => element.label.toLowerCase() == label.toLowerCase());
     return find;
@@ -323,5 +323,6 @@ class SignUpController extends GetxController {
   bool get loading => _loading.value;
   String get imagemProjeto => _imagemProjeto.value;
   Localizacao get localizacaoProjeto => _localizacaoProjeto.value;
-  List<CampoRegistro> get campos => _campos.value as List<CampoRegistro>;
+  List<CampoRegistro> get campos =>
+      _campos.value.map((e) => e as CampoRegistro).toList();
 }

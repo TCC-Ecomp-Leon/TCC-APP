@@ -166,7 +166,7 @@ class AdministracaoController extends BottomMenuController {
   List<Curso> get cursos => loginController.authInfo.projeto!.cursos;
   List<Materia> get materiasCurso => _materiasCursoSelecionado();
   List<CodigoEntrada> get codigosDeEntrada =>
-      _codigosDeEntrada.value as List<CodigoEntrada>;
+      _codigosDeEntrada.value.map((e) => e as CodigoEntrada).toList();
   bool get carregandoCodigosDeEntrada => _carregandoCodigosDeEntrada.value;
 
   bool get codigoParaProfessor => _codigoParaProfessor.value;
@@ -198,5 +198,5 @@ class AdministracaoController extends BottomMenuController {
 
   List<Projeto> get projetosAprovados => collectionsController.projetos;
   List<Projeto> get projetosNaoAprovados =>
-      _projetosNaoAprovados.value as List<Projeto>;
+      _projetosNaoAprovados.value.map((e) => e as Projeto).toList();
 }

@@ -346,6 +346,6 @@ class PerfilController extends BottomMenuController {
 
   Projeto? get projetoEmEdicao => _projetoEdicao.value;
   List<CampoRegistro> get camposProjeto =>
-      _camposProjeto.value as List<CampoRegistro>;
+      _camposProjeto.value.map((e) => e as CampoRegistro).toList();
   bool get salvandoEdicaoProjeto => _salvandoEdicaoProjeto.value;
 }

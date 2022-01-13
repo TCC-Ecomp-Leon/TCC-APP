@@ -25,6 +25,6 @@ class DuvidasController extends BottomMenuController {
     _carregando.value = false;
   }
 
-  List<Duvida> get duvidas => _duvidas.value as List<Duvida>;
+  List<Duvida> get duvidas => _duvidas.value.map((e) => e as Duvida).toList();
   bool get carregandoDuvidas => _carregando.value;
 }
