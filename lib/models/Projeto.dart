@@ -12,6 +12,7 @@ abstract class Projeto with _$Projeto {
     String id,
     String nome,
     String descricao,
+    String email,
     int telefone,
     DateTime requisicaoEntradaEm,
     String imgProjeto,

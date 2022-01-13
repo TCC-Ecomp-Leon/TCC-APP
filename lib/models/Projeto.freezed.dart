@@ -26,6 +26,7 @@ class _$ProjetoTearOff {
       String id,
       String nome,
       String descricao,
+      String email,
       int telefone,
       DateTime requisicaoEntradaEm,
       String imgProjeto,
@@ -38,6 +39,7 @@ class _$ProjetoTearOff {
       id,
       nome,
       descricao,
+      email,
       telefone,
       requisicaoEntradaEm,
       imgProjeto,
@@ -62,6 +64,7 @@ mixin _$Projeto {
   String get id => throw _privateConstructorUsedError;
   String get nome => throw _privateConstructorUsedError;
   String get descricao => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
   int get telefone => throw _privateConstructorUsedError;
   DateTime get requisicaoEntradaEm => throw _privateConstructorUsedError;
   String get imgProjeto => throw _privateConstructorUsedError;
@@ -84,6 +87,7 @@ abstract class $ProjetoCopyWith<$Res> {
       {String id,
       String nome,
       String descricao,
+      String email,
       int telefone,
       DateTime requisicaoEntradaEm,
       String imgProjeto,
@@ -109,6 +113,7 @@ class _$ProjetoCopyWithImpl<$Res> implements $ProjetoCopyWith<$Res> {
     Object? id = freezed,
     Object? nome = freezed,
     Object? descricao = freezed,
+    Object? email = freezed,
     Object? telefone = freezed,
     Object? requisicaoEntradaEm = freezed,
     Object? imgProjeto = freezed,
@@ -130,6 +135,10 @@ class _$ProjetoCopyWithImpl<$Res> implements $ProjetoCopyWith<$Res> {
       descricao: descricao == freezed
           ? _value.descricao
           : descricao // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       telefone: telefone == freezed
           ? _value.telefone
@@ -183,6 +192,7 @@ abstract class _$ProjetoCopyWith<$Res> implements $ProjetoCopyWith<$Res> {
       {String id,
       String nome,
       String descricao,
+      String email,
       int telefone,
       DateTime requisicaoEntradaEm,
       String imgProjeto,
@@ -210,6 +220,7 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
     Object? id = freezed,
     Object? nome = freezed,
     Object? descricao = freezed,
+    Object? email = freezed,
     Object? telefone = freezed,
     Object? requisicaoEntradaEm = freezed,
     Object? imgProjeto = freezed,
@@ -231,6 +242,10 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
       descricao == freezed
           ? _value.descricao
           : descricao // ignore: cast_nullable_to_non_nullable
+              as String,
+      email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       telefone == freezed
           ? _value.telefone
@@ -276,6 +291,7 @@ class _$_Projeto implements _Projeto {
       this.id,
       this.nome,
       this.descricao,
+      this.email,
       this.telefone,
       this.requisicaoEntradaEm,
       this.imgProjeto,
@@ -295,6 +311,8 @@ class _$_Projeto implements _Projeto {
   @override
   final String descricao;
   @override
+  final String email;
+  @override
   final int telefone;
   @override
   final DateTime requisicaoEntradaEm;
@@ -313,7 +331,7 @@ class _$_Projeto implements _Projeto {
 
   @override
   String toString() {
-    return 'Projeto(id: $id, nome: $nome, descricao: $descricao, telefone: $telefone, requisicaoEntradaEm: $requisicaoEntradaEm, imgProjeto: $imgProjeto, endereco: $endereco, aprovado: $aprovado, idPerfilResponsavel: $idPerfilResponsavel, entradaEm: $entradaEm, cursos: $cursos)';
+    return 'Projeto(id: $id, nome: $nome, descricao: $descricao, email: $email, telefone: $telefone, requisicaoEntradaEm: $requisicaoEntradaEm, imgProjeto: $imgProjeto, endereco: $endereco, aprovado: $aprovado, idPerfilResponsavel: $idPerfilResponsavel, entradaEm: $entradaEm, cursos: $cursos)';
   }
 
   @override
@@ -324,6 +342,7 @@ class _$_Projeto implements _Projeto {
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.nome, nome) &&
             const DeepCollectionEquality().equals(other.descricao, descricao) &&
+            const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.telefone, telefone) &&
             const DeepCollectionEquality()
                 .equals(other.requisicaoEntradaEm, requisicaoEntradaEm) &&
@@ -343,6 +362,7 @@ class _$_Projeto implements _Projeto {
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(nome),
       const DeepCollectionEquality().hash(descricao),
+      const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(telefone),
       const DeepCollectionEquality().hash(requisicaoEntradaEm),
       const DeepCollectionEquality().hash(imgProjeto),
@@ -368,6 +388,7 @@ abstract class _Projeto implements Projeto {
       String id,
       String nome,
       String descricao,
+      String email,
       int telefone,
       DateTime requisicaoEntradaEm,
       String imgProjeto,
@@ -385,6 +406,8 @@ abstract class _Projeto implements Projeto {
   String get nome;
   @override
   String get descricao;
+  @override
+  String get email;
   @override
   int get telefone;
   @override

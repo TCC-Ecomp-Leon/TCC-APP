@@ -371,6 +371,7 @@ parametros_projeto = [
                 'String id',
                 'String nome',
                 'String descricao',
+                'String email',
                 'int telefone',
                 'DateTime requisicaoEntradaEm',
                 'String imgProjeto',
