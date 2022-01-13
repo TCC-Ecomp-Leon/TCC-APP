@@ -48,6 +48,13 @@ class BottomMenuController extends GetxController {
     BottomMenuInfo? read = readBottomMenuInfo(box);
     if (read != null && read.tabIndex != null) {
       _tabIndex.value = read.tabIndex!;
+    } else {
+      String initialRoute = afterLoginRoute(box);
+      int index =
+          pageList.indexWhere((element) => element.routeName == initialRoute);
+      if (index >= 0) {
+        _tabIndex.value = index;
+      }
     }
 
     super.onInit();
