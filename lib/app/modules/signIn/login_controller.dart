@@ -10,6 +10,8 @@ import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/services/auth.dart';
 import 'package:async/async.dart';
+import 'package:tcc_app/services/perfil.dart';
+import 'package:tcc_app/services/projeto.dart';
 
 enum AuthStatus {
   Authenticated,
@@ -62,6 +64,21 @@ class LoginController extends GetxController {
     }
 
     super.onInit();
+  }
+
+  Future<void> recarregarPerfil() async {
+    Perfil? result = await obterOutroPerfil(perfil.id);
+    if (result != null) {
+      _authInfo.value.perfil = result;
+    }
+  }
+
+  Future<void> recarregarProjeto() async {
+    if (_authInfo.value.projeto == null) return;
+    Projeto? result = await obterProjeto(_authInfo.value.projeto!.id);
+    if (result != null) {
+      _authInfo.value.projeto = result;
+    }
   }
 
   Future<String?> usarTokenEmCache(int msTimeout) async {

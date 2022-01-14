@@ -332,10 +332,13 @@ class PerfilController extends BottomMenuController {
       }
 
       _salvandoEdicao.value = false;
+      loginController.recarregarPerfil();
     }
   }
 
-  salvarEdicaoProjeto() async {}
+  salvarEdicaoProjeto() async {
+    //TODO:
+  }
 
   inicioInsercaoCodigoEntrada() {
     _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Nenhum;
@@ -351,15 +354,9 @@ class PerfilController extends BottomMenuController {
       _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Erro;
     }
 
-    AuthInfo? perfilAtualizado = await reobterPerfil();
-    if (perfilAtualizado != null) {
-      loginController.authToken = perfilAtualizado.authToken;
-      loginController.perfil = perfilAtualizado.perfil;
-      loginController.projeto = perfilAtualizado.projeto;
-    }
+    loginController.recarregarPerfil();
   }
 
-  Perfil get getPerfilEdicao => _perfilEdicao.value;
   bool get loadingImagemPerfil => _loadingImagemPerfil.value;
   bool get modoEdicao => _modoEdicao.value;
   bool get salvandoEdicao => _salvandoEdicao.value;

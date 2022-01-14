@@ -38,9 +38,9 @@ class PerfilView extends GetView<PerfilController> {
                           )
                         : CardOverlapImage(
                             changeImage: controller.alterarFotoPerfil,
-                            base64image: controller.getPerfilEdicao.fotoPerfil,
+                            base64image: controller.perfil.fotoPerfil,
                             child: Text(
-                              controller.getPerfilEdicao.nome,
+                              controller.perfil.nome,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.black,
@@ -79,7 +79,7 @@ class PerfilView extends GetView<PerfilController> {
                                     label: "Email",
                                     editable: false,
                                     controller: TextEditingController(
-                                        text: controller.getPerfilEdicao.email),
+                                        text: controller.perfil.email),
                                   ),
                                   ChangeEditableTextField(
                                     label: "Telefone",
@@ -91,7 +91,7 @@ class PerfilView extends GetView<PerfilController> {
                                     editable: false,
                                     controller: TextEditingController(
                                       text: diaComAno(
-                                        controller.getPerfilEdicao.entradaEm,
+                                        controller.perfil.entradaEm,
                                       ),
                                     ),
                                   ),
