@@ -105,8 +105,8 @@ class ViewAdministrador extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width * 0.9;
     return InkWell(
       onTap: () async {
-        await Get.offNamed(Routes.adicaoCursoUniversitario);
-        controller.carregarCursosUniversitarios();
+        await Get.toNamed(Routes.adicaoCursoUniversitario);
+        controller.carregarCursosUniversitarios(notSilent: true);
       },
       child: Column(
         children: [

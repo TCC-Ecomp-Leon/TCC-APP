@@ -86,14 +86,16 @@ class AdministracaoController extends BottomMenuController {
   carregarCursosUniversitarios({bool? notSilent}) async {
     if (notSilent != null && notSilent) {
       refreshControllerCursosUniversitarios.requestRefresh();
+    } else {
+      _carregandoCursosUniversitarios.value = true;
     }
-    _carregandoCursosUniversitarios.value = true;
 
     await collectionsController.carregarCursosUniversitarios();
 
-    _carregandoCursosUniversitarios.value = false;
     if (notSilent != null && notSilent) {
       refreshControllerCursosUniversitarios.refreshCompleted();
+    } else {
+      _carregandoCursosUniversitarios.value = false;
     }
   }
 

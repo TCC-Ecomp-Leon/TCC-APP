@@ -10,4 +10,5 @@ abstract class Routes {
   static const adicaoCursoUniversitario = "/adicaoCursoUniversitario";
   static const visualizacaoDuvida = "/visualizacaoDuvida";
   static const cursos = "/cursos";
+  static const criacaoCurso = "/criacaoCurso";
 }

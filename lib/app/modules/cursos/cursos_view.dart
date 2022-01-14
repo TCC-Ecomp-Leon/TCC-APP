@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_controller.dart';
+import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/Curso.dart';
 import 'package:tcc_app/screens/dummy.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
@@ -10,10 +11,13 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class CursosView extends GetView<CursosController> {
-  Widget buildCriarMateria(BuildContext context) {
+  Widget buildCriarCurso(BuildContext context) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
-      onTap: () async {},
+      onTap: () async {
+        await Get.toNamed(Routes.criacaoCurso, arguments: controller.projeto);
+        controller.carregarListaCursos(notSilent: true, force: true);
+      },
       child: Column(
         children: [
           Card(
@@ -37,7 +41,7 @@ class CursosView extends GetView<CursosController> {
                   ),
                   SizedBox(
                     width: width * 0.8,
-                    child: const Text("Adicionar matéria"),
+                    child: const Text("Adicionar curso"),
                   ),
                   const CircleAvatar(
                     foregroundColor: Colors.white,
@@ -122,7 +126,7 @@ class CursosView extends GetView<CursosController> {
                   )
                 : RefreshListView(
                     header: controller.regraProjeto
-                        ? buildCriarMateria(context)
+                        ? buildCriarCurso(context)
                         : const Padding(
                             padding: EdgeInsets.only(bottom: 10.0),
                             child: Align(
