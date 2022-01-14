@@ -7,6 +7,7 @@ import 'package:tcc_app/models/Duvida.dart';
 import 'package:tcc_app/screens/dummy.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/loading.dart';
+import 'package:tcc_app/widgets/refresh_list.dart';
 
 class DuvidasView extends GetView<DuvidasController> {
   Widget buildCriarDuvida(BuildContext context) {
@@ -135,44 +136,51 @@ class DuvidasView extends GetView<DuvidasController> {
       controller: controller,
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.only(top: 30.0, left: 5.0, right: 5.0),
+          padding: const EdgeInsets.only(top: 40.0, left: 5.0, right: 5.0),
           child: Obx(
-            () => Column(
-              children: [
-                controller.aluno ? buildCriarDuvida(context) : Container(),
-                controller.carregandoDuvidas
-                    ? Align(
-                        alignment: Alignment.topCenter,
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height - 200.0,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 100.0,
-                            child: const Loading(
-                                color: Colors.white, circleTimeSeconds: 2),
-                          ),
-                        ),
-                      )
-                    : controller.duvidas.isEmpty
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height - 200.0,
-                            child: const Center(
-                              child: Text("Nenhuma dúvida"),
+            () => controller.carregandoDuvidas
+                ? Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height - 200.0,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 100.0,
+                        child: const Loading(
+                            color: Colors.white, circleTimeSeconds: 2),
+                      ),
+                    ),
+                  )
+                : RefreshListView(
+                    header: controller.aluno
+                        ? buildCriarDuvida(context)
+                        : const Padding(
+                            padding: EdgeInsets.only(bottom: 10.0),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                "Dúvidas",
+                                textScaleFactor: 1.2,
+                              ),
                             ),
-                          )
-                        : ListView.builder(
-                            padding: const EdgeInsets.only(top: 0.0),
-                            itemCount: controller.duvidas.length,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return buildDuvida(
-                                context,
-                                controller.duvidas[index],
-                              );
-                            },
                           ),
-              ],
-            ),
+                    bottomOffset: controller.aluno ? 170.0 : 135.0,
+                    refreshController: controller.refreshController,
+                    onRefresh: () {
+                      controller.carregarDuvidas(pullRefresh: true);
+                    },
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(top: 0.0),
+                      itemCount: controller.duvidas.length,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return buildDuvida(
+                          context,
+                          controller.duvidas[index],
+                        );
+                      },
+                    ),
+                  ),
           ),
         ),
       ),
