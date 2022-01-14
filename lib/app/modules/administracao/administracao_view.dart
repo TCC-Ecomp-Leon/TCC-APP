@@ -1,8 +1,6 @@
-import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/administracao/administracao_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
@@ -18,9 +16,9 @@ import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/dropdown.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
 import 'package:tcc_app/widgets/label_description_card.dart';
-import 'package:tcc_app/widgets/list_view.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:tcc_app/widgets/refresh_list.dart';
 
 class AdministracaoView extends GetView<AdministracaoController> {
   final LoginController loginController = Get.find<LoginController>();
@@ -185,113 +183,139 @@ class ViewAdministrador extends StatelessWidget {
     return CarouselIndicator(
       children: [
         Obx(
-          () => ListView(
-            shrinkWrap: true,
-            children: [
-              const Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  "Projetos aprovados",
-                  style: TextStyle(fontSize: 20.0),
+          () => controller.carregandoProjetosAprovados
+              ? Container(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  child:
+                      const Loading(color: Colors.white, circleTimeSeconds: 2),
+                )
+              : RefreshListView(
+                  header: Column(
+                    children: const [
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "Projetos aprovados",
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                    ],
+                  ),
+                  bottomOffset: 170.0,
+                  refreshController:
+                      controller.refreshControllerProjetosAprovados,
+                  onRefresh: () {
+                    controller.carregarProjetosAprovados(notSilent: true);
+                  },
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 0.0),
+                    itemCount: controller.projetosAprovados.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return buildProjeto(
+                        context,
+                        controller.projetosAprovados[index],
+                      );
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              controller.carregandoProjetosAprovados
-                  ? Container(
-                      alignment: Alignment.center,
-                      height: 100.0,
-                      child: const Loading(
-                          color: Colors.white, circleTimeSeconds: 2),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.projetosAprovados.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return buildProjeto(
-                          context,
-                          controller.projetosAprovados[index],
-                        );
-                      },
-                    ),
-            ],
-          ),
         ),
         Obx(
-          () => ListView(
-            shrinkWrap: true,
-            children: [
-              const Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  "Projetos necessitando aprovação",
-                  style: TextStyle(fontSize: 20.0),
+          () => controller.carregandoProjetosNaoAprovados
+              ? Container(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  child:
+                      const Loading(color: Colors.white, circleTimeSeconds: 2),
+                )
+              : RefreshListView(
+                  header: Column(
+                    children: const [
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "Projetos necessitando aprovação",
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                    ],
+                  ),
+                  bottomOffset: 170.0,
+                  refreshController:
+                      controller.refreshControllerProjetosNaoAprovados,
+                  onRefresh: () {
+                    controller.carregarProjetosNaoAprovados(notSilent: true);
+                  },
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 0.0),
+                    itemCount: controller.projetosNaoAprovados.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return buildProjeto(
+                        context,
+                        controller.projetosNaoAprovados[index],
+                      );
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              controller.carregandoProjetosNaoAprovados
-                  ? Container(
-                      alignment: Alignment.center,
-                      height: 100.0,
-                      child: const Loading(
-                          color: Colors.white, circleTimeSeconds: 2),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.projetosNaoAprovados.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return buildProjeto(
-                          context,
-                          controller.projetosNaoAprovados[index],
-                        );
-                      },
-                    ),
-            ],
-          ),
         ),
         Obx(
-          () => ListView(
-            shrinkWrap: true,
-            children: [
-              const Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  "Cursos Universitários",
-                  style: TextStyle(fontSize: 20.0),
+          () => controller.carregandoCursosUniversitarios
+              ? Container(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  child:
+                      const Loading(color: Colors.white, circleTimeSeconds: 2),
+                )
+              : RefreshListView(
+                  header: Column(
+                    children: const [
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "Cursos universitários",
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                    ],
+                  ),
+                  bottomOffset: 170.0,
+                  refreshController:
+                      controller.refreshControllerCursosUniversitarios,
+                  onRefresh: () {
+                    controller.carregarCursosUniversitarios(notSilent: true);
+                  },
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 0.0),
+                    itemCount: controller.cursosUniversitarios.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return buildCursoUniversitario(
+                        context,
+                        controller.cursosUniversitarios[index],
+                      );
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              buildNovoCursoUniversitario(context),
-              const SizedBox(
-                height: 10.0,
-              ),
-              controller.carregandoCursosUniversitarios
-                  ? Container(
-                      alignment: Alignment.center,
-                      height: 100.0,
-                      child: const Loading(
-                          color: Colors.white, circleTimeSeconds: 2),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.cursosUniversitarios.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return buildCursoUniversitario(
-                          context,
-                          controller.cursosUniversitarios[index],
-                        );
-                      },
-                    ),
-            ],
-          ),
         ),
       ],
     );
@@ -409,96 +433,71 @@ class ViewProjeto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        buildCriarCodigoDeEntrada(context),
-        Obx(
-          () => controller.carregandoCodigosDeEntrada
-              ? Align(
-                  alignment: Alignment.topCenter,
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height - 200.0,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 100.0,
-                      child: const Loading(
-                          color: Colors.white, circleTimeSeconds: 2),
+    return Obx(
+      () => RefreshListView(
+        header: buildCriarCodigoDeEntrada(context),
+        bottomOffset: 170.0,
+        refreshController: controller.refreshControllerCodigosDeEntrada,
+        onRefresh: () {
+          controller.carregarCodigosDeEntrada(notSilent: true);
+        },
+        child: ListView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(top: 0.0),
+          itemCount: controller.codigosDeEntrada.length,
+          itemBuilder: (BuildContext context, index) {
+            CodigoEntrada codigoEntrada = controller.codigosDeEntrada[index];
+            return InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return PopUpVisualizarCodigoDeEntrada(
+                      codigoEntrada: codigoEntrada,
+                    );
+                  },
+                );
+              },
+              child: Opacity(
+                opacity: codigoEntrada.usado ? 0.5 : 1.0,
+                child: IconLabelDescriptionCard(
+                  value: IconLabelDescriptionCardProps(
+                    base64Image: controller.projeto.imgProjeto,
+                    label: codigoEntrada.tipo == TipoCodigoDeEntrada.Aluno
+                        ? "Código Aluno"
+                        : "Código Professor",
+                    description: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Text(
+                            loginController.authInfo.projeto!.cursos != null
+                                ? loginController.authInfo.projeto!.cursos!
+                                    .firstWhere((element) =>
+                                        element.id == codigoEntrada.idCurso)
+                                    .nome
+                                : "??",
+                            textScaleFactor: 0.6,
+                          ),
+                        ),
+                        Text(
+                          "Gerado em: " +
+                              diaComAno(codigoEntrada.geradoEm) +
+                              " " +
+                              horario(codigoEntrada.geradoEm),
+                          textScaleFactor: 0.6,
+                        ),
+                      ],
                     ),
                   ),
-                )
-              : controller.codigosDeEntrada.isEmpty
-                  ? SizedBox(
-                      height: MediaQuery.of(context).size.height - 200.0,
-                      child: const Center(
-                        child: Text("Nenhum código de entrada"),
-                      ),
-                    )
-                  : GenericListView<CodigoEntrada>(
-                      shrinkWrap: true,
-                      paddingLeft: 0.0,
-                      paddingRight: 0.0,
-                      itens: controller.codigosDeEntrada,
-                      render: (CodigoEntrada codigoEntrada, index) {
-                        return InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return PopUpVisualizarCodigoDeEntrada(
-                                    codigoEntrada: codigoEntrada,
-                                  );
-                                },
-                              );
-                            },
-                            child: Opacity(
-                              opacity: codigoEntrada.usado ? 0.5 : 1.0,
-                              child: IconLabelDescriptionCard(
-                                value: IconLabelDescriptionCardProps(
-                                  base64Image: controller.projeto.imgProjeto,
-                                  label: codigoEntrada.tipo ==
-                                          TipoCodigoDeEntrada.Aluno
-                                      ? "Código Aluno"
-                                      : "Código Professor",
-                                  description: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.4,
-                                        child: Text(
-                                          loginController.authInfo.projeto!
-                                                      .cursos !=
-                                                  null
-                                              ? loginController
-                                                  .authInfo.projeto!.cursos!
-                                                  .firstWhere((element) =>
-                                                      element.id ==
-                                                      codigoEntrada.idCurso)
-                                                  .nome
-                                              : "??",
-                                          textScaleFactor: 0.6,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Gerado em: " +
-                                            diaComAno(codigoEntrada.geradoEm) +
-                                            " " +
-                                            horario(codigoEntrada.geradoEm),
-                                        textScaleFactor: 0.6,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ));
-                      },
-                    ),
+                ),
+              ),
+            );
+          },
         ),
-      ],
+      ),
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
@@ -29,6 +30,15 @@ enum EstadoAdicaoCodigoDeEntrada {
 class AdministracaoController extends BottomMenuController {
   final collectionsController = Get.find<CollectionsController>();
 
+  final RefreshController refreshControllerCodigosDeEntrada =
+      RefreshController();
+  final RefreshController refreshControllerProjetosAprovados =
+      RefreshController();
+  final RefreshController refreshControllerProjetosNaoAprovados =
+      RefreshController();
+  final RefreshController refreshControllerCursosUniversitarios =
+      RefreshController();
+
   @override
   void onInit() {
     super.onInit();
@@ -41,15 +51,24 @@ class AdministracaoController extends BottomMenuController {
     }
   }
 
-  carregarProjetosAprovados() async {
+  carregarProjetosAprovados({bool? notSilent}) async {
+    if (notSilent != null && notSilent) {
+      refreshControllerProjetosAprovados.requestRefresh();
+    }
     _carregandoProjetosAprovados.value = true;
 
     await collectionsController.carregarProjetos();
 
     _carregandoProjetosAprovados.value = false;
+    if (notSilent != null && notSilent) {
+      refreshControllerProjetosAprovados.refreshCompleted();
+    }
   }
 
-  carregarProjetosNaoAprovados() async {
+  carregarProjetosNaoAprovados({bool? notSilent}) async {
+    if (notSilent != null && notSilent) {
+      refreshControllerProjetosNaoAprovados.requestRefresh();
+    }
     _carregandoProjetosNaoAprovados.value = true;
 
     List<Projeto>? result = await obterListaDeProjetosNaoAprovados();
@@ -59,14 +78,23 @@ class AdministracaoController extends BottomMenuController {
     }
 
     _carregandoProjetosNaoAprovados.value = false;
+    if (notSilent != null && notSilent) {
+      refreshControllerProjetosNaoAprovados.refreshCompleted();
+    }
   }
 
-  carregarCursosUniversitarios() async {
+  carregarCursosUniversitarios({bool? notSilent}) async {
+    if (notSilent != null && notSilent) {
+      refreshControllerCursosUniversitarios.requestRefresh();
+    }
     _carregandoCursosUniversitarios.value = true;
 
     await collectionsController.carregarCursosUniversitarios();
 
     _carregandoCursosUniversitarios.value = false;
+    if (notSilent != null && notSilent) {
+      refreshControllerCursosUniversitarios.refreshCompleted();
+    }
   }
 
   carregarInformacoesAdm() async {
@@ -114,7 +142,11 @@ class AdministracaoController extends BottomMenuController {
     }
   }
 
-  carregarCodigosDeEntrada() async {
+  carregarCodigosDeEntrada({bool? notSilent}) async {
+    if (notSilent != null && notSilent) {
+      refreshControllerCodigosDeEntrada.requestRefresh();
+    }
+
     _carregandoCodigosDeEntrada.value = true;
 
     List<CodigoEntrada>? result = await obterCodigosDeEntrada();
@@ -123,6 +155,10 @@ class AdministracaoController extends BottomMenuController {
     }
 
     _carregandoCodigosDeEntrada.value = false;
+
+    if (notSilent != null && notSilent) {
+      refreshControllerCodigosDeEntrada.refreshCompleted();
+    }
   }
 
   List<Materia> _materiasCursoSelecionado() {
@@ -143,7 +179,7 @@ class AdministracaoController extends BottomMenuController {
 
   sairModoAdicaoCodigo() {
     Get.back();
-    carregarCodigosDeEntrada();
+    carregarCodigosDeEntrada(notSilent: true);
   }
 
   adicionarCodigo() async {
