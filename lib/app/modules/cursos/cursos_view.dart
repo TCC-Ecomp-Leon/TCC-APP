@@ -111,26 +111,48 @@ class CursosView extends GetView<CursosController> {
     return BottomMenuView(
       child: Scaffold(
         body: Padding(
-            padding: const EdgeInsets.only(top: 30.0, left: 5.0, right: 5.0),
-            child: RefreshListView(
-              header: buildCriarMateria(context),
-              bottomOffset: 170.0,
-              refreshController: controller.refreshController,
-              onRefresh: () {
-                controller.carregarListaCursos(notSilent: true, force: true);
-              },
-              child: ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 0.0),
-                itemCount: controller.cursos.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return buildCurso(
-                    context,
-                    controller.cursos[index],
-                  );
-                },
-              ),
-            )),
+          padding: const EdgeInsets.only(top: 40.0, left: 5.0, right: 5.0),
+          child: Obx(
+            () => controller.carregandoCursos
+                ? Container(
+                    alignment: Alignment.center,
+                    height: 100.0,
+                    child: const Loading(
+                        color: Colors.white, circleTimeSeconds: 2),
+                  )
+                : RefreshListView(
+                    header: controller.regraProjeto
+                        ? buildCriarMateria(context)
+                        : const Padding(
+                            padding: EdgeInsets.only(bottom: 10.0),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                "Suas matérias",
+                                textScaleFactor: 1.2,
+                              ),
+                            ),
+                          ),
+                    bottomOffset: controller.regraProjeto ? 170.0 : 135.0,
+                    refreshController: controller.refreshController,
+                    onRefresh: () {
+                      controller.carregarListaCursos(
+                          notSilent: true, force: true);
+                    },
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(top: 0.0),
+                      itemCount: controller.cursos.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return buildCurso(
+                          context,
+                          controller.cursos[index],
+                        );
+                      },
+                    ),
+                  ),
+          ),
+        ),
       ),
       controller: controller,
     );
