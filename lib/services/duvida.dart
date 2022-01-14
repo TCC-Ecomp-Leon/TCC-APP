@@ -55,6 +55,21 @@ Future<List<Duvida>?> obterDuvidas(String? idProjeto) {
   );
 }
 
+Future<Duvida?> obterDuvida(String idDuvida) {
+  return executeRequest(
+    () {
+      return httpClient.request(
+        Endpoints.duvidaEndpoint + "/" + idDuvida,
+        options: Options(method: 'GET'),
+      );
+    },
+    (Response<dynamic> response) {
+      final body = response.data as Map<String, dynamic>;
+      return Duvida.fromJson(body['duvida']);
+    },
+  );
+}
+
 Future<bool?> responderDuvida(
   String idDuvida,
   String mensagem,

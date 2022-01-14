@@ -8,6 +8,8 @@ import 'package:tcc_app/app/modules/duvidas/duvidas_binding.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_view.dart';
 import 'package:tcc_app/app/modules/duvidas/modules/criacaoDuvida/criacao_duvida_binding.dart';
 import 'package:tcc_app/app/modules/duvidas/modules/criacaoDuvida/criacao_duvida_view.dart';
+import 'package:tcc_app/app/modules/duvidas/modules/visualizacaoDuvida/visualizacao_duvida_binding.dart';
+import 'package:tcc_app/app/modules/duvidas/modules/visualizacaoDuvida/visualizacao_duvida_view.dart';
 import 'package:tcc_app/app/modules/initial/initial_binding.dart';
 import 'package:tcc_app/app/modules/initial/initial_view.dart';
 import 'package:tcc_app/app/modules/perfil/perfil_binding.dart';
@@ -76,6 +78,11 @@ class AppPages {
       name: Routes.adicaoCursoUniversitario,
       page: () => AdicaoCursoUniversitarioView(),
       binding: AdicaoCursoUniversitarioBinding(),
+    ),
+    GetPage(
+      name: Routes.visualizacaoDuvida,
+      page: () => VisualizacaoDuvidaView(),
+      binding: VisualizacaoDuvidaBinding(),
     ),
   ];
 }
