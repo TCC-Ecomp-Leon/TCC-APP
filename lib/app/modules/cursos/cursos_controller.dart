@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 import 'package:tcc_app/models/Curso.dart';
@@ -12,9 +13,12 @@ import 'package:tcc_app/utils/flatten.dart';
 //  2 - Geral:
 //      (i) Professor: Lista de cursos que ele tem matérias
 //      (ii) Aluno: Lista de cursos que ele participa
+
 class CursosController extends BottomMenuController {
   final CollectionsController collectionsController =
       Get.find<CollectionsController>();
+
+  final RefreshController refreshController = RefreshController();
 
   @override
   void onInit() {
@@ -25,18 +29,30 @@ class CursosController extends BottomMenuController {
   final RxList<dynamic> _cursos = [].obs;
   final Rx<bool> _carregandoCursos = true.obs;
 
-  carregarListaCursos() async {
+  carregarListaCursos({bool? notSilent, bool? force}) async {
+    if (notSilent != null && notSilent) {
+      refreshController.requestRefresh();
+    }
     _carregandoCursos.value = true;
 
     if (regraProjeto) {
+      if (force != null && force) {
+        await loginController.recarregarProjeto();
+      }
       _cursos.value = projeto!.cursos!;
     } else if (regraAluno) {
+      if (force != null && force) {
+        await loginController.recarregarPerfil();
+      }
       _cursos.value = perfil.associacoes!.aluno.cursos!;
     } else if (regraProfessor) {
       _cursos.value = await _buscarCursosProfessor();
     }
 
     _carregandoCursos.value = false;
+    if (notSilent != null && notSilent) {
+      refreshController.refreshCompleted();
+    }
   }
 
   Future<List<Curso>> _buscarCursosProfessor() async {

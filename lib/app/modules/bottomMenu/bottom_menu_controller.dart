@@ -105,6 +105,8 @@ List<BottomMenuPage> obterPaginasComPermisssao(
 
   if (perfil!.regra == RegraPerfil.Geral) {
     return [pages[1], pages[2], pages[3], pages[4]];
+  } else if (loginController.regraAdministrador) {
+    return [pages[0], pages[2], pages[3], pages[4]];
   }
   // else if (perfil.regra == RegraPerfil.Projeto) {
   //   return [pages[0], pages[1], pages[3], pages[4]];
@@ -123,7 +125,7 @@ final List<BottomMenuPage> pages = [
   BottomMenuPage(
     page: CursosView(),
     label: "Cursos",
-    icon: const Icon(Icons.list),
+    icon: const Icon(Icons.menu_book),
     routeName: Routes.cursos,
   ),
   BottomMenuPage(
