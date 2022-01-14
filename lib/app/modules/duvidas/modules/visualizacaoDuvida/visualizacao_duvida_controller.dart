@@ -21,6 +21,7 @@ class VisualizacaoDuvidaController extends GetxController {
   final RefreshController refreshController = RefreshController();
 
   atualizarDuvida({bool? notificar}) async {
+    refreshController.requestRefresh();
     if (notificar != null && notificar) {
       _atualizando.value = true;
     }
@@ -54,6 +55,21 @@ class VisualizacaoDuvidaController extends GetxController {
       _enviandoMensagem.value = false;
       atualizarDuvida(notificar: false);
     }
+  }
+
+  fechamentoDuvida() async {
+    _enviandoMensagem.value = true;
+
+    final bool? result = await fecharDuvida(duvida.id);
+    if (result != null && result) {
+      _erro.value = "";
+    } else {
+      _erro.value = "Erro ao fechar a dúvida";
+    }
+
+    _enviandoMensagem.value = false;
+
+    atualizarDuvida(notificar: false);
   }
 
   Duvida get duvida => _duvida.value;

@@ -64,11 +64,12 @@ class DuvidasView extends GetView<DuvidasController> {
   Widget buildDuvida(BuildContext context, Duvida duvida) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
-      onTap: () {
-        Get.toNamed(
+      onTap: () async {
+        await Get.toNamed(
           Routes.visualizacaoDuvida,
           arguments: duvida,
         );
+        controller.carregarDuvidas();
       },
       child: Opacity(
         opacity: duvida.resolvida ? 0.5 : 1.0,

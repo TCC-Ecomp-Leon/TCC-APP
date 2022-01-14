@@ -53,7 +53,10 @@ class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
     );
   }
 
-  Widget buildEnviarMensagem(bool enviando, String? erro) {
+  Widget buildEnviarMensagem(bool fechada, bool enviando, String? erro) {
+    if (fechada) {
+      return Container();
+    }
     return ShimmerLoading(
       isLoading: enviando,
       child: Padding(
@@ -127,6 +130,21 @@ class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
                     backgroundColor: Colors.amberAccent,
                   ),
                 ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                InkWell(
+                  onTap: () {
+                    controller.fechamentoDuvida();
+                  },
+                  child: const CircleAvatar(
+                    child: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                ),
               ],
             ),
           ],
@@ -173,6 +191,7 @@ class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
                     ),
                   ),
                   buildEnviarMensagem(
+                    controller.duvida.resolvida,
                     controller.enviandoMensagem,
                     controller.erro,
                   ),
