@@ -159,14 +159,84 @@ class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
     return KeyboardVisibilityBuilder(
       builder: (BuildContext context, bool isKeyboardVisible) {
         final double bottomInsets = isKeyboardVisible ? 250 : 0.0;
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.only(top: 30.0),
-            child: Obx(
-              () => Column(
+        final double bottomOffset = controller.duvida.resolvida ? 100 : 169;
+        return Obx(
+          () => Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              flexibleSpace: SafeArea(
+                child: Container(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 2,
+                      ),
+                      const CircleAvatar(
+                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.black,
+                        child: Center(
+                          child: Icon(
+                            Icons.question_answer,
+                            color: Colors.white,
+                          ),
+                        ),
+                        maxRadius: 20,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              controller.duvida.titulo,
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Text(
+                              controller.duvida.resolvida
+                                  ? "Status: Resolvida"
+                                  : "Status: Em aberto",
+                              style: TextStyle(
+                                  color: controller.duvida.resolvida
+                                      ? Colors.green
+                                      : Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: Column(
                 children: [
                   SizedBox(
-                    height: height - bottomInsets - 112.0,
+                    height: height - bottomInsets - bottomOffset,
                     child: SmartRefresher(
                       controller: controller.refreshController,
                       enablePullDown: true,
