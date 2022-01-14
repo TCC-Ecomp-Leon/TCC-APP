@@ -162,7 +162,7 @@ class PerfilView extends GetView<PerfilController> {
                           ),
                   ],
                 ),
-                controller.projetoEmEdicao != null
+                controller.projeto != null
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,10 +182,9 @@ class PerfilView extends GetView<PerfilController> {
                                 )
                               : CardOverlapImage(
                                   changeImage: controller.alterarImagemProjeto,
-                                  base64image:
-                                      controller.projetoEmEdicao!.imgProjeto,
+                                  base64image: controller.projeto!.imgProjeto,
                                   child: Text(
-                                    controller.projetoEmEdicao!.nome,
+                                    controller.projeto!.nome,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.black,

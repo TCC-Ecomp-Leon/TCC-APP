@@ -7,6 +7,7 @@ import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/modules/signUp/signup_controller.dart';
 import 'package:tcc_app/models/CursoUniversitario.dart';
+import 'package:tcc_app/models/Endereco.dart';
 import 'package:tcc_app/models/Perfil.dart';
 import 'package:tcc_app/models/Projeto.dart';
 import 'package:tcc_app/services/auth.dart';
@@ -32,7 +33,6 @@ class PerfilController extends BottomMenuController {
   final Rx<bool> _salvandoEdicao = false.obs;
   final Rx<String> _falhaEdicao = "".obs;
 
-  late Rx<Projeto?> _projetoEdicao;
   final Rx<bool> _modoEdicaoProjeto = false.obs;
   final Rx<bool> _loadingImagemProjeto = false.obs;
   final Rx<bool> _salvandoEdicaoProjeto = false.obs;
@@ -78,7 +78,6 @@ class PerfilController extends BottomMenuController {
   @override
   void onInit() {
     _perfilEdicao = loginController.perfil.obs;
-    _projetoEdicao = loginController.authInfo.projeto.obs;
     inicializarCamposEdicaoPerfil();
     inicializarCamposEdicaoProjeto();
     super.onInit();
@@ -108,8 +107,9 @@ class PerfilController extends BottomMenuController {
             label: "CEP",
             textInputType: TextInputType.text,
             validateFunction: (String input) {
+              int? parse = int.tryParse(input);
               _searchCep(input);
-              return input.isNotEmpty;
+              return input.isNotEmpty && parse != null;
             },
             controller:
                 TextEditingController(text: projeto.endereco.cep.toString())),
@@ -121,7 +121,10 @@ class PerfilController extends BottomMenuController {
         CampoRegistro(
             label: "Número",
             textInputType: TextInputType.number,
-            validateFunction: (String input) => input.isNotEmpty,
+            validateFunction: (String input) {
+              int? parse = int.tryParse(input);
+              return input.isNotEmpty && parse != null;
+            },
             controller: TextEditingController(
                 text: projeto.endereco.numero.toString())),
         CampoRegistro(
@@ -202,15 +205,12 @@ class PerfilController extends BottomMenuController {
   }
 
   alterarImagemProjeto(String novaImagem) async {
-    if (_projetoEdicao.value != null) {
+    if (projeto != null) {
       final Projeto projeto = loginController.authInfo.projeto!;
 
       String imagemAntiga = projeto.imgProjeto;
 
       _loadingImagemProjeto.value = true;
-
-      _projetoEdicao.value =
-          _projetoEdicao.value!.copyWith(imgProjeto: novaImagem);
 
       bool? result = await atualizarProjeto(
         projeto.id,
@@ -222,13 +222,12 @@ class PerfilController extends BottomMenuController {
       );
       if (result != null && result) {
       } else {
-        _projetoEdicao.value =
-            _projetoEdicao.value!.copyWith(imgProjeto: imagemAntiga);
+        loginController.projeto = projeto.copyWith(imgProjeto: imagemAntiga);
       }
 
-      setProjeto(_projetoEdicao.value!);
-
       _loadingImagemProjeto.value = false;
+
+      loginController.recarregarProjeto();
     }
   }
 
@@ -336,8 +335,73 @@ class PerfilController extends BottomMenuController {
     }
   }
 
+  bool validarCamposEdicaoProjeto() {
+    for (int i = 0; i < _camposProjeto.value.length; i++) {
+      onChangeCampoProjeto(i);
+      final CampoRegistro campoRegistro = _camposProjeto[i] as CampoRegistro;
+      if (campoRegistro.errorMessage != null) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   salvarEdicaoProjeto() async {
-    //TODO:
+    if (validarCamposEdicaoProjeto()) {
+      _salvandoEdicaoProjeto.value = true;
+      String nome = camposProjeto[0].controller.text;
+      String descricao = camposProjeto[1].controller.text;
+      int telefone = int.parse(camposProjeto[2].controller.text);
+
+      int cep = int.parse(camposProjeto[3].controller.text);
+      String rua = camposProjeto[4].controller.text;
+      int numero = int.parse(camposProjeto[5].controller.text);
+      String complemento = camposProjeto[6].controller.text;
+      String bairro = camposProjeto[7].controller.text;
+      String cidade = camposProjeto[8].controller.text;
+      String estado = camposProjeto[9].controller.text;
+
+      bool? result = await atualizarProjeto(
+        projeto!.id,
+        nome,
+        descricao,
+        telefone,
+        null,
+        Endereco(
+          rua,
+          numero,
+          complemento,
+          bairro,
+          cidade,
+          estado,
+          cep,
+          projeto!.endereco.localizacao,
+        ),
+      );
+      if (result != null && result) {
+        loginController.projeto = projeto!.copyWith(
+            nome: nome,
+            descricao: descricao,
+            telefone: telefone,
+            endereco: Endereco(
+              rua,
+              numero,
+              complemento,
+              bairro,
+              cidade,
+              estado,
+              cep,
+              projeto!.endereco.localizacao,
+            ));
+      } else {
+        _falhaEdicao.value = "Erro ao editar as informações do projeto";
+      }
+
+      loginController.recarregarProjeto();
+
+      _salvandoEdicaoProjeto.value = false;
+    }
   }
 
   inicioInsercaoCodigoEntrada() {
@@ -381,7 +445,7 @@ class PerfilController extends BottomMenuController {
   bool get loadingImagemProjeto => _loadingImagemProjeto.value;
   bool get modoEdicaoProjeto => _modoEdicaoProjeto.value;
 
-  Projeto? get projetoEmEdicao => _projetoEdicao.value;
+  Projeto? get projeto => loginController.authInfo.projeto;
   List<CampoRegistro> get camposProjeto =>
       _camposProjeto.value.map((e) => e as CampoRegistro).toList();
   bool get salvandoEdicaoProjeto => _salvandoEdicaoProjeto.value;
