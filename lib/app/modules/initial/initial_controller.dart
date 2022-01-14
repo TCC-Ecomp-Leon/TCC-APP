@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/config/constants.dart';
@@ -18,6 +19,7 @@ class InitialController extends GetxController {
   void onInit() {
     super.onInit();
     tentativaReentradaComToken();
+    clearCollections(box);
   }
 
   tentativaReentradaComToken() async {

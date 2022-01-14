@@ -8,7 +8,7 @@ class VisualizacaoDuvidaBinding implements Bindings {
   @override
   void dependencies() {
     Get.put<CollectionsController>(CollectionsController());
-    Get.lazyPut<LoginController>(() => LoginController());
+    Get.put<LoginController>(LoginController());
     Get.lazyPut<VisualizacaoDuvidaController>(
       () => VisualizacaoDuvidaController(),
     );

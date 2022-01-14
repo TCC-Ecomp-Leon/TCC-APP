@@ -235,6 +235,7 @@ class LoginController extends GetxController {
 
   AuthInfo get authInfo => _authInfo.value;
   Perfil get perfil => _authInfo.value.perfil!;
+  Projeto? get projeto => _authInfo.value.projeto;
 
   void set authToken(String? authToken) {
     _authInfo.value.authToken = authToken;
@@ -249,6 +250,17 @@ class LoginController extends GetxController {
     _authInfo.value.projeto = projeto;
     _authInfo.refresh();
   }
+
+  bool get regraAdministrador => perfil.regra == RegraPerfil.Administrador;
+  bool get regraProjeto => projeto != null;
+  bool get regraAluno =>
+      perfil.regra == RegraPerfil.Geral &&
+      perfil.associacoes!.aluno.alunoParceiro;
+  bool get regraProfessor =>
+      perfil.regra == RegraPerfil.Geral &&
+      perfil.associacoes!.professor.professor;
+  bool get regraUniversitario =>
+      perfil.regra == RegraPerfil.Geral && perfil.universitario!.universitario;
 }
 
 String afterLoginRoute(GetStorage box) {

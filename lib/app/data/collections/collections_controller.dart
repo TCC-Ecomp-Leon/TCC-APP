@@ -199,6 +199,12 @@ class CollectionsController extends GetxController {
   }
 }
 
+clearCollections(GetStorage box) async {
+  await box.remove(Constants.collectionsCursosUniversitariosKey);
+  await box.remove(Constants.collectionsProjetosKey);
+  await box.remove(Constants.collectionsUsuariosKeys);
+}
+
 class UsuariosCarregados extends CollectionCarregada<UsuarioItem> {
   UsuariosCarregados({required List<Perfil> usuarios})
       : super(

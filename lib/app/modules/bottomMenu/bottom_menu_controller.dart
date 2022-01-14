@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:tcc_app/app/modules/cursos/cursos_view.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_view.dart';
 import 'package:tcc_app/app/modules/perfil/perfil_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
@@ -120,10 +121,10 @@ final List<BottomMenuPage> pages = [
     routeName: Routes.administracao,
   ),
   BottomMenuPage(
-    page: const Dummy(),
+    page: CursosView(),
     label: "Cursos",
     icon: const Icon(Icons.list),
-    routeName: Routes.dummy,
+    routeName: Routes.cursos,
   ),
   BottomMenuPage(
     page: const Dummy(),
