@@ -7,6 +7,7 @@ import 'package:tcc_app/models/Duvida.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/shimmer_loading_mask.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
   Widget buildMensagem(String mensagem, DateTime horarioMensagem) {
@@ -148,18 +149,27 @@ class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
                 children: [
                   SizedBox(
                     height: height - bottomInsets - 112.0,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.only(top: 0.0),
-                      itemCount: controller.duvida.mensagens.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        DuvidaMensagem mensagem =
-                            controller.duvida.mensagens[index];
-
-                        return buildMensagem(
-                          mensagem.mensagem,
-                          mensagem.horario,
-                        );
+                    child: SmartRefresher(
+                      controller: controller.refreshController,
+                      enablePullDown: true,
+                      enablePullUp: false,
+                      header: const WaterDropHeader(),
+                      onRefresh: () {
+                        controller.atualizarDuvida();
                       },
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(top: 0.0),
+                        itemCount: controller.duvida.mensagens.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          DuvidaMensagem mensagem =
+                              controller.duvida.mensagens[index];
+
+                          return buildMensagem(
+                            mensagem.mensagem,
+                            mensagem.horario,
+                          );
+                        },
+                      ),
                     ),
                   ),
                   buildEnviarMensagem(

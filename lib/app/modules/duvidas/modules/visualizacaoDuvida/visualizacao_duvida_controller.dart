@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/models/Duvida.dart';
 import 'package:tcc_app/services/duvida.dart';
 
@@ -17,6 +18,8 @@ class VisualizacaoDuvidaController extends GetxController {
   final Rx<String> _erro = "".obs;
   late Rx<Duvida> _duvida;
 
+  final RefreshController refreshController = RefreshController();
+
   atualizarDuvida({bool? notificar}) async {
     if (notificar != null && notificar) {
       _atualizando.value = true;
@@ -30,6 +33,7 @@ class VisualizacaoDuvidaController extends GetxController {
     if (notificar != null && notificar) {
       _atualizando.value = false;
     }
+    refreshController.refreshCompleted();
   }
 
   enviarMensagem() async {
