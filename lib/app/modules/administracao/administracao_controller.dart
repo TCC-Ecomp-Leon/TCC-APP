@@ -1,18 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
-import 'package:tcc_app/app/modules/signIn/login_controller.dart';
-import 'package:tcc_app/models/CodigoEntrada.dart';
-import 'package:tcc_app/models/Curso.dart';
-import 'package:tcc_app/models/CursoUniversitario.dart';
-import 'package:tcc_app/models/Materia.dart';
-import 'package:tcc_app/models/Perfil.dart';
-import 'package:tcc_app/models/Projeto.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/codigoDeEntrada.dart';
 import 'package:tcc_app/services/projeto.dart';
-import 'package:tcc_app/widgets/page_controller.dart';
 
 // Controlador para fornecer os estados da página que irá mostrar
 // as informações de:

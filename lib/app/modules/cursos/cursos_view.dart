@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
-import 'package:tcc_app/models/Curso.dart';
-import 'package:tcc_app/screens/dummy.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';

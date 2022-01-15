@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
-import 'package:tcc_app/models/Curso.dart';
-import 'package:tcc_app/models/CursoUniversitario.dart';
-import 'package:tcc_app/models/Materia.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/duvida.dart';
 
 class CriacaoDuvidaController extends GetxController {

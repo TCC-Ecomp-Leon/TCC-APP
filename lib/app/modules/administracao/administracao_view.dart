@@ -5,12 +5,7 @@ import 'package:tcc_app/app/modules/administracao/administracao_controller.dart'
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
-import 'package:tcc_app/models/CodigoEntrada.dart';
-import 'package:tcc_app/models/Curso.dart';
-import 'package:tcc_app/models/CursoUniversitario.dart';
-import 'package:tcc_app/models/Materia.dart';
-import 'package:tcc_app/models/Perfil.dart';
-import 'package:tcc_app/models/Projeto.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/dropdown.dart';

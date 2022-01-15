@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:tcc_app/models/Projeto.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/curso.dart';
 
 class CriacaoCursoController extends GetxController {

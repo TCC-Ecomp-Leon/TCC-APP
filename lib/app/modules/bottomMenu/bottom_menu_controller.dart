@@ -7,7 +7,7 @@ import 'package:tcc_app/app/modules/perfil/perfil_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/config/constants.dart';
-import 'package:tcc_app/models/Perfil.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/screens/dummy.dart';
 
 class BottomMenuInfo {

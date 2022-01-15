@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/widgets/card_editavel_curso.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/widgets/card_informacoes_curso.dart';
-import 'package:tcc_app/models/Atividade.dart';
-import 'package:tcc_app/models/Curso.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';

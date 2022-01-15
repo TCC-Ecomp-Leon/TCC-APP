@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/perfil/perfil_controller.dart';
-import 'package:tcc_app/models/Perfil.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/utils/iterable.dart';
 import 'package:tcc_app/widgets/card_overlap_image.dart';

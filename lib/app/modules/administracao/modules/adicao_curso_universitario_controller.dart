@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/data/collections/collections_controller.dart';
-import 'package:tcc_app/models/CursoUniversitario.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/cursoUniversitario.dart';
 
 class AdicaoCursoUniversitarioController extends GetxController {

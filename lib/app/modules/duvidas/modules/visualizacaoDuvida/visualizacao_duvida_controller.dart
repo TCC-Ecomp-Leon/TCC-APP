@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:tcc_app/models/Duvida.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/duvida.dart';
 
 class VisualizacaoDuvidaController extends GetxController {

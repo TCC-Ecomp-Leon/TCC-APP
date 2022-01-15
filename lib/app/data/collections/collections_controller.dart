@@ -1,11 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:tcc_app/config/constants.dart';
-import 'package:tcc_app/models/CursoUniversitario.dart';
-import 'package:tcc_app/models/Materia.dart';
-import 'package:tcc_app/models/Projeto.dart';
-import 'package:tcc_app/models/Perfil.dart';
-import 'package:tcc_app/models/Curso.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/cursoUniversitario.dart';
 import 'package:tcc_app/services/perfil.dart';
 import 'package:tcc_app/services/projeto.dart';

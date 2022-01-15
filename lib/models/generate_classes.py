@@ -537,7 +537,7 @@ for parametro in parametros:
 
 index_str = ''
 for name in nomes_arquivos:
-    index_str = index_str + "import './"+name+".dart';\n"
+    index_str = index_str + "export './"+name+".dart';\n"
 
 with open('index.dart', 'w') as f:
     f.write(index_str)

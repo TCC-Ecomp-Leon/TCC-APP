@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/duvidas/modules/visualizacaoDuvida/visualizacao_duvida_controller.dart';
-import 'package:tcc_app/models/Duvida.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
-import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/shimmer_loading_mask.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 

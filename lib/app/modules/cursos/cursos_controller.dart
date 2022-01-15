@@ -2,10 +2,7 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
-import 'package:tcc_app/models/Curso.dart';
-import 'package:tcc_app/models/Materia.dart';
-import 'package:tcc_app/models/Perfil.dart';
-import 'package:tcc_app/models/Projeto.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/flatten.dart';
 
 //Prover as informações sobre os cursos para as diferentes views
