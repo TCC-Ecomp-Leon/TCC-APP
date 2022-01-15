@@ -66,7 +66,10 @@ class CursosView extends GetView<CursosController> {
   Widget buildCurso(BuildContext context, Curso curso) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
-      onTap: () async {},
+      onTap: () async {
+        await Get.toNamed(Routes.visualizacaoCurso, arguments: curso);
+        controller.carregarListaCursos(notSilent: true, force: true);
+      },
       child: Opacity(
         opacity: DateTime.now().isAfter(curso.fimCurso) ? 0.5 : 1.0,
         child: Column(

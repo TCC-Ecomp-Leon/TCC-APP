@@ -62,7 +62,7 @@ Future<bool?> atualizarCurso(
             materias.map((e) => e.toJson()).toList();
       }
       return httpClient.request(
-        Endpoints.cursoEndpoint + "/" + idProjeto,
+        Endpoints.cursoEndpoint + "/" + idProjeto + "/" + idCurso,
         data: camposAtualizacao,
         options: Options(method: 'PUT'),
       );

@@ -6,6 +6,8 @@ import 'package:tcc_app/app/modules/cursos/cursos_binding.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_view.dart';
 import 'package:tcc_app/app/modules/cursos/modules/criacao_curso/criacao_curso_binding.dart';
 import 'package:tcc_app/app/modules/cursos/modules/criacao_curso/criacao_curso_view.dart';
+import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_binding.dart';
+import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_view.dart';
 import 'package:tcc_app/app/modules/dummy/dummy_binding.dart';
 import 'package:tcc_app/app/modules/dummy/dummy_view.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_binding.dart';
@@ -98,6 +100,11 @@ class AppPages {
       name: Routes.criacaoCurso,
       page: () => CriacaoCursoView(),
       binding: CriacaoCursoBinding(),
+    ),
+    GetPage(
+      name: Routes.visualizacaoCurso,
+      page: () => VisualizacaoCursoView(),
+      binding: VisualizacaoCursoBinding(),
     ),
   ];
 }
