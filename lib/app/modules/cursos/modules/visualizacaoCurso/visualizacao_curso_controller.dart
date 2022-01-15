@@ -25,11 +25,13 @@ class VisualizacaoCursoController extends GetxController {
     carregarAtividades();
   }
 
-  Future<void> carregarAtividades({bool? silent}) async {
-    if (silent == null || silent == false) {
+  Future<void> carregarAtividades(
+      {bool? pullRefresh,
+      RefreshController? refreshControllerAtividades}) async {
+    if (pullRefresh == null || pullRefresh == false) {
       _carregandoAtividades.value = true;
-    } else {
-      refreshController.requestRefresh();
+    } else if (refreshControllerAtividades != null) {
+      refreshControllerAtividades.requestRefresh();
     }
     List<Atividade>? result = await obterListaDeAtividades(
       null,
@@ -46,10 +48,10 @@ class VisualizacaoCursoController extends GetxController {
       _atividades.value = result;
     }
 
-    if (silent == null || silent == false) {
+    if (pullRefresh == null || pullRefresh == false) {
       _carregandoAtividades.value = false;
-    } else {
-      refreshController.refreshCompleted();
+    } else if (refreshControllerAtividades != null) {
+      refreshControllerAtividades.refreshCompleted();
     }
   }
 
@@ -60,10 +62,10 @@ class VisualizacaoCursoController extends GetxController {
     _fimCurso = curso.fimCurso.obs;
   }
 
-  final RefreshController refreshController = RefreshController();
-
-  recarregarCurso() async {
-    refreshController.requestRefresh();
+  recarregarCurso({RefreshController? refreshControllerCursoMaterias}) async {
+    if (refreshControllerCursoMaterias != null) {
+      refreshControllerCursoMaterias.requestRefresh();
+    }
 
     final Projeto? projeto = await obterProjeto(curso.idProjeto);
     if (projeto != null) {
@@ -82,7 +84,9 @@ class VisualizacaoCursoController extends GetxController {
 
     await carregarAtividades();
 
-    refreshController.refreshCompleted();
+    if (refreshControllerCursoMaterias != null) {
+      refreshControllerCursoMaterias.refreshCompleted();
+    }
   }
 
   late TextEditingController nomeCurso;
@@ -196,19 +200,22 @@ class VisualizacaoCursoController extends GetxController {
   final Rx<TipoAtividadeVisualizando> _tipoAtividadeVisualizando =
       TipoAtividadeVisualizando.Abertas.obs;
 
-  visualizarAbertas() {
+  visualizarAbertas(RefreshController refreshController) {
     _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Abertas;
-    carregarAtividades(silent: true);
+    carregarAtividades(
+        pullRefresh: true, refreshControllerAtividades: refreshController);
   }
 
-  visualizarFechadas() {
+  visualizarFechadas(RefreshController refreshController) {
     _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Fechadas;
-    carregarAtividades(silent: true);
+    carregarAtividades(
+        pullRefresh: true, refreshControllerAtividades: refreshController);
   }
 
-  visualizarTodas() {
+  visualizarTodas(RefreshController refreshController) {
     _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Todas;
-    carregarAtividades(silent: true);
+    carregarAtividades(
+        pullRefresh: true, refreshControllerAtividades: refreshController);
   }
 
   bool get visualizandoAbertas =>
@@ -217,6 +224,8 @@ class VisualizacaoCursoController extends GetxController {
       _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Fechadas;
   bool get visualizandoTodas =>
       _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Todas;
+
+  bool get permissaoCriarAtividade => permissaoEditar;
 }
 
 enum TipoAtividadeVisualizando {

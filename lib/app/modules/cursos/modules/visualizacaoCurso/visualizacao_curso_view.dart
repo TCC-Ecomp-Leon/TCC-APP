@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/widgets/card_editavel_curso.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/widgets/card_informacoes_curso.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
+import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
@@ -18,6 +20,78 @@ typedef OnChangeTextField = void Function();
 //    1 - Nome do curso e listagem de atividades (botão +)
 //    2 - Informações adicionais do curso e listagem de matérias (botão +)
 class VisualizacaoCursoView extends GetView<VisualizacaoCursoController> {
+  @override
+  Widget build(BuildContext context) {
+    return CarouselIndicator(
+      children: [
+        VisualizacaoGeralCurso(
+          controller: controller,
+        ),
+        VisualizacaoDetalhadaCurso(
+          controller: controller,
+        ),
+      ],
+    );
+  }
+}
+
+class VisualizacaoGeralCurso extends StatelessWidget {
+  final VisualizacaoCursoController controller;
+
+  const VisualizacaoGeralCurso({
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
+
+  Widget buildCriarAtividade(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width - 100.0;
+    return InkWell(
+      onTap: () async {},
+      child: Column(
+        children: [
+          Card(
+            color: Colors.green,
+            child: Container(
+              height: 70.0,
+              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CircleAvatar(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Icon(
+                        Icons.add_circle,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: width * 0.8,
+                    child: const Text("Adicionar atividade"),
+                  ),
+                  const CircleAvatar(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Icon(
+                        Icons.menu_book,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Divider(height: 3.0, color: Colors.black),
+        ],
+      ),
+    );
+  }
+
   Widget buildAtividade(BuildContext context, Atividade atividade) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
@@ -65,7 +139,8 @@ class VisualizacaoCursoView extends GetView<VisualizacaoCursoController> {
     );
   }
 
-  Widget cardRotuloAtividades(BuildContext context) {
+  Widget cardRotuloAtividades(
+      BuildContext context, RefreshController refreshController) {
     return SizedBox(
       width: 350.0,
       child: Card(
@@ -88,7 +163,7 @@ class VisualizacaoCursoView extends GetView<VisualizacaoCursoController> {
               ),
               InkWell(
                 onTap: () {
-                  controller.visualizarAbertas();
+                  controller.visualizarAbertas(refreshController);
                 },
                 child: Card(
                   color: controller.visualizandoAbertas
@@ -105,7 +180,7 @@ class VisualizacaoCursoView extends GetView<VisualizacaoCursoController> {
               ),
               InkWell(
                 onTap: () {
-                  controller.visualizarFechadas();
+                  controller.visualizarFechadas(refreshController);
                 },
                 child: Card(
                   color: controller.visualizandoFechadas
@@ -122,7 +197,7 @@ class VisualizacaoCursoView extends GetView<VisualizacaoCursoController> {
               ),
               InkWell(
                 onTap: () {
-                  controller.visualizarTodas();
+                  controller.visualizarTodas(refreshController);
                 },
                 child: Card(
                   color:
@@ -136,25 +211,6 @@ class VisualizacaoCursoView extends GetView<VisualizacaoCursoController> {
                   ),
                 ),
               ),
-              controller.permissaoEditar
-                  ? const SizedBox(
-                      width: 10.0,
-                    )
-                  : Container(),
-              controller.permissaoEditar
-                  ? InkWell(
-                      onTap: () {},
-                      child: const CircleAvatar(
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.orange,
-                          size: 15.0,
-                        ),
-                        maxRadius: 10.0,
-                        backgroundColor: Colors.amberAccent,
-                      ),
-                    )
-                  : Container()
             ],
           ),
         ),
@@ -164,68 +220,152 @@ class VisualizacaoCursoView extends GetView<VisualizacaoCursoController> {
 
   @override
   Widget build(BuildContext context) {
+    final RefreshController refreshController = RefreshController();
+    return Obx(
+      () => Scaffold(
+          body: Padding(
+        padding: const EdgeInsets.only(top: 40.0),
+        child: RefreshListView(
+          header: Column(
+            children: [
+              controller.permissaoCriarAtividade
+                  ? buildCriarAtividade(context)
+                  : Container(),
+              cardRotuloAtividades(context, refreshController),
+              const SizedBox(
+                height: 10.0,
+              ),
+            ],
+          ),
+          bottomOffset: controller.permissaoCriarAtividade ? 200.0 : 110.0,
+          child: controller.carregandoAtividades
+              ? Container(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  child:
+                      const Loading(color: Colors.white, circleTimeSeconds: 2),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(top: 0.0),
+                  itemCount: controller.atividades.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return buildAtividade(
+                      context,
+                      controller.atividades[index],
+                    );
+                  },
+                ),
+          refreshController: refreshController,
+          onRefresh: () => controller.carregarAtividades(
+              pullRefresh: true,
+              refreshControllerAtividades: refreshController),
+        ),
+      )),
+    );
+  }
+}
+
+class VisualizacaoDetalhadaCurso extends StatelessWidget {
+  final VisualizacaoCursoController controller;
+
+  const VisualizacaoDetalhadaCurso({
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
+
+  Widget buildMateria(BuildContext context, Materia materia) {
+    final double width = MediaQuery.of(context).size.width - 100.0;
+    return InkWell(
+      onTap: () async {},
+      child: Opacity(
+        opacity: 1.0,
+        child: Column(
+          children: [
+            Card(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.white,
+                  child: Center(
+                    child: Icon(
+                      Icons.menu_book,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: width * 0.8,
+                      child: Text(materia.nome),
+                    ),
+                  ],
+                ),
+                subtitle: Container(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Text(
+                    textoParaTamanhoFixo(
+                      materia.descricao,
+                      30,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Divider(height: 3.0, color: Colors.black),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final RefreshController refreshController = RefreshController();
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 40.0),
+        padding: const EdgeInsets.only(top: 30.0),
         child: Obx(
           () => RefreshListView(
             header: Column(
               children: [
-                controller.permissaoEditar
-                    ? CardEditavelCurso(
-                        nomeCurso: controller.nomeCurso,
-                        descricaoCurso: controller.descricaoCurso,
-                        inicioCurso: controller.inicioCurso,
-                        fimCurso: controller.fimCurso,
-                        editando: controller.editandoCurso,
-                        nomeCursoErro: controller.nomeCursoErro,
-                        descricaoCursoErro: controller.descricaoCursoErro,
-                        onChangeNomeCurso: controller.onChangeNomeCurso,
-                        onChangeDesricaoCurso:
-                            controller.onChangeDescricaoCurso,
-                        onSelectDataInicial: controller.setInicioCurso,
-                        onSelectDataFinal: controller.setFimCurso,
-                        cancelarEdicao: controller.sairModoEdicaoCurso,
-                        salvarEdicao: controller.salvarEdicaoCurso,
-                        entrarModoEdicao: controller.entrarModoEdicaoCurso,
-                        permissaoEditar: controller.permissaoEditar,
-                        erro: controller.erro,
-                      )
-                    : CardInformacoesCurso(
-                        nomeCurso: controller.curso.nome,
-                        descricaoCurso: controller.curso.descricao,
-                        inicioCurso: controller.curso.inicioCurso,
-                        fimCurso: controller.curso.fimCurso,
-                      ),
-                cardRotuloAtividades(context),
+                CardEditavelCurso(
+                  nomeCurso: controller.nomeCurso,
+                  descricaoCurso: controller.descricaoCurso,
+                  inicioCurso: controller.inicioCurso,
+                  fimCurso: controller.fimCurso,
+                  editando: controller.editandoCurso,
+                  nomeCursoErro: controller.nomeCursoErro,
+                  descricaoCursoErro: controller.descricaoCursoErro,
+                  onChangeNomeCurso: controller.onChangeNomeCurso,
+                  onChangeDesricaoCurso: controller.onChangeDescricaoCurso,
+                  onSelectDataInicial: controller.setInicioCurso,
+                  onSelectDataFinal: controller.setFimCurso,
+                  cancelarEdicao: controller.sairModoEdicaoCurso,
+                  salvarEdicao: controller.salvarEdicaoCurso,
+                  entrarModoEdicao: controller.entrarModoEdicaoCurso,
+                  permissaoEditar: controller.permissaoEditar,
+                  erro: controller.erro,
+                ),
                 const SizedBox(
                   height: 10.0,
                 ),
               ],
             ),
-            bottomOffset: controller.editandoCurso
-                ? 450
-                : controller.permissaoEditar
-                    ? 285.0
-                    : 235.0,
-            child: controller.carregandoAtividades
-                ? Container(
-                    alignment: Alignment.center,
-                    height: 100.0,
-                    child: const Loading(
-                        color: Colors.white, circleTimeSeconds: 2),
-                  )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(top: 0.0),
-                    itemCount: controller.atividades.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return buildAtividade(
-                          context, controller.atividades[index]);
-                    },
-                  ),
-            refreshController: controller.refreshController,
-            onRefresh: () => controller.recarregarCurso(),
+            bottomOffset: controller.permissaoEditar ? 450 : 400.0,
+            child: ListView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(top: 0.0),
+              itemCount: controller.materias.length,
+              itemBuilder: (BuildContext context, int index) {
+                return buildMateria(context, controller.materias[index]);
+              },
+            ),
+            refreshController: refreshController,
+            onRefresh: () => controller.recarregarCurso(
+                refreshControllerCursoMaterias: refreshController),
           ),
         ),
       ),
