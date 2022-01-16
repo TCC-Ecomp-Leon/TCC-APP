@@ -111,14 +111,16 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
                           context,
                           "Fim da atividade",
                           fechamentoRespostas,
-                          onSelectDate: onSelectFechamentoCorrecoes,
+                          onSelectDate: onSelectFechamentoRespostas,
                         ),
-                        buildDateSelector(
-                          context,
-                          "Fim das correções",
-                          fechamentoCorrecoes,
-                          onSelectDate: onSelectFechamentoCorrecoes,
-                        ),
+                        tipoAtividade == TipoAtividade.Dissertativa
+                            ? buildDateSelector(
+                                context,
+                                "Fim das correções",
+                                fechamentoCorrecoes,
+                                onSelectDate: onSelectFechamentoCorrecoes,
+                              )
+                            : Container(),
                         const SizedBox(
                           height: 10.0,
                         ),

@@ -7,6 +7,7 @@ import 'package:tcc_app/app/modules/cursos/modules/atividades/widgets/questao_at
 import 'package:tcc_app/app/modules/cursos/modules/atividades/widgets/ultima_pagina_atividade.dart';
 import 'package:tcc_app/utils/iterable.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
+import 'package:tcc_app/widgets/loading.dart';
 
 class AtividadeView extends GetView<AtividadeController> {
   @override
@@ -15,62 +16,77 @@ class AtividadeView extends GetView<AtividadeController> {
       body: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Obx(
-          () => CarouselIndicator(
-            children: [
-              PrimeiraPaginaAtividade(
-                assuntos: controller.assuntos,
-                onChangeTipoAtividade: controller.alterarTipoAtividade,
-                selecaoMateria: controller.selecionarMateria,
-                nome: controller.nome,
-                tipoAtividade: controller.tipoAtividade,
-                materias: controller.listaMaterias,
-                indiceMateriaSelecionada: controller.indiceMateriaSelecionada,
-                editando: true,
-                aberturaRespostas: controller.aberturaRespostas,
-                onSelectAberturaRespostas: controller.alterarAberturaRespostas,
-                fechamentoRespostas: controller.fechamentoRespostas,
-                onSelectFechamentoRespostas:
-                    controller.alterarAberturaRespostas,
-                fechamentoCorrecoes: controller.fechamentoCorrecoes,
-                onSelectFechamentoCorrecoes:
-                    controller.alterarFechamentoCorrecoes,
-              ),
-              ...controller.questoes
-                  .mapIndexed(
-                    (e, index) => QuestaoAtividade(
-                      selecionarAlternativa: (selectIndex) =>
-                          controller.alterarAlternativaCorreta(
-                        index,
-                        selectIndex,
-                      ),
+          () => controller.adicionandoAtividade
+              ? Container(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  child: const Loading(
+                    color: Colors.white,
+                    circleTimeSeconds: 2,
+                  ),
+                )
+              : CarouselIndicator(
+                  children: [
+                    PrimeiraPaginaAtividade(
+                      assuntos: controller.assuntos,
+                      onChangeTipoAtividade: controller.alterarTipoAtividade,
+                      selecaoMateria: controller.selecionarMateria,
+                      nome: controller.nome,
                       tipoAtividade: controller.tipoAtividade,
-                      questao: e,
-                      primeiraQuestao: index == 0,
-                      ultimaQuestao: index == controller.questoes.length - 1,
-                      indiceQuestao: index,
-                      quantidadeQuestoes: controller.questoes.length,
-                      edicao: true,
-                      adicionarAlternativa: () =>
-                          controller.adicionarAlternativa(index),
-                      removerAlternativa: (indexAlternativa) => controller
-                          .removerAlternativa(index, indexAlternativa),
-                      adicionarQuestao: () => controller.adicionarQuestao(),
-                      removerQuestao: () => controller.removerQuestao(index),
+                      materias: controller.listaMaterias,
+                      indiceMateriaSelecionada:
+                          controller.indiceMateriaSelecionada,
+                      editando: true,
+                      aberturaRespostas: controller.aberturaRespostas,
+                      onSelectAberturaRespostas:
+                          controller.alterarAberturaRespostas,
+                      fechamentoRespostas: controller.fechamentoRespostas,
+                      onSelectFechamentoRespostas:
+                          controller.alterarFechamentoRespostas,
+                      fechamentoCorrecoes: controller.fechamentoCorrecoes,
+                      onSelectFechamentoCorrecoes:
+                          controller.alterarFechamentoCorrecoes,
                     ),
-                  )
-                  .toList(),
-              UltimaPaginaAtividade(
-                nome: controller.nome,
-                tipoAtividade: controller.tipoAtividade,
-                editando: true,
-                aberturaRespostas: controller.aberturaRespostas,
-                fechamentoRespostas: controller.fechamentoRespostas,
-                fechamentoCorrecoes: controller.fechamentoCorrecoes,
-                quantideDeQuestoes: controller.questoes.length,
-                erroMessage: controller.erro,
-              ),
-            ],
-          ),
+                    ...controller.questoes
+                        .mapIndexed(
+                          (e, index) => QuestaoAtividade(
+                            selecionarAlternativa: (selectIndex) =>
+                                controller.alterarAlternativaCorreta(
+                              index,
+                              selectIndex,
+                            ),
+                            tipoAtividade: controller.tipoAtividade,
+                            questao: e,
+                            primeiraQuestao: index == 0,
+                            ultimaQuestao:
+                                index == controller.questoes.length - 1,
+                            indiceQuestao: index,
+                            quantidadeQuestoes: controller.questoes.length,
+                            edicao: true,
+                            adicionarAlternativa: () =>
+                                controller.adicionarAlternativa(index),
+                            removerAlternativa: (indexAlternativa) => controller
+                                .removerAlternativa(index, indexAlternativa),
+                            adicionarQuestao: () =>
+                                controller.adicionarQuestao(),
+                            removerQuestao: () =>
+                                controller.removerQuestao(index),
+                          ),
+                        )
+                        .toList(),
+                    UltimaPaginaAtividade(
+                      adicionarAtividade: controller.salvarAtividade,
+                      nome: controller.nome,
+                      tipoAtividade: controller.tipoAtividade,
+                      editando: true,
+                      aberturaRespostas: controller.aberturaRespostas,
+                      fechamentoRespostas: controller.fechamentoRespostas,
+                      fechamentoCorrecoes: controller.fechamentoCorrecoes,
+                      quantideDeQuestoes: controller.questoes.length,
+                      erroMessage: controller.erro,
+                    ),
+                  ],
+                ),
         ),
       ),
     );

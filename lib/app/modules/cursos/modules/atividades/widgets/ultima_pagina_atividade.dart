@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_app/models/index.dart';
-import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/date_time_picker.dart';
 
 typedef OnSelectDate = void Function(DateTime dateTime);
+typedef ControllerActions = void Function();
 
 class UltimaPaginaAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
@@ -14,6 +14,7 @@ class UltimaPaginaAtividade extends StatelessWidget {
   DateTime fechamentoCorrecoes;
   int quantideDeQuestoes;
   String? erroMessage;
+  ControllerActions adicionarAtividade;
 
   UltimaPaginaAtividade({
     required this.nome,
@@ -24,6 +25,7 @@ class UltimaPaginaAtividade extends StatelessWidget {
     required this.fechamentoCorrecoes,
     required this.quantideDeQuestoes,
     required this.erroMessage,
+    required this.adicionarAtividade,
     Key? key,
   }) : super(key: key);
 
@@ -122,7 +124,7 @@ class UltimaPaginaAtividade extends StatelessWidget {
             height: 20.0,
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: adicionarAtividade,
             child: const Text(
               "Adicionar atividade",
               textScaleFactor: 0.9,
@@ -156,7 +158,7 @@ class UltimaPaginaAtividade extends StatelessWidget {
         actualDate: dateTime,
         beginCallendar: DateTime.now().subtract(const Duration(days: 365)),
         endCallendar: DateTime.now().add(const Duration(days: 365)),
-        enabled: editando,
+        enabled: false,
         onPickDate: null,
         hintText: hintText,
       ),

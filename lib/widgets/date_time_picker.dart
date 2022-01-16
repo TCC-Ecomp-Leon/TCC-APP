@@ -109,20 +109,22 @@ class DateTimePicker extends StatelessWidget {
   }
 
   pickHour(BuildContext context) async {
-    TimeOfDay? t = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(actualDate),
-    );
-    if (t != null && onPickDate != null) {
-      onPickDate!(
-        DateTime(
-          actualDate.year,
-          actualDate.month,
-          actualDate.year,
-          t.hour,
-          t.minute,
-        ),
+    if (enabled) {
+      TimeOfDay? t = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(actualDate),
       );
+      if (t != null && onPickDate != null) {
+        onPickDate!(
+          DateTime(
+            actualDate.year,
+            actualDate.month,
+            actualDate.year,
+            t.hour,
+            t.minute,
+          ),
+        );
+      }
     }
   }
 }
