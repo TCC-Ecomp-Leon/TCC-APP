@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
+import 'package:tcc_app/widgets/date_time_picker.dart';
 
 typedef OnSelectDate = void Function(DateTime dateTime);
 
@@ -76,7 +77,6 @@ class UltimaPaginaAtividade extends StatelessWidget {
                             text: quantideDeQuestoes.toString(),
                           ),
                           "Quantidade de questões",
-                          readOnly: true,
                         ),
                       ],
                     ),
@@ -141,8 +141,10 @@ class UltimaPaginaAtividade extends StatelessWidget {
   }
 
   Widget buildDateSelector(
-      BuildContext context, String hintText, DateTime dateTime,
-      {OnSelectDate? onSelectDate}) {
+    BuildContext context,
+    String hintText,
+    DateTime dateTime,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(
         left: 8.0,
@@ -150,56 +152,13 @@ class UltimaPaginaAtividade extends StatelessWidget {
         top: 2.0,
         bottom: 2.0,
       ),
-      child: Column(
-        children: [
-          Text(
-            hintText,
-            style: const TextStyle(color: Colors.black),
-          ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () async {
-                    if (editando) {
-                      DateTime? date = await showDatePicker(
-                          context: context,
-                          initialDate: dateTime,
-                          firstDate: DateTime(DateTime.now().year - 1),
-                          lastDate: DateTime(DateTime.now().year + 1));
-                      if (date != null && onSelectDate != null) {
-                        onSelectDate(date);
-                      }
-                    }
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Container(
-                      color: Colors.black,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            diaComAno(
-                              dateTime,
-                            ),
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+      child: DateTimePicker(
+        actualDate: dateTime,
+        beginCallendar: DateTime.now().subtract(const Duration(days: 365)),
+        endCallendar: DateTime.now().add(const Duration(days: 365)),
+        enabled: editando,
+        onPickDate: null,
+        hintText: hintText,
       ),
     );
   }
@@ -210,7 +169,6 @@ class UltimaPaginaAtividade extends StatelessWidget {
     int maxLines = 1,
     TextInputType textInputType = TextInputType.text,
     String? erroMessage,
-    bool readOnly = false,
   }) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -240,7 +198,7 @@ class UltimaPaginaAtividade extends StatelessWidget {
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: TextField(
-                            readOnly: readOnly,
+                            readOnly: true,
                             keyboardType: textInputType,
                             controller: textEditingController,
                             decoration: InputDecoration(

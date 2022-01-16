@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
+import 'package:tcc_app/widgets/date_time_picker.dart';
 import 'package:tcc_app/widgets/dropdown.dart';
 
 typedef OnSelectDate = void Function(DateTime dateTime);
@@ -83,6 +84,17 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
                                     : TipoAtividade.BancoDeQuestoes);
                           },
                         ),
+                        buildDropDown(
+                          context,
+                          "Matéria",
+                          "Nenhuma",
+                          materias.map((e) => e.nome).toList(),
+                          indiceMateriaSelecionada + 1,
+                          selecaoMateria,
+                        ),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
                         buildTextField(
                           nome,
                           "Nome",
@@ -105,14 +117,9 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
                           fechamentoCorrecoes,
                           onSelectDate: onSelectFechamentoCorrecoes,
                         ),
-                        buildDropDown(
-                          context,
-                          "Matéria",
-                          "Nenhuma",
-                          materias.map((e) => e.nome).toList(),
-                          indiceMateriaSelecionada + 1,
-                          selecaoMateria,
-                        )
+                        const SizedBox(
+                          height: 10.0,
+                        ),
                       ],
                     ),
                   ),
@@ -158,56 +165,13 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
         top: 2.0,
         bottom: 2.0,
       ),
-      child: Column(
-        children: [
-          Text(
-            hintText,
-            style: const TextStyle(color: Colors.black),
-          ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () async {
-                    if (editando) {
-                      DateTime? date = await showDatePicker(
-                          context: context,
-                          initialDate: dateTime,
-                          firstDate: DateTime(DateTime.now().year - 1),
-                          lastDate: DateTime(DateTime.now().year + 1));
-                      if (date != null && onSelectDate != null) {
-                        onSelectDate(date);
-                      }
-                    }
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Container(
-                      color: Colors.black,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            diaComAno(
-                              dateTime,
-                            ),
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+      child: DateTimePicker(
+        actualDate: dateTime,
+        beginCallendar: DateTime.now().subtract(const Duration(days: 365)),
+        endCallendar: DateTime.now().add(const Duration(days: 365)),
+        enabled: editando,
+        onPickDate: onSelectDate,
+        hintText: hintText,
       ),
     );
   }
