@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tcc_app/app/modules/cursos/modules/atividades/atividade_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/widgets/card_editavel_curso.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/widgets/card_informacoes_curso.dart';
+import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
@@ -46,7 +48,13 @@ class VisualizacaoGeralCurso extends StatelessWidget {
   Widget buildCriarAtividade(BuildContext context) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
-      onTap: () async {},
+      onTap: () async {
+        await Get.toNamed(Routes.atividade, arguments: {
+          'curso': controller.curso,
+          'uso': TipoUsoControllerAtividades.Criando,
+        });
+        controller.carregarAtividades(pullRefresh: true);
+      },
       child: Column(
         children: [
           Card(

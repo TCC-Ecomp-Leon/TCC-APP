@@ -181,7 +181,7 @@ class CollectionsController extends GetxController {
     return cursos[indexOf];
   }
 
-  Materia? obterMateira(String id, String idCurso, String? idProjeto) {
+  Materia? obterMateria(String id, String idCurso, String? idProjeto) {
     Curso? curso = obterCurso(idCurso, idProjeto);
 
     if (curso == null) return null;

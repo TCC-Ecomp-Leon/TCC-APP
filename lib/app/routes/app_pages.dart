@@ -4,6 +4,8 @@ import 'package:tcc_app/app/modules/administracao/modules/adicao_curso_universit
 import 'package:tcc_app/app/modules/administracao/modules/adicao_curso_universitario_view.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_binding.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_view.dart';
+import 'package:tcc_app/app/modules/cursos/modules/atividades/atividade_binding.dart';
+import 'package:tcc_app/app/modules/cursos/modules/atividades/atividade_view.dart';
 import 'package:tcc_app/app/modules/cursos/modules/criacao_curso/criacao_curso_binding.dart';
 import 'package:tcc_app/app/modules/cursos/modules/criacao_curso/criacao_curso_view.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_binding.dart';
@@ -105,6 +107,11 @@ class AppPages {
       name: Routes.visualizacaoCurso,
       page: () => VisualizacaoCursoView(),
       binding: VisualizacaoCursoBinding(),
+    ),
+    GetPage(
+      name: Routes.atividade,
+      page: () => AtividadeView(),
+      binding: AtividadeBinding(),
     ),
   ];
 }
