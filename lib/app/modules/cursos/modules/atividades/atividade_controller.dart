@@ -60,6 +60,8 @@ class AtividadeController extends GetxController {
   List<InformacoesQuestoes> get questoes =>
       _informacoesAtividade.value.questoes;
   bool get adicionandoAtividade => _adicionandoAtividade.value;
+  List<TextEditingController> get assuntos =>
+      _informacoesAtividade.value.assuntos;
 
   adicionarQuestao() {
     if (tipoAtividade == TipoAtividade.Alternativa) {
@@ -130,6 +132,12 @@ class AtividadeController extends GetxController {
 
   alterarFechamentoCorrecoes(DateTime dateTime) {
     _informacoesAtividade.value.fechamentoCorrecoes = dateTime;
+    _informacoesAtividade.refresh();
+  }
+
+  alterarAlternativaCorreta(int indexQuestao, int indexAlternativa) {
+    _informacoesAtividade.value.questoes[indexQuestao].alternativaCorreta =
+        indexAlternativa;
     _informacoesAtividade.refresh();
   }
 
@@ -332,7 +340,9 @@ class InformacoesAtividade {
 class InformacoesQuestoes {
   late TextEditingController enunciado;
   late TextEditingController textoRespostaEsperada;
+  late TextEditingController textoRespostaInserida;
   late String? imagemRespostaEsperada;
+  late String? imagemRespostaInserida;
   late List<TextEditingController> alternativas;
   late int alternativaCorreta;
   late bool alternativa;
@@ -341,7 +351,9 @@ class InformacoesQuestoes {
   InformacoesQuestoes.alternativa() {
     enunciado = TextEditingController();
     textoRespostaEsperada = TextEditingController();
+    textoRespostaInserida = TextEditingController();
     imagemRespostaEsperada = null;
+    imagemRespostaInserida = null;
     alternativas = [TextEditingController()];
     alternativaCorreta = -1;
     alternativa = true;
@@ -351,7 +363,9 @@ class InformacoesQuestoes {
   InformacoesQuestoes.dissertativa() {
     enunciado = TextEditingController();
     textoRespostaEsperada = TextEditingController();
+    textoRespostaInserida = TextEditingController();
     imagemRespostaEsperada = null;
+    imagemRespostaInserida = null;
     alternativas = [TextEditingController()];
     alternativaCorreta = -1;
     alternativa = false;

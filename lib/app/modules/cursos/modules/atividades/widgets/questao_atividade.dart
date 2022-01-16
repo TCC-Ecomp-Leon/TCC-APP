@@ -22,6 +22,7 @@ class QuestaoAtividade extends StatelessWidget {
   ControllerIndexedActions removerAlternativa;
   ControllerActions adicionarQuestao;
   ControllerActions removerQuestao;
+  ControllerIndexedActions selecionarAlternativa;
 
   QuestaoAtividade({
     required this.tipoAtividade,
@@ -35,6 +36,7 @@ class QuestaoAtividade extends StatelessWidget {
     required this.removerAlternativa,
     required this.adicionarQuestao,
     required this.removerQuestao,
+    required this.selecionarAlternativa,
     Key? key,
   }) : super(key: key);
 
@@ -52,72 +54,96 @@ class QuestaoAtividade extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             headerQuestao(),
-            tipoAtividade == TipoAtividade.Alternativa
-                ? buildAlternativas()
-                : Container(),
-            edicao && tipoAtividade == TipoAtividade.Alternativa
-                ? TextButton(
-                    onPressed: adicionarAlternativa,
-                    child: const Text(
-                      "Nova opção",
-                      textScaleFactor: 0.9,
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(10.0),
-                      primary: Colors.white,
-                      backgroundColor: Colors.teal,
-                      onSurface: Colors.grey,
-                      textStyle: const TextStyle(fontSize: 17.0),
-                    ),
-                  )
-                : Container(),
-            tipoAtividade == TipoAtividade.Dissertativa
-                ? buildEntradaResposta(
-                    questao.textoRespostaEsperada,
-                    questao.imagemRespostaEsperada,
-                  )
-                : Container(),
+            bodyQuestao(),
             const SizedBox(
               height: 20.0,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: removerQuestao,
-                  child: const Text(
-                    "Remover questão",
-                    textScaleFactor: 0.9,
-                  ),
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(10.0),
-                    primary: Colors.white,
-                    backgroundColor: Colors.red,
-                    onSurface: Colors.grey,
-                    textStyle: const TextStyle(fontSize: 17.0),
-                  ),
-                ),
-                TextButton(
-                  onPressed: adicionarQuestao,
-                  child: const Text(
-                    "Nova questão",
-                    textScaleFactor: 0.9,
-                  ),
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(10.0),
-                    primary: Colors.white,
-                    backgroundColor: Colors.green,
-                    onSurface: Colors.grey,
-                    textStyle: const TextStyle(fontSize: 17.0),
-                  ),
-                ),
-              ],
-            ),
+            buildActions(),
           ],
         ),
       ),
     );
+  }
+
+  Widget buildActions() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: removerQuestao,
+          child: const Text(
+            "Remover questão",
+            textScaleFactor: 0.9,
+          ),
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.all(10.0),
+            primary: Colors.white,
+            backgroundColor: Colors.red,
+            onSurface: Colors.grey,
+            textStyle: const TextStyle(fontSize: 17.0),
+          ),
+        ),
+        TextButton(
+          onPressed: adicionarQuestao,
+          child: const Text(
+            "Nova questão",
+            textScaleFactor: 0.9,
+          ),
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.all(10.0),
+            primary: Colors.white,
+            backgroundColor: Colors.green,
+            onSurface: Colors.grey,
+            textStyle: const TextStyle(fontSize: 17.0),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget bodyQuestao() {
+    return tipoAtividade != TipoAtividade.Dissertativa
+        ? buildBodyAlternativas()
+        : buildBodyDissertativa();
+  }
+
+  Widget buildBodyAlternativas() {
+    return Column(
+      children: [
+        buildAlternativas(),
+        edicao
+            ? TextButton(
+                onPressed: adicionarAlternativa,
+                child: const Text(
+                  "Nova opção",
+                  textScaleFactor: 0.9,
+                ),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(10.0),
+                  primary: Colors.white,
+                  backgroundColor: Colors.teal,
+                  onSurface: Colors.grey,
+                  textStyle: const TextStyle(fontSize: 17.0),
+                ),
+              )
+            : Container()
+      ],
+    );
+  }
+
+  Widget buildBodyDissertativa() {
+    return edicao
+        ? buildEntradaResposta(
+            questao.textoRespostaEsperada,
+            questao.imagemRespostaEsperada,
+            "Resposta esperada:",
+          )
+        : buildEntradaResposta(
+            questao.textoRespostaInserida,
+            questao.imagemRespostaInserida,
+            "Resposta:",
+          );
   }
 
   Widget widgetQuestaoAnteriorEProxima() {
@@ -284,38 +310,62 @@ class QuestaoAtividade extends StatelessWidget {
 
   Widget buildAlternativas() {
     return Padding(
-      padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+      padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
       child: ListView.builder(
         padding: const EdgeInsets.only(top: 0.0),
         shrinkWrap: true,
         itemCount: questao.alternativas.length,
         itemBuilder: (BuildContext context, int index) {
-          return ChildRadioCard(
-            correctOption: edicao ? null : questao.alternativaCorreta,
-            cardSelectedColor: Colors.blue,
-            cardColor: Colors.white,
-            index: index,
-            selectedIndex: edicao ? questao.alternativaCorreta : 0,
-            child: !edicao
-                ? Text(questao.alternativas[index].text)
-                : SizedBox(
-                    child: TextField(
-                      controller: questao.alternativas[index],
-                      decoration: const InputDecoration(
-                        fillColor: Colors.black,
-                        hintText: "Opção",
-                        border: InputBorder.none,
-                        labelStyle: TextStyle(color: Colors.black),
-                        hintStyle: TextStyle(color: Colors.grey),
-                      ),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 15.0,
-                      ),
-                      maxLines: 1,
-                    ),
-                  ),
-            onChange: (index) {},
+          return Row(
+            children: [
+              Expanded(
+                child: ChildRadioCard(
+                  correctOption: edicao ? null : questao.alternativaCorreta,
+                  cardSelectedColor: Colors.blue,
+                  cardColor: Colors.white,
+                  index: index,
+                  selectedIndex: edicao ? questao.alternativaCorreta : 0,
+                  child: !edicao
+                      ? Text(questao.alternativas[index].text)
+                      : SizedBox(
+                          child: TextField(
+                            controller: questao.alternativas[index],
+                            decoration: const InputDecoration(
+                              fillColor: Colors.black,
+                              hintText: "Opção",
+                              border: InputBorder.none,
+                              labelStyle: TextStyle(color: Colors.black),
+                              hintStyle: TextStyle(color: Colors.grey),
+                            ),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                            ),
+                            maxLines: 1,
+                          ),
+                        ),
+                  onChange: selecionarAlternativa,
+                ),
+              ),
+              edicao
+                  ? Container(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: InkWell(
+                        onTap: () {
+                          removerAlternativa(index);
+                        },
+                        child: const CircleAvatar(
+                          child: Icon(
+                            Icons.clear,
+                            color: Colors.white,
+                            size: 18.0,
+                          ),
+                          backgroundColor: Colors.teal,
+                          maxRadius: 12.0,
+                        ),
+                      ))
+                  : Container()
+            ],
           );
         },
       ),
@@ -323,10 +373,11 @@ class QuestaoAtividade extends StatelessWidget {
   }
 
   Widget buildEntradaResposta(
-      TextEditingController keyboardInput, String? img) {
+      TextEditingController keyboardInput, String? img, String labelText) {
     return InputCardImageText(
       input: img,
       textEditingController: keyboardInput,
+      labelText: labelText,
     );
   }
 }

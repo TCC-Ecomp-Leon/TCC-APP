@@ -22,6 +22,7 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
   OnSelectDate onSelectFechamentoCorrecoes;
   OnChangeDropDown selecaoMateria;
   OnChangeTipoAtividade onChangeTipoAtividade;
+  List<TextEditingController> assuntos;
 
   PrimeiraPaginaAtividade({
     required this.nome,
@@ -37,6 +38,7 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
     required this.onSelectFechamentoCorrecoes,
     required this.selecaoMateria,
     required this.onChangeTipoAtividade,
+    required this.assuntos,
     Key? key,
   }) : super(key: key);
 
@@ -120,6 +122,11 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
                         const SizedBox(
                           height: 10.0,
                         ),
+                        ...assuntos
+                            .map(
+                              (e) => buildTextField(e, "Assunto"),
+                            )
+                            .toList(),
                       ],
                     ),
                   ),

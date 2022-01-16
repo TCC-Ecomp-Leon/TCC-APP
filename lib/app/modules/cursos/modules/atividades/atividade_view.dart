@@ -18,6 +18,7 @@ class AtividadeView extends GetView<AtividadeController> {
           () => CarouselIndicator(
             children: [
               PrimeiraPaginaAtividade(
+                assuntos: controller.assuntos,
                 onChangeTipoAtividade: controller.alterarTipoAtividade,
                 selecaoMateria: controller.selecionarMateria,
                 nome: controller.nome,
@@ -37,6 +38,11 @@ class AtividadeView extends GetView<AtividadeController> {
               ...controller.questoes
                   .mapIndexed(
                     (e, index) => QuestaoAtividade(
+                      selecionarAlternativa: (selectIndex) =>
+                          controller.alterarAlternativaCorreta(
+                        index,
+                        selectIndex,
+                      ),
                       tipoAtividade: controller.tipoAtividade,
                       questao: e,
                       primeiraQuestao: index == 0,
