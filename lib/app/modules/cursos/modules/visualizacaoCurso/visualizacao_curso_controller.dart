@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
@@ -226,6 +227,22 @@ class VisualizacaoCursoController extends GetxController {
       _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Todas;
 
   bool get permissaoCriarAtividade => permissaoEditar;
+
+  DateTime referenciaTempoFecharAtividade(Atividade atividade) {
+    final Perfil perfil = loginController.perfil;
+    if (perfil.regra == RegraPerfil.Projeto) {
+      if (atividade.tipoAtividade == TipoAtividade.Dissertativa) {
+        return atividade.fechamentoCorrecoes!;
+      }
+    } else {
+      if (perfil.universitario?.universitario == true) {
+        if (atividade.tipoAtividade == TipoAtividade.Dissertativa) {
+          return atividade.fechamentoCorrecoes!;
+        }
+      }
+    }
+    return atividade.fechamentoRespostas;
+  }
 }
 
 enum TipoAtividadeVisualizando {

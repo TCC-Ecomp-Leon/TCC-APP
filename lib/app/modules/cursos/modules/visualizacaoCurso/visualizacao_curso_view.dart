@@ -102,20 +102,24 @@ class VisualizacaoGeralCurso extends StatelessWidget {
 
   Widget buildAtividade(BuildContext context, Atividade atividade) {
     final double width = MediaQuery.of(context).size.width - 100.0;
+    final DateTime referenciaTempoFechamento =
+        controller.referenciaTempoFecharAtividade(atividade);
+    final bool atividadeFechada =
+        DateTime.now().isAfter(referenciaTempoFechamento);
     return InkWell(
       onTap: () async {},
       child: Opacity(
-        opacity: 1.0,
+        opacity: atividadeFechada ? 0.5 : 1.0,
         child: Column(
           children: [
             Card(
               child: ListTile(
-                leading: const CircleAvatar(
+                leading: CircleAvatar(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.white,
                   child: Center(
                     child: Icon(
-                      Icons.menu_book,
+                      iconeAtividade(atividade.tipoAtividade),
                       color: Colors.black,
                     ),
                   ),
@@ -127,13 +131,24 @@ class VisualizacaoGeralCurso extends StatelessWidget {
                       width: width * 0.8,
                       child: Text(atividade.nome),
                     ),
+                    SizedBox(
+                      child: Text(
+                        diaMes(
+                              referenciaTempoFechamento,
+                            ) +
+                            "\n" +
+                            horario(
+                              referenciaTempoFechamento,
+                            ),
+                      ),
+                    )
                   ],
                 ),
                 subtitle: Container(
                   padding: const EdgeInsets.only(top: 5.0),
                   child: Text(
                     textoParaTamanhoFixo(
-                      atividade.idCurso,
+                      subtituloAtividade(atividade),
                       30,
                     ),
                   ),
@@ -145,6 +160,35 @@ class VisualizacaoGeralCurso extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  IconData iconeAtividade(TipoAtividade tipoAtividade) {
+    if (tipoAtividade == TipoAtividade.Alternativa) {
+      return Icons.list;
+    } else if (tipoAtividade == TipoAtividade.Dissertativa) {
+      return Icons.notes;
+    } else {
+      return Icons.library_books;
+    }
+  }
+
+  String subtituloAtividade(Atividade atividade) {
+    String texto = atividade.tipoAtividade == TipoAtividade.Alternativa
+        ? "Múltilpla escolha "
+        : atividade.tipoAtividade == TipoAtividade.Dissertativa
+            ? "Dissertativa "
+            : "Banco de questões ";
+    if (atividade.idMateria != null) {
+      List<Materia> materiasEncontradas = controller.materias
+          .where((element) => element.id == atividade.idMateria)
+          .toList();
+      if (materiasEncontradas.isEmpty) {
+        texto = texto + "??";
+      } else {
+        texto = texto + materiasEncontradas[0].nome;
+      }
+    }
+    return texto;
   }
 
   Widget cardRotuloAtividades(

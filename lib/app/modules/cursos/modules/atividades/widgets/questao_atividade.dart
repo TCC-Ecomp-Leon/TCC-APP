@@ -9,6 +9,7 @@ import '../atividade_controller.dart';
 
 typedef ControllerActions = void Function();
 typedef ControllerIndexedActions = void Function(int indexAlternativa);
+typedef ControllerTextActions = void Function(String value);
 
 class QuestaoAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
@@ -23,6 +24,7 @@ class QuestaoAtividade extends StatelessWidget {
   ControllerActions adicionarQuestao;
   ControllerActions removerQuestao;
   ControllerIndexedActions selecionarAlternativa;
+  ControllerTextActions atribuirImagemRespostaEsperada;
 
   QuestaoAtividade({
     required this.tipoAtividade,
@@ -37,6 +39,7 @@ class QuestaoAtividade extends StatelessWidget {
     required this.adicionarQuestao,
     required this.removerQuestao,
     required this.selecionarAlternativa,
+    required this.atribuirImagemRespostaEsperada,
     Key? key,
   }) : super(key: key);
 
@@ -378,6 +381,7 @@ class QuestaoAtividade extends StatelessWidget {
       input: img,
       textEditingController: keyboardInput,
       labelText: labelText,
+      onSelectImage: atribuirImagemRespostaEsperada,
     );
   }
 }

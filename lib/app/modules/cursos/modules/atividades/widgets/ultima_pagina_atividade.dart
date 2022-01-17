@@ -74,12 +74,14 @@ class UltimaPaginaAtividade extends StatelessWidget {
                           "Fim das correções",
                           fechamentoCorrecoes,
                         ),
-                        buildTextField(
-                          TextEditingController(
-                            text: quantideDeQuestoes.toString(),
-                          ),
-                          "Quantidade de questões",
-                        ),
+                        tipoAtividade != TipoAtividade.BancoDeQuestoes
+                            ? buildTextField(
+                                TextEditingController(
+                                  text: quantideDeQuestoes.toString(),
+                                ),
+                                "Quantidade de questões",
+                              )
+                            : Container(),
                       ],
                     ),
                   ),

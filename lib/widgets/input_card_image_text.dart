@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tcc_app/utils/base64_image.dart';
 import 'package:tcc_app/widgets/full_screen_image.dart';
 
+typedef OnSelectImage = void Function(String image);
+
 // ignore: must_be_immutable
 class InputCardImageText extends StatefulWidget {
   final String labelText;
@@ -13,6 +15,7 @@ class InputCardImageText extends StatefulWidget {
   final TextEditingController? textEditingController;
   final bool visibleInputSelector;
   String? inputValue;
+  OnSelectImage? onSelectImage;
 
   InputCardImageText({
     required String? input,
@@ -20,6 +23,7 @@ class InputCardImageText extends StatefulWidget {
     this.labelText = "Resposta:",
     this.hintText = "Insira sua resposta para a questão",
     this.visibleInputSelector = true,
+    this.onSelectImage,
     Key? key,
   }) : super(key: key) {
     selectedInputMethod = SelectedInputMethod.text;
@@ -65,6 +69,9 @@ class _InputCardImageTextState extends State<InputCardImageText> {
 
     if (image != null) {
       this.image = File(image.path);
+      if (widget.onSelectImage != null) {
+        widget.onSelectImage!(imageToBase64String(this.image!));
+      }
     }
     setState(() {});
   }
@@ -76,6 +83,9 @@ class _InputCardImageTextState extends State<InputCardImageText> {
 
     if (image != null) {
       this.image = File(image.path);
+      if (widget.onSelectImage != null) {
+        widget.onSelectImage!(imageToBase64String(this.image!));
+      }
     }
     setState(() {});
   }
@@ -84,16 +94,14 @@ class _InputCardImageTextState extends State<InputCardImageText> {
     return IconButton(
       color: type == widget.selectedInputMethod ? Colors.black : Colors.grey,
       onPressed: () {
-        if (widget.inputValue == null) {
-          if (type == SelectedInputMethod.camera) {
-            imgFromCamera();
-          } else if (type == SelectedInputMethod.gallery) {
-            imgFromGallery();
-          }
-          setState(() {
-            widget.selectedInputMethod = type;
-          });
+        if (type == SelectedInputMethod.camera) {
+          imgFromCamera();
+        } else if (type == SelectedInputMethod.gallery) {
+          imgFromGallery();
         }
+        setState(() {
+          widget.selectedInputMethod = type;
+        });
       },
       icon: Icon(
         type == SelectedInputMethod.text

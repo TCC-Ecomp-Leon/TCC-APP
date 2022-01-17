@@ -57,6 +57,8 @@ class AtividadeController extends GetxController {
   String? get erro => _erro.value.isEmpty ? null : _erro.value;
 
   TextEditingController get nome => _informacoesAtividade.value.nome;
+  TextEditingController get tempoColaborao =>
+      _informacoesAtividade.value.tempoColaborao;
   List<InformacoesQuestoes> get questoes =>
       _informacoesAtividade.value.questoes;
   bool get adicionandoAtividade => _adicionandoAtividade.value;
@@ -85,6 +87,7 @@ class AtividadeController extends GetxController {
 
   setarImagem(int index, String imagem) {
     _informacoesAtividade.value.questoes[index].imagemRespostaEsperada = imagem;
+    _informacoesAtividade.value.questoes[index].respostaImagem = true;
     _informacoesAtividade.refresh();
   }
 

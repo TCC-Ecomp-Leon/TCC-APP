@@ -23,6 +23,7 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
   OnChangeDropDown selecaoMateria;
   OnChangeTipoAtividade onChangeTipoAtividade;
   List<TextEditingController> assuntos;
+  TextEditingController tempoColaboracao;
 
   PrimeiraPaginaAtividade({
     required this.nome,
@@ -39,6 +40,7 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
     required this.selecaoMateria,
     required this.onChangeTipoAtividade,
     required this.assuntos,
+    required this.tempoColaboracao,
     Key? key,
   }) : super(key: key);
 
@@ -119,6 +121,13 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
                                 "Fim das correções",
                                 fechamentoCorrecoes,
                                 onSelectDate: onSelectFechamentoCorrecoes,
+                              )
+                            : Container(),
+                        tipoAtividade != TipoAtividade.Alternativa
+                            ? buildTextField(
+                                tempoColaboracao,
+                                "Tempo colaboração (horas)",
+                                textInputType: TextInputType.number,
                               )
                             : Container(),
                         const SizedBox(
