@@ -7,7 +7,7 @@ import 'package:tcc_app/services/requests/dio.dart';
 
 class RespostaAtividadeAlternativaQuestaoAlternativa {
   String item;
-  String value;
+  bool value;
 
   RespostaAtividadeAlternativaQuestaoAlternativa({
     required this.item,
@@ -118,6 +118,14 @@ Future<bool?> responderAtividadeDissertativa(
   String idAtividade,
   List<RespostaAtividadeDissertativaQuestao> respostas,
 ) {
+  print(respostas
+      .map((resposta) => {
+            'idQuestao': resposta.idQuestao,
+            'resposta': resposta.foto
+                ? {'foto': true, 'imagem': resposta.imagem}
+                : {'foto': false, 'texto': resposta.texto}
+          })
+      .toList());
   return executeRequest(
     () {
       return httpClient.request(
@@ -125,13 +133,15 @@ Future<bool?> responderAtividadeDissertativa(
         data: {
           'tipo': getNumeroTipoAtividade(TipoAtividade.Dissertativa),
           'respostas': respostas
-              .map((resposta) => {
-                    'idQuestao': resposta.idQuestao,
-                    'resposta': resposta.foto
-                        ? {'foto': true, 'texto': resposta.texto!}
-                        : {'foto': false, 'imagem': resposta.imagem!}
-                  })
-              .toList(),
+              .map(
+                (resposta) => {
+                  'idQuestao': resposta.idQuestao,
+                  'resposta': resposta.foto
+                      ? {'foto': true, 'imagem': resposta.imagem!}
+                      : {'foto': false, 'texto': resposta.texto!}
+                },
+              )
+              .toList()
         },
         options: Options(method: 'POST'),
       );

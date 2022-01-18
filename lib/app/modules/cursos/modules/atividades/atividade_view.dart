@@ -16,7 +16,8 @@ class AtividadeView extends GetView<AtividadeController> {
       body: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Obx(
-          () => controller.adicionandoAtividade
+          () => controller.adicionandoAtividade ||
+                  controller.respondendoAtividade
               ? Container(
                   alignment: Alignment.center,
                   height: 100.0,

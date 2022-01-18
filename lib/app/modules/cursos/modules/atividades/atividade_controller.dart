@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/atividade.dart';
+import 'package:tcc_app/services/respostaAtividade.dart';
 import 'package:tcc_app/utils/iterable.dart';
 
 // Esse controlador deverá gerenciar uma atividade como um todo,
@@ -24,8 +25,9 @@ class AtividadeController extends GetxController {
       tipoUsoController = args['uso'] as TipoUsoControllerAtividades;
     }
     if (args.keys.contains('atividade')) {
-      Atividade atividade = args['atividade'] as Atividade;
-      _informacoesAtividade = InformacoesAtividade.fromAtividade(atividade).obs;
+      atividade = args['atividade'] as Atividade;
+      _informacoesAtividade =
+          InformacoesAtividade.fromAtividade(atividade!).obs;
     } else {
       _informacoesAtividade =
           InformacoesAtividade(tipoAtividade: tipoAtividade).obs;
@@ -36,11 +38,14 @@ class AtividadeController extends GetxController {
   final CollectionsController collectionsController =
       Get.find<CollectionsController>();
 
+  late final Atividade? atividade;
+
   late Curso curso;
   late TipoUsoControllerAtividades tipoUsoController;
   late Rx<InformacoesAtividade> _informacoesAtividade;
   final Rx<int> _indiceMateriaSelecionada = (-1).obs;
   final Rx<bool> _adicionandoAtividade = false.obs;
+  final Rx<bool> _respondendoAtividade = false.obs;
 
   final Rx<String> _erro = "".obs;
 
@@ -67,6 +72,7 @@ class AtividadeController extends GetxController {
   List<InformacoesQuestoes> get questoes =>
       _informacoesAtividade.value.questoes;
   bool get adicionandoAtividade => _adicionandoAtividade.value;
+  bool get respondendoAtividade => _respondendoAtividade.value;
   List<TextEditingController> get assuntos =>
       _informacoesAtividade.value.assuntos;
 
@@ -98,11 +104,6 @@ class AtividadeController extends GetxController {
 
   setarImagemResposta(int index, String imagem) {
     _informacoesAtividade.value.questoes[index].imagemRespostaInserida = imagem;
-    _informacoesAtividade.value.questoes[index].respostaImagem = true;
-    _informacoesAtividade.refresh();
-  }
-
-  alterarParaRespostaImagem(int index) {
     _informacoesAtividade.value.questoes[index].respostaImagem = true;
     _informacoesAtividade.refresh();
   }
@@ -253,9 +254,86 @@ class AtividadeController extends GetxController {
     }
   }
 
-  entregarAtividade() async {}
+  entregarAtividade() async {
+    if (atividade == null) return;
+    String? erro =
+        _informacoesAtividade.value.procurarErrosResponderAtividade();
+    _erro.value = erro ?? "";
 
-  responderAtividade() async {}
+    if (_erro.value.isEmpty) {
+      _respondendoAtividade.value = true;
+      bool? result;
+      if (tipoAtividade == TipoAtividade.Alternativa) {
+        result = await responderAtividadeAlternativa(
+          atividade!.id,
+          _informacoesAtividade.value.questoes
+              .mapIndexed(
+                (questao, indiceQuestao) => RespostaAtividadeAlternativaQuestao(
+                  alternativas: questao.alternativas
+                      .mapIndexed(
+                        (alternativa, indexAlternativa) =>
+                            RespostaAtividadeAlternativaQuestaoAlternativa(
+                          item: alternativa.text,
+                          value: indexAlternativa ==
+                              questao.alternativaSelecionada,
+                        ),
+                      )
+                      .toList(),
+                  idQuestao: atividade!.itens![indiceQuestao].idQuestao,
+                ),
+              )
+              .toList(),
+        );
+      } else if (tipoAtividade == TipoAtividade.Dissertativa) {
+        result = await responderAtividadeDissertativa(
+          atividade!.id,
+          _informacoesAtividade.value.questoes
+              .mapIndexed(
+                (questao, indiceQuestao) =>
+                    RespostaAtividadeDissertativaQuestao(
+                  idQuestao: atividade!.itens![indiceQuestao].idQuestao,
+                  foto: questao.respostaImagem,
+                  texto: questao.textoRespostaInserida.text,
+                  imagem: questao.imagemRespostaInserida,
+                ),
+              )
+              .toList(),
+        );
+      } else {
+        result = await responderAtividadeBancoDeQuestoes(
+          atividade!.id,
+          _informacoesAtividade.value.questoes
+              .map(
+                (questao) => RespostaAtividadeBancoDeQuestao(
+                  enunciado: questao.enunciado.text,
+                  alternativas: questao.alternativas
+                      .mapIndexed(
+                        (alternativa, indiceAlternativa) =>
+                            RespostaAtividadeBancoDeQuestaoAlternativa(
+                          item: alternativa.text,
+                          value:
+                              indiceAlternativa == questao.alternativaCorreta,
+                        ),
+                      )
+                      .toList(),
+                ),
+              )
+              .toList(),
+        );
+      }
+
+      if (result != null && result) {
+        _erro.value = "";
+      } else {
+        _erro.value = "Falha ao responder a atividade";
+      }
+
+      _respondendoAtividade.value = false;
+      if (_erro.value.isEmpty) {
+        Get.back();
+      }
+    }
+  }
 
   selecionarMateria(int index) {
     _indiceMateriaSelecionada.value = index;
@@ -395,6 +473,36 @@ class InformacoesAtividade {
     }
     return null;
   }
+
+  String? procurarErrosResponderAtividade() {
+    if (tipoAtividade == TipoAtividade.BancoDeQuestoes) {
+      if (questoes.isEmpty) {
+        return "Necessário inserir uma questão";
+      }
+      for (int i = 0; i < questoes.length; i++) {
+        String? erroQuestao = questoes[i].verificarErroRespostaBanco();
+        if (erroQuestao != null) {
+          return "Questão " + (i + 1).toString();
+        }
+      }
+    } else if (tipoAtividade == TipoAtividade.Alternativa) {
+      for (int i = 0; i < questoes.length; i++) {
+        String? erroQuestao = questoes[i].verificarErroRespostaAlternativa();
+        if (erroQuestao != null) {
+          return "Questão " + (i + 1).toString();
+        }
+      }
+    } else {
+      for (int i = 0; i < questoes.length; i++) {
+        String? erroQuestao = questoes[i].verificarErroRespostaDissertativa();
+        if (erroQuestao != null) {
+          return "Questão " + (i + 1).toString();
+        }
+      }
+    }
+
+    return null;
+  }
 }
 
 class InformacoesQuestoes {
@@ -477,6 +585,39 @@ class InformacoesQuestoes {
         if (textoRespostaEsperada.text.isEmpty) {
           return "Necessário inserir o texto da resposta esperada";
         }
+      }
+    }
+    return null;
+  }
+
+  String? verificarErroRespostaBanco() {
+    if (enunciado.text.isEmpty) {
+      return "Necessário inserir um enunciado";
+    }
+    if (!alternativa) {
+      return "Erro inesperado, essa pergunta deveria ser alternativa";
+    }
+    if (alternativaCorreta == -1 || alternativaCorreta >= alternativas.length) {
+      return "Necessário selecionar uma alternativa válida";
+    }
+    return null;
+  }
+
+  String? verificarErroRespostaAlternativa() {
+    if (alternativaSelecionada == -1 ||
+        alternativaSelecionada >= alternativas.length) {
+      return "Selecione uma alternativa válida";
+    }
+  }
+
+  String? verificarErroRespostaDissertativa() {
+    if (respostaImagem) {
+      if (imagemRespostaInserida == null) {
+        return "Necesário inserir a imagem da sua resposta";
+      }
+    } else {
+      if (textoRespostaInserida.text.isEmpty) {
+        return "Necessário preencher sua resposta";
       }
     }
     return null;
