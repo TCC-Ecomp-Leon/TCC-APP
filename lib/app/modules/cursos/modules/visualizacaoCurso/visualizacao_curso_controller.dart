@@ -35,10 +35,7 @@ class VisualizacaoCursoController extends GetxController {
       refreshControllerAtividades.requestRefresh();
     }
     List<Atividade>? result = await obterListaDeAtividades(
-      null,
       curso.id,
-      null,
-      null,
       visualizandoTodas
           ? null
           : visualizandoAbertas

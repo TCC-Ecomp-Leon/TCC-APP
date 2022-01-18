@@ -169,32 +169,17 @@ Future<bool?> criarAtividadeBancoDeQuestoes(
 }
 
 Future<List<Atividade>?> obterListaDeAtividades(
-  String? idProjeto,
-  String? idCurso,
-  String? idMateria,
-  String? idAtividade,
+  String idCurso,
   bool? abertas,
 ) {
   return executeRequest(
     () {
       Map<String, String> queryParameters = {};
-      if (idProjeto != null) {
-        queryParameters['projeto'] = idProjeto;
-      }
-      if (idCurso != null) {
-        queryParameters['curso'] = idCurso;
-      }
-      if (idMateria != null) {
-        queryParameters['idMateria'] = idMateria;
-      }
-      if (idAtividade != null) {
-        queryParameters['atividade'] = idAtividade;
-      }
       if (abertas != null) {
         queryParameters['abertas'] = abertas.toString();
       }
       return httpClient.request(
-        Endpoints.atividadeEndpoint,
+        Endpoints.atividadeEndpoint + "/" + idCurso,
         queryParameters: queryParameters,
         options: Options(method: 'GET'),
       );
