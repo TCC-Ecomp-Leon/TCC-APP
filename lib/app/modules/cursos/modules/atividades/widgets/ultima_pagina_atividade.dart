@@ -9,23 +9,29 @@ class UltimaPaginaAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
   TextEditingController nome;
   bool editando;
+  bool respondendo;
   DateTime aberturaRespostas;
   DateTime fechamentoRespostas;
   DateTime fechamentoCorrecoes;
   int quantideDeQuestoes;
   String? erroMessage;
   ControllerActions adicionarAtividade;
+  ControllerActions entregarAtividade;
+  ControllerActions sair;
 
   UltimaPaginaAtividade({
     required this.nome,
     required this.tipoAtividade,
     required this.editando,
+    required this.respondendo,
     required this.aberturaRespostas,
     required this.fechamentoRespostas,
     required this.fechamentoCorrecoes,
     required this.quantideDeQuestoes,
     required this.erroMessage,
     required this.adicionarAtividade,
+    required this.entregarAtividade,
+    required this.sair,
     Key? key,
   }) : super(key: key);
 
@@ -126,9 +132,17 @@ class UltimaPaginaAtividade extends StatelessWidget {
             height: 20.0,
           ),
           TextButton(
-            onPressed: adicionarAtividade,
-            child: const Text(
-              "Adicionar atividade",
+            onPressed: editando
+                ? adicionarAtividade
+                : respondendo
+                    ? entregarAtividade
+                    : sair,
+            child: Text(
+              editando
+                  ? "Adicionar atividade"
+                  : respondendo
+                      ? "Enviar respostas"
+                      : "Sair",
               textScaleFactor: 0.9,
             ),
             style: TextButton.styleFrom(

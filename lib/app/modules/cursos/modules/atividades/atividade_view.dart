@@ -37,7 +37,8 @@ class AtividadeView extends GetView<AtividadeController> {
                       materias: controller.listaMaterias,
                       indiceMateriaSelecionada:
                           controller.indiceMateriaSelecionada,
-                      editando: true,
+                      editando: controller.tipoUsoController ==
+                          TipoUsoControllerAtividades.Criando,
                       aberturaRespostas: controller.aberturaRespostas,
                       onSelectAberturaRespostas:
                           controller.alterarAberturaRespostas,
@@ -52,12 +53,25 @@ class AtividadeView extends GetView<AtividadeController> {
                         .mapIndexed(
                           (e, index) => QuestaoAtividade(
                             atribuirImagemRespostaEsperada: (imagem) =>
-                                controller.setarImagem(index, imagem),
-                            selecionarAlternativa: (selectIndex) =>
+                                controller.setarImagemRespostaEsperada(
+                                    index, imagem),
+                            atribuirImagemResposta: (imagem) =>
+                                controller.setarImagemResposta(index, imagem),
+                            selecionarAlternativa: (selectIndex) {
+                              if (controller.tipoUsoController ==
+                                  TipoUsoControllerAtividades.Criando) {
                                 controller.alterarAlternativaCorreta(
-                              index,
-                              selectIndex,
-                            ),
+                                  index,
+                                  selectIndex,
+                                );
+                              } else if (controller.tipoUsoController ==
+                                  TipoUsoControllerAtividades.Respondendo) {
+                                controller.selecionarRepostaAlternativa(
+                                  index,
+                                  selectIndex,
+                                );
+                              }
+                            },
                             tipoAtividade: controller.tipoAtividade,
                             questao: e,
                             primeiraQuestao: index == 0,
@@ -65,7 +79,10 @@ class AtividadeView extends GetView<AtividadeController> {
                                 index == controller.questoes.length - 1,
                             indiceQuestao: index,
                             quantidadeQuestoes: controller.questoes.length,
-                            edicao: true,
+                            edicao: controller.tipoUsoController ==
+                                TipoUsoControllerAtividades.Criando,
+                            visualizarCorreta: controller.tipoUsoController ==
+                                TipoUsoControllerAtividades.Visualizando,
                             adicionarAlternativa: () =>
                                 controller.adicionarAlternativa(index),
                             removerAlternativa: (indexAlternativa) => controller
@@ -81,12 +98,17 @@ class AtividadeView extends GetView<AtividadeController> {
                       adicionarAtividade: controller.salvarAtividade,
                       nome: controller.nome,
                       tipoAtividade: controller.tipoAtividade,
-                      editando: true,
+                      editando: controller.tipoUsoController ==
+                          TipoUsoControllerAtividades.Criando,
                       aberturaRespostas: controller.aberturaRespostas,
                       fechamentoRespostas: controller.fechamentoRespostas,
                       fechamentoCorrecoes: controller.fechamentoCorrecoes,
                       quantideDeQuestoes: controller.questoes.length,
                       erroMessage: controller.erro,
+                      respondendo: controller.tipoUsoController ==
+                          TipoUsoControllerAtividades.Respondendo,
+                      entregarAtividade: controller.entregarAtividade,
+                      sair: () => Get.back(),
                     ),
                   ],
                 ),

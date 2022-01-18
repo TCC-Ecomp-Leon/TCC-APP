@@ -19,12 +19,14 @@ class QuestaoAtividade extends StatelessWidget {
   int indiceQuestao;
   int quantidadeQuestoes;
   bool edicao;
+  bool visualizarCorreta;
   ControllerActions adicionarAlternativa;
   ControllerIndexedActions removerAlternativa;
   ControllerActions adicionarQuestao;
   ControllerActions removerQuestao;
   ControllerIndexedActions selecionarAlternativa;
   ControllerTextActions atribuirImagemRespostaEsperada;
+  ControllerTextActions atribuirImagemResposta;
 
   QuestaoAtividade({
     required this.tipoAtividade,
@@ -40,6 +42,8 @@ class QuestaoAtividade extends StatelessWidget {
     required this.removerQuestao,
     required this.selecionarAlternativa,
     required this.atribuirImagemRespostaEsperada,
+    required this.visualizarCorreta,
+    required this.atribuirImagemResposta,
     Key? key,
   }) : super(key: key);
 
@@ -61,7 +65,7 @@ class QuestaoAtividade extends StatelessWidget {
             const SizedBox(
               height: 20.0,
             ),
-            buildActions(),
+            edicao ? buildActions() : Container(),
           ],
         ),
       ),
@@ -141,11 +145,13 @@ class QuestaoAtividade extends StatelessWidget {
             questao.textoRespostaEsperada,
             questao.imagemRespostaEsperada,
             "Resposta esperada:",
+            atribuirImagemRespostaEsperada,
           )
         : buildEntradaResposta(
             questao.textoRespostaInserida,
             questao.imagemRespostaInserida,
             "Resposta:",
+            atribuirImagemResposta,
           );
   }
 
@@ -323,13 +329,24 @@ class QuestaoAtividade extends StatelessWidget {
             children: [
               Expanded(
                 child: ChildRadioCard(
-                  correctOption: edicao ? null : questao.alternativaCorreta,
+                  correctOption: edicao
+                      ? null
+                      : visualizarCorreta
+                          ? questao.alternativaCorreta
+                          : null,
                   cardSelectedColor: Colors.blue,
                   cardColor: Colors.white,
                   index: index,
-                  selectedIndex: edicao ? questao.alternativaCorreta : 0,
+                  selectedIndex: edicao
+                      ? questao.alternativaCorreta
+                      : questao.alternativaSelecionada,
                   child: !edicao
-                      ? Text(questao.alternativas[index].text)
+                      ? Text(
+                          questao.alternativas[index].text,
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        )
                       : SizedBox(
                           child: TextField(
                             controller: questao.alternativas[index],
@@ -375,13 +392,13 @@ class QuestaoAtividade extends StatelessWidget {
     );
   }
 
-  Widget buildEntradaResposta(
-      TextEditingController keyboardInput, String? img, String labelText) {
+  Widget buildEntradaResposta(TextEditingController keyboardInput, String? img,
+      String labelText, ControllerTextActions onSelectImage) {
     return InputCardImageText(
       input: img,
       textEditingController: keyboardInput,
       labelText: labelText,
-      onSelectImage: atribuirImagemRespostaEsperada,
+      onSelectImage: onSelectImage,
     );
   }
 }

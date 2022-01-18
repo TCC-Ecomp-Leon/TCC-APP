@@ -23,8 +23,13 @@ class AtividadeController extends GetxController {
     if (args.keys.contains('uso')) {
       tipoUsoController = args['uso'] as TipoUsoControllerAtividades;
     }
-    _informacoesAtividade =
-        InformacoesAtividade(tipoAtividade: tipoAtividade).obs;
+    if (args.keys.contains('atividade')) {
+      Atividade atividade = args['atividade'] as Atividade;
+      _informacoesAtividade = InformacoesAtividade.fromAtividade(atividade).obs;
+    } else {
+      _informacoesAtividade =
+          InformacoesAtividade(tipoAtividade: tipoAtividade).obs;
+    }
     super.onInit();
   }
 
@@ -85,8 +90,14 @@ class AtividadeController extends GetxController {
     }
   }
 
-  setarImagem(int index, String imagem) {
+  setarImagemRespostaEsperada(int index, String imagem) {
     _informacoesAtividade.value.questoes[index].imagemRespostaEsperada = imagem;
+    _informacoesAtividade.value.questoes[index].respostaImagem = true;
+    _informacoesAtividade.refresh();
+  }
+
+  setarImagemResposta(int index, String imagem) {
+    _informacoesAtividade.value.questoes[index].imagemRespostaInserida = imagem;
     _informacoesAtividade.value.questoes[index].respostaImagem = true;
     _informacoesAtividade.refresh();
   }
@@ -144,8 +155,14 @@ class AtividadeController extends GetxController {
     _informacoesAtividade.refresh();
   }
 
+  selecionarRepostaAlternativa(int indexQuestao, int indexAlternativa) {
+    _informacoesAtividade.value.questoes[indexQuestao].alternativaSelecionada =
+        indexAlternativa;
+    _informacoesAtividade.refresh();
+  }
+
   salvarAtividade() async {
-    String? erro = _informacoesAtividade.value.procurarErros();
+    String? erro = _informacoesAtividade.value.procurarErrosCriacaoAtividade();
     _erro.value = erro ?? "";
     if (_erro.value.isEmpty) {
       _adicionandoAtividade.value = true;
@@ -236,6 +253,10 @@ class AtividadeController extends GetxController {
     }
   }
 
+  entregarAtividade() async {}
+
+  responderAtividade() async {}
+
   selecionarMateria(int index) {
     _indiceMateriaSelecionada.value = index;
   }
@@ -244,6 +265,7 @@ class AtividadeController extends GetxController {
 enum TipoUsoControllerAtividades {
   Criando,
   Visualizando,
+  Respondendo,
 }
 
 class InformacoesAtividade {
@@ -255,7 +277,40 @@ class InformacoesAtividade {
   late DateTime aberturaRespostas;
   late DateTime fechamentoRespostas;
   late DateTime fechamentoCorrecoes;
-  TipoAtividade tipoAtividade;
+  late TipoAtividade tipoAtividade;
+
+  InformacoesAtividade.fromAtividade(Atividade atividade) {
+    nome = TextEditingController(text: atividade.nome);
+    questoes = atividade.itens != null
+        ? atividade.itens!
+            .map((e) => InformacoesQuestoes.fromQuestao(
+                  e,
+                  atividade.tipoAtividade,
+                ))
+            .toList()
+        : [];
+    assuntos = atividade.assuntos != null
+        ? atividade.assuntos!
+            .map((e) => TextEditingController(text: e))
+            .toList()
+        : [];
+    notaReferencia = TextEditingController(
+      text: atividade.notaReferencia != null
+          ? atividade.notaReferencia!.toStringAsFixed(2)
+          : null,
+    );
+    tempoColaborao = TextEditingController(
+      text: atividade.tempoColaboracao != null
+          ? atividade.tempoColaboracao!.toStringAsFixed(3)
+          : null,
+    );
+    aberturaRespostas = atividade.aberturaRespostas;
+    fechamentoRespostas = atividade.fechamentoRespostas;
+    fechamentoCorrecoes = atividade.fechamentoCorrecoes != null
+        ? atividade.fechamentoCorrecoes!
+        : DateTime.now();
+    tipoAtividade = atividade.tipoAtividade;
+  }
 
   InformacoesAtividade({
     required this.tipoAtividade,
@@ -297,7 +352,7 @@ class InformacoesAtividade {
     }
   }
 
-  String? procurarErros() {
+  String? procurarErrosCriacaoAtividade() {
     if (nome.text.isEmpty) {
       return "Necessário preencher o nome da atividade";
     }
@@ -330,7 +385,7 @@ class InformacoesAtividade {
         return "Necessário inserir uma questão";
       }
       for (int i = 0; i < questoes.length; i++) {
-        String? erroQuestao = questoes[i].verificarErro();
+        String? erroQuestao = questoes[i].verificarErroCriacaoAtividade();
         if (erroQuestao != null) {
           return "Questão " + (i + 1).toString() + ". " + erroQuestao;
         }
@@ -348,8 +403,30 @@ class InformacoesQuestoes {
   late String? imagemRespostaInserida;
   late List<TextEditingController> alternativas;
   late int alternativaCorreta;
+  late int alternativaSelecionada;
   late bool alternativa;
   late bool respostaImagem;
+
+  InformacoesQuestoes.fromQuestao(
+      AtividadeItens questao, TipoAtividade tipoAtividade) {
+    enunciado = TextEditingController(text: questao.enunciado);
+    textoRespostaEsperada =
+        TextEditingController(text: questao.respostaEsperada?.texto);
+    textoRespostaInserida = TextEditingController();
+    imagemRespostaEsperada = questao.respostaEsperada?.imagem;
+    imagemRespostaInserida = null;
+    alternativas = questao.alternativas != null
+        ? questao.alternativas!
+            .map((e) => TextEditingController(text: e.item))
+            .toList()
+        : [];
+    alternativaCorreta = questao.alternativas != null
+        ? questao.alternativas!.indexWhere((element) => element.value)
+        : -1;
+    alternativaSelecionada = -1;
+    alternativa = tipoAtividade == TipoAtividade.Alternativa ? true : false;
+    respostaImagem = false;
+  }
 
   InformacoesQuestoes.alternativa() {
     enunciado = TextEditingController();
@@ -359,6 +436,7 @@ class InformacoesQuestoes {
     imagemRespostaInserida = null;
     alternativas = [TextEditingController()];
     alternativaCorreta = -1;
+    alternativaSelecionada = -1;
     alternativa = true;
     respostaImagem = false;
   }
@@ -371,11 +449,12 @@ class InformacoesQuestoes {
     imagemRespostaInserida = null;
     alternativas = [TextEditingController()];
     alternativaCorreta = -1;
+    alternativaSelecionada = -1;
     alternativa = false;
     respostaImagem = false;
   }
 
-  String? verificarErro() {
+  String? verificarErroCriacaoAtividade() {
     if (enunciado.text.isEmpty) {
       return "Necessário inserir o enunciado";
     }

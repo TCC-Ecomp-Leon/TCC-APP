@@ -107,7 +107,14 @@ class VisualizacaoGeralCurso extends StatelessWidget {
     final bool atividadeFechada =
         DateTime.now().isAfter(referenciaTempoFechamento);
     return InkWell(
-      onTap: () async {},
+      onTap: () async {
+        await Get.toNamed(Routes.atividade, arguments: {
+          'curso': controller.curso,
+          'uso': TipoUsoControllerAtividades.Respondendo,
+          'atividade': atividade,
+        });
+        controller.carregarAtividades(pullRefresh: true);
+      },
       child: Opacity(
         opacity: atividadeFechada ? 0.5 : 1.0,
         child: Column(

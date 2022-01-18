@@ -314,6 +314,7 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
                       onChange(index - 1);
                     },
                     getItemText: (value) => value,
+                    enabled: editando,
                   ),
                 ),
               ),
