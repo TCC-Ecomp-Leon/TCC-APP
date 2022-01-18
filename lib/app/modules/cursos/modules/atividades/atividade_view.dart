@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/atividade_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/widgets/primeira_pagina_atividade.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/widgets/questao_atividade.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/widgets/ultima_pagina_atividade.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/iterable.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/loading.dart';
@@ -80,7 +80,12 @@ class AtividadeView extends GetView<AtividadeController> {
                             indiceQuestao: index,
                             quantidadeQuestoes: controller.questoes.length,
                             edicao: controller.tipoUsoController ==
-                                TipoUsoControllerAtividades.Criando,
+                                    TipoUsoControllerAtividades.Criando ||
+                                (controller.tipoUsoController ==
+                                        TipoUsoControllerAtividades
+                                            .Respondendo &&
+                                    controller.tipoAtividade ==
+                                        TipoAtividade.BancoDeQuestoes),
                             visualizarCorreta: controller.tipoUsoController ==
                                 TipoUsoControllerAtividades.Visualizando,
                             adicionarAlternativa: () =>

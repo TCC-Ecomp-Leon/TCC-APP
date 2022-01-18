@@ -280,6 +280,7 @@ class InformacoesAtividade {
   late TipoAtividade tipoAtividade;
 
   InformacoesAtividade.fromAtividade(Atividade atividade) {
+    tipoAtividade = atividade.tipoAtividade;
     nome = TextEditingController(text: atividade.nome);
     questoes = atividade.itens != null
         ? atividade.itens!
@@ -288,7 +289,9 @@ class InformacoesAtividade {
                   atividade.tipoAtividade,
                 ))
             .toList()
-        : [];
+        : atividade.tipoAtividade == TipoAtividade.BancoDeQuestoes
+            ? [InformacoesQuestoes.alternativa()]
+            : [];
     assuntos = atividade.assuntos != null
         ? atividade.assuntos!
             .map((e) => TextEditingController(text: e))
@@ -309,7 +312,6 @@ class InformacoesAtividade {
     fechamentoCorrecoes = atividade.fechamentoCorrecoes != null
         ? atividade.fechamentoCorrecoes!
         : DateTime.now();
-    tipoAtividade = atividade.tipoAtividade;
   }
 
   InformacoesAtividade({
