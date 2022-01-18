@@ -118,14 +118,6 @@ Future<bool?> responderAtividadeDissertativa(
   String idAtividade,
   List<RespostaAtividadeDissertativaQuestao> respostas,
 ) {
-  print(respostas
-      .map((resposta) => {
-            'idQuestao': resposta.idQuestao,
-            'resposta': resposta.foto
-                ? {'foto': true, 'imagem': resposta.imagem}
-                : {'foto': false, 'texto': resposta.texto}
-          })
-      .toList());
   return executeRequest(
     () {
       return httpClient.request(
