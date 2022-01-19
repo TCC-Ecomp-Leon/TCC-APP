@@ -112,30 +112,21 @@ class VisualizacaoGeralCurso extends StatelessWidget {
     final bool regraUniversitario = controller.regraUniversitario;
     final bool regraProfessor = controller.regraProfessor;
     final bool regraAluno = controller.regraAluno;
+    final bool regraProjeto = controller.regraProjeto;
 
     return InkWell(
       onTap: () async {
-        if (!atividadeFechada) {
-          if (regraAluno) {
-            await Get.toNamed(Routes.atividade, arguments: {
-              'curso': controller.curso,
-              'uso': TipoUsoControllerAtividades.Respondendo,
-              'atividade': atividade,
-            });
-          }
+        if (regraProfessor || regraProjeto) {
+          await Get.toNamed(Routes.respostasAtividade, arguments: {
+            'atividade': atividade,
+            'curso': controller.curso,
+          });
         } else {
-          if (!regraAluno) {
-            //Modo de correção de atividade
-
-          } else {
-            //Ver a resposta se já tiver corrigida ver a nota
-            await Get.toNamed(Routes.atividade, arguments: {
-              'curso': controller.curso,
-              'uso': TipoUsoControllerAtividades.Respondendo,
-              'atividade': atividade,
-              'resposta': respostas[0],
-            });
-          }
+          await Get.toNamed(Routes.atividade, arguments: {
+            'curso': controller.curso,
+            'uso': TipoUsoControllerAtividades.Respondendo,
+            'atividade': atividade,
+          });
         }
         controller.carregarAtividades(pullRefresh: true);
       },
