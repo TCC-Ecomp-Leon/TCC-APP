@@ -56,6 +56,8 @@ class AtividadeView extends GetView<AtividadeController> {
                     ...controller.questoes
                         .mapIndexed(
                           (e, index) => QuestaoAtividade(
+                            atribuirNotaQuestao: (nota) =>
+                                controller.atribuirNotaQuestao(index, nota),
                             respondida: controller.resposta != null,
                             corrigida: controller.corrigida,
                             atribuirImagemRespostaEsperada: (imagem) =>

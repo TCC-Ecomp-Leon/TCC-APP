@@ -120,6 +120,11 @@ class AtividadeController extends GetxController {
     _informacoesAtividade.refresh();
   }
 
+  atribuirNotaQuestao(int index, double nota) {
+    _informacoesAtividade.value.questoes[index].notaCorrecao = nota;
+    _informacoesAtividade.refresh();
+  }
+
   alterarParaRespostaTexto(int index) {
     _informacoesAtividade.value.questoes[index].respostaImagem = false;
     _informacoesAtividade.refresh();
@@ -349,6 +354,7 @@ class AtividadeController extends GetxController {
 
   selecionarMateria(int index) {
     _indiceMateriaSelecionada.value = index;
+    _indiceMateriaSelecionada.refresh();
   }
 }
 
@@ -610,7 +616,9 @@ class InformacoesQuestoes {
   late StatusRespostaDissertativa? statusRespostaDissertativa;
 
   InformacoesQuestoes.fromRespostaBancoDeQuestoes(
-      RespostaAtividadeResposta resposta, bool avaliada) {
+    RespostaAtividadeResposta resposta,
+    bool avaliada,
+  ) {
     enunciado = TextEditingController(text: resposta.enunciado);
     textoRespostaEsperada = TextEditingController();
     textoRespostaInserida = TextEditingController();

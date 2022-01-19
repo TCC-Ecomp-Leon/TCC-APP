@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tcc_app/utils/base64_image.dart';
 import 'package:tcc_app/widgets/full_screen_image.dart';
 
+typedef OnFocusTextField = void Function();
 typedef OnSelectImage = void Function(String image);
 
 // ignore: must_be_immutable
@@ -16,6 +17,8 @@ class InputCardImageText extends StatefulWidget {
   final bool visibleInputSelector;
   String? inputValue;
   OnSelectImage? onSelectImage;
+  bool enabled;
+  OnFocusTextField? onFocusTextField;
 
   InputCardImageText({
     required String? input,
@@ -24,6 +27,8 @@ class InputCardImageText extends StatefulWidget {
     this.hintText = "Insira sua resposta para a questão",
     this.visibleInputSelector = true,
     this.onSelectImage,
+    this.enabled = true,
+    this.onFocusTextField,
     Key? key,
   }) : super(key: key) {
     selectedInputMethod = SelectedInputMethod.text;
@@ -63,6 +68,7 @@ class _InputCardImageTextState extends State<InputCardImageText> {
   }
 
   imgFromCamera() async {
+    if (!widget.enabled) return;
     this.image = null;
     XFile? image = await ImagePicker()
         .pickImage(source: ImageSource.camera, imageQuality: 50);
@@ -77,6 +83,7 @@ class _InputCardImageTextState extends State<InputCardImageText> {
   }
 
   imgFromGallery() async {
+    if (!widget.enabled) return;
     this.image = null;
     XFile? image = await ImagePicker()
         .pickImage(source: ImageSource.gallery, imageQuality: 50);
@@ -145,7 +152,9 @@ class _InputCardImageTextState extends State<InputCardImageText> {
         ),
         child: widget.selectedInputMethod == SelectedInputMethod.text
             ? TextField(
-                readOnly: widget.textEditingController == null,
+                onTap: widget.onFocusTextField,
+                readOnly:
+                    widget.textEditingController == null || !widget.enabled,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   labelText: widget.labelText,

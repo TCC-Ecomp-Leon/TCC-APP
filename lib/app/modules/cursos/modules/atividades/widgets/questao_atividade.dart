@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tcc_app/models/index.dart';
@@ -10,6 +12,7 @@ import '../atividade_controller.dart';
 typedef ControllerActions = void Function();
 typedef ControllerIndexedActions = void Function(int indexAlternativa);
 typedef ControllerTextActions = void Function(String value);
+typedef ControllerDoubleValueActions = void Function(double value);
 
 class QuestaoAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
@@ -27,6 +30,7 @@ class QuestaoAtividade extends StatelessWidget {
   ControllerIndexedActions selecionarAlternativa;
   ControllerTextActions atribuirImagemRespostaEsperada;
   ControllerTextActions atribuirImagemResposta;
+  ControllerDoubleValueActions atribuirNotaQuestao;
 
   bool respondida;
   bool corrigida;
@@ -49,8 +53,11 @@ class QuestaoAtividade extends StatelessWidget {
     required this.atribuirImagemResposta,
     required this.respondida,
     required this.corrigida,
+    required this.atribuirNotaQuestao,
     Key? key,
   }) : super(key: key);
+
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,19 +68,28 @@ class QuestaoAtividade extends StatelessWidget {
         left: 50.0,
       ),
       child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            headerQuestao(),
-            bodyQuestao(),
-            const SizedBox(
-              height: 20.0,
-            ),
-            edicao ? buildActions() : Container(),
-          ],
-        ),
-      ),
+          controller: scrollController,
+          child: KeyboardVisibilityBuilder(
+            builder: (BuildContext context, bool visible) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  headerQuestao(),
+                  bodyQuestao(),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  edicao ? buildActions() : Container(),
+                  visible
+                      ? const SizedBox(
+                          height: 140.0,
+                        )
+                      : Container(),
+                ],
+              );
+            },
+          )),
     );
   }
 
@@ -152,6 +168,7 @@ class QuestaoAtividade extends StatelessWidget {
             "Resposta esperada:",
             atribuirImagemRespostaEsperada,
             true,
+            true,
           )
         : respondida
             ? Column(
@@ -160,15 +177,29 @@ class QuestaoAtividade extends StatelessWidget {
                     questao.textoRespostaEsperada,
                     questao.imagemRespostaEsperada,
                     "Resposta esperada:",
-                    atribuirImagemResposta,
+                    (imagem) {},
+                    false,
                     false,
                   ),
                   buildEntradaResposta(
                     questao.textoRespostaInserida,
                     questao.imagemRespostaInserida,
                     "Resposta inserida:",
-                    atribuirImagemResposta,
+                    (imagem) {},
                     false,
+                    false,
+                  ),
+                  buildEntradaResposta(
+                    questao.comentarioCorrecao,
+                    null,
+                    "Comentário:",
+                    (imagem) {},
+                    false,
+                    true,
+                  ),
+                  buildNota(),
+                  const SizedBox(
+                    height: 20.0,
                   ),
                 ],
               )
@@ -178,6 +209,7 @@ class QuestaoAtividade extends StatelessWidget {
                 "Resposta:",
                 atribuirImagemResposta,
                 true,
+                false,
               );
   }
 
@@ -418,18 +450,71 @@ class QuestaoAtividade extends StatelessWidget {
     );
   }
 
+  Widget buildNota() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10.0,
+        ),
+        RatingBar.builder(
+          glow: false,
+          initialRating: questao.notaCorrecao,
+          minRating: 0,
+          maxRating: 10,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: const EdgeInsets.symmetric(
+            horizontal: 4.0,
+          ),
+          itemBuilder: (context, _) => const Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            atribuirNotaQuestao(rating);
+          },
+        ),
+        const SizedBox(
+          height: 5.0,
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              width: 60.0,
+              child: Text("Nota: ", textAlign: TextAlign.start),
+            ),
+            SizedBox(
+              width: 60.0,
+              child: Text(
+                questao.notaCorrecao.toStringAsFixed(2),
+                textAlign: TextAlign.end,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget buildEntradaResposta(
-      TextEditingController keyboardInput,
-      String? img,
-      String labelText,
-      ControllerTextActions onSelectImage,
-      bool trocarTipoEntrada) {
+    TextEditingController keyboardInput,
+    String? img,
+    String labelText,
+    ControllerTextActions onSelectImage,
+    bool trocarTipoEntrada,
+    bool editavel,
+  ) {
     return InputCardImageText(
       input: img,
       textEditingController: keyboardInput,
       labelText: labelText,
       onSelectImage: onSelectImage,
       visibleInputSelector: trocarTipoEntrada,
+      enabled: editavel,
     );
   }
 }
