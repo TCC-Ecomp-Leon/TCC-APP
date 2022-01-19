@@ -15,7 +15,7 @@ class AtividadeController extends GetxController {
   @override
   void onInit() {
     Map<String, dynamic> args = Get.arguments as Map<String, dynamic>;
-    curso = args['curso'];
+    curso = args['curso'] as Curso;
     TipoAtividade tipoAtividade = TipoAtividade.Alternativa;
     if (args.keys.contains('tipo')) {
       tipoAtividade = args['tipo'] as TipoAtividade;
@@ -26,6 +26,14 @@ class AtividadeController extends GetxController {
     }
     if (args.keys.contains('atividade')) {
       atividade = args['atividade'] as Atividade;
+      if (atividade!.idMateria != null) {
+        final indiceMateria = curso.materias
+            .indexWhere((element) => element.id == atividade!.idMateria);
+        if (indiceMateria >= 0) {
+          _indiceMateriaSelecionada.value = indiceMateria;
+        }
+      }
+
       if (args.keys.contains('resposta')) {
         resposta = args['resposta'] as RespostaAtividade;
       }
