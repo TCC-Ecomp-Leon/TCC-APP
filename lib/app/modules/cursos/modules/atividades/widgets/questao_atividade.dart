@@ -209,7 +209,7 @@ class QuestaoAtividade extends StatelessWidget {
                 "Resposta:",
                 atribuirImagemResposta,
                 true,
-                false,
+                true,
               );
   }
 

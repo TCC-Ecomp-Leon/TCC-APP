@@ -122,11 +122,15 @@ class VisualizacaoGeralCurso extends StatelessWidget {
             'curso': controller.curso,
           });
         } else {
-          await Get.toNamed(Routes.atividade, arguments: {
-            'curso': controller.curso,
-            'uso': TipoUsoControllerAtividades.Respondendo,
-            'atividade': atividade,
-          });
+          if (quantidadeRespostas == 0) {
+            await Get.toNamed(Routes.atividade, arguments: {
+              'curso': controller.curso,
+              'uso': TipoUsoControllerAtividades.Respondendo,
+              'atividade': atividade,
+            });
+          } else {
+            //TODO: Página de visualização de resposta e nota
+          }
         }
         controller.carregarAtividades(pullRefresh: true);
       },
