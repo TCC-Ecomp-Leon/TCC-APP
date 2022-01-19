@@ -92,16 +92,10 @@ class AdministracaoController extends BottomMenuController {
   }
 
   carregarInformacoesAdm() async {
-    //TODO: Remover essa prevenção de erro no backend
-    await Future.delayed(const Duration(seconds: 1));
     await carregarProjetosAprovados();
 
-    //TODO: Remover essa prevenção de erro no backend
-    await Future.delayed(const Duration(seconds: 1));
     await carregarProjetosNaoAprovados();
 
-    //TODO: Remover essa prevenção de erro no backend
-    await Future.delayed(const Duration(seconds: 1));
     await carregarCursosUniversitarios();
   }
 
