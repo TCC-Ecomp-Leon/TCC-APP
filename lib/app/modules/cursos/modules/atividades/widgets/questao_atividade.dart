@@ -28,6 +28,9 @@ class QuestaoAtividade extends StatelessWidget {
   ControllerTextActions atribuirImagemRespostaEsperada;
   ControllerTextActions atribuirImagemResposta;
 
+  bool respondida;
+  bool corrigida;
+
   QuestaoAtividade({
     required this.tipoAtividade,
     required this.questao,
@@ -44,6 +47,8 @@ class QuestaoAtividade extends StatelessWidget {
     required this.atribuirImagemRespostaEsperada,
     required this.visualizarCorreta,
     required this.atribuirImagemResposta,
+    required this.respondida,
+    required this.corrigida,
     Key? key,
   }) : super(key: key);
 
@@ -146,13 +151,34 @@ class QuestaoAtividade extends StatelessWidget {
             questao.imagemRespostaEsperada,
             "Resposta esperada:",
             atribuirImagemRespostaEsperada,
+            true,
           )
-        : buildEntradaResposta(
-            questao.textoRespostaInserida,
-            questao.imagemRespostaInserida,
-            "Resposta:",
-            atribuirImagemResposta,
-          );
+        : respondida
+            ? Column(
+                children: [
+                  buildEntradaResposta(
+                    questao.textoRespostaEsperada,
+                    questao.imagemRespostaEsperada,
+                    "Resposta esperada:",
+                    atribuirImagemResposta,
+                    false,
+                  ),
+                  buildEntradaResposta(
+                    questao.textoRespostaInserida,
+                    questao.imagemRespostaInserida,
+                    "Resposta inserida:",
+                    atribuirImagemResposta,
+                    false,
+                  ),
+                ],
+              )
+            : buildEntradaResposta(
+                questao.textoRespostaInserida,
+                questao.imagemRespostaInserida,
+                "Resposta:",
+                atribuirImagemResposta,
+                true,
+              );
   }
 
   Widget widgetQuestaoAnteriorEProxima() {
@@ -392,13 +418,18 @@ class QuestaoAtividade extends StatelessWidget {
     );
   }
 
-  Widget buildEntradaResposta(TextEditingController keyboardInput, String? img,
-      String labelText, ControllerTextActions onSelectImage) {
+  Widget buildEntradaResposta(
+      TextEditingController keyboardInput,
+      String? img,
+      String labelText,
+      ControllerTextActions onSelectImage,
+      bool trocarTipoEntrada) {
     return InputCardImageText(
       input: img,
       textEditingController: keyboardInput,
       labelText: labelText,
       onSelectImage: onSelectImage,
+      visibleInputSelector: trocarTipoEntrada,
     );
   }
 }
