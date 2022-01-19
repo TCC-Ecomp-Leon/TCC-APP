@@ -87,7 +87,7 @@ class RespostasController extends GetxController {
     if (respostaAtividade == null) {
       return "??";
     } else {
-      return respostaAtividade.nota ?? "??";
+      return respostaAtividade.nota?.toStringAsFixed(2) ?? "??";
     }
   }
 

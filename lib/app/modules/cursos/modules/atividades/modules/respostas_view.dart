@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tcc_app/app/modules/cursos/modules/atividades/atividade_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/modules/respostas_controller.dart';
+import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/Atividade.dart';
+import 'package:tcc_app/utils/base64_image.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
@@ -19,9 +22,10 @@ class RespostasView extends GetView<RespostasController> {
               children: [
                 cardAtividade(context),
                 cardTurma(context),
+                buildHeaderTabelaRespostas(context),
               ],
             ),
-            bottomOffset: 300.0,
+            bottomOffset: 335.0,
             child: controller.carregando
                 ? Container(
                     alignment: Alignment.center,
@@ -93,44 +97,121 @@ class RespostasView extends GetView<RespostasController> {
     );
   }
 
+  Widget buildHeaderTabelaRespostas(BuildContext context) {
+    return Card(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(7.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Expanded(
+              child: Text(
+                "Aluno",
+                textScaleFactor: 0.8,
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            SizedBox(
+              width: 75.0,
+              child: Text(
+                "Respondido",
+                textScaleFactor: 0.8,
+                style: TextStyle(color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(
+              width: 65.0,
+              child: Text(
+                "Corrigido",
+                textScaleFactor: 0.8,
+                style: TextStyle(color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(
+              width: 40.0,
+              child: Text(
+                "Nota",
+                textScaleFactor: 0.8,
+                style: TextStyle(color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget cardAlunoResposta(
     BuildContext context,
     RespostasControllerInformacaoAluno aluno,
   ) {
     final bool corrigida = controller.atividadeCorrigida(aluno.resposta);
     final String textoNota = controller.notaCorrecao(aluno.resposta);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width - 150.0,
-              child: Text(aluno.perfil.nome),
-            ),
-            Icon(
-              aluno.respondeu
-                  ? corrigida
-                      ? Icons.check
-                      : Icons.priority_high
-                  : Icons.check_box_outline_blank_outlined,
-              color: corrigida ? Colors.yellow : Colors.red,
-            ),
-            Row(
-              children: [
-                Icon(
-                  aluno.respondeu ? Icons.check : Icons.close,
-                  color: aluno.respondeu ? Colors.green : Colors.red,
+    return InkWell(
+      onTap: () async {
+        if (!aluno.respondeu) return;
+        await Get.toNamed(Routes.atividade, arguments: {
+          'curso': controller.curso,
+          'tipo': controller.atividade.tipoAtividade,
+          'uso': TipoUsoControllerAtividades.Visualizando,
+          'atividade': controller.atividade,
+          'resposta': aluno.resposta!,
+        });
+        controller.carregarRespostas(pullRefresh: true);
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20.0,
+                      backgroundColor: Colors.white,
+                      backgroundImage:
+                          imageFromBase64String(aluno.perfil.fotoPerfil).image,
+                    ),
+                    const SizedBox(
+                      width: 5.0,
+                    ),
+                    Text(
+                      aluno.perfil.nome,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  width: 5.0,
+              ),
+              SizedBox(
+                width: 75.0,
+                child: Text(
+                  aluno.respondeu ? "S" : "N",
+                  textAlign: TextAlign.center,
                 ),
-                Text(textoNota),
-              ],
-            )
-          ],
+              ),
+              SizedBox(
+                width: 65.0,
+                child: Text(
+                  corrigida ? "S" : "N",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                width: 40.0,
+                child: Text(
+                  textoNota,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

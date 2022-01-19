@@ -26,8 +26,16 @@ class AtividadeController extends GetxController {
     }
     if (args.keys.contains('atividade')) {
       atividade = args['atividade'] as Atividade;
-      _informacoesAtividade =
-          InformacoesAtividade.fromAtividade(atividade!).obs;
+      if (args.keys.contains('resposta')) {
+        resposta = args['resposta'] as RespostaAtividade;
+      }
+      if (tipoUsoController == TipoUsoControllerAtividades.Visualizando) {
+        _informacoesAtividade =
+            InformacoesAtividade.fromResposta(atividade!, resposta!).obs;
+      } else {
+        _informacoesAtividade =
+            InformacoesAtividade.fromAtividade(atividade!).obs;
+      }
     } else {
       _informacoesAtividade =
           InformacoesAtividade(tipoAtividade: tipoAtividade).obs;
@@ -39,6 +47,7 @@ class AtividadeController extends GetxController {
       Get.find<CollectionsController>();
 
   late final Atividade? atividade;
+  late final RespostaAtividade? resposta;
 
   late Curso curso;
   late TipoUsoControllerAtividades tipoUsoController;
@@ -357,6 +366,73 @@ class InformacoesAtividade {
   late DateTime fechamentoCorrecoes;
   late TipoAtividade tipoAtividade;
 
+  late bool corrigida;
+  late double nota;
+
+  InformacoesAtividade.fromResposta(
+      Atividade atividade, RespostaAtividade respostaAtividade) {
+    tipoAtividade = respostaAtividade.tipo;
+    nome = TextEditingController(text: atividade.nome);
+    assuntos = atividade.assuntos != null
+        ? atividade.assuntos!
+            .map((e) => TextEditingController(text: e))
+            .toList()
+        : [];
+    notaReferencia = TextEditingController(
+      text: atividade.notaReferencia != null
+          ? atividade.notaReferencia!.toStringAsFixed(2)
+          : null,
+    );
+    tempoColaborao = TextEditingController(
+      text: atividade.tempoColaboracao != null
+          ? atividade.tempoColaboracao!.toStringAsFixed(3)
+          : null,
+    );
+    aberturaRespostas = atividade.aberturaRespostas;
+    fechamentoRespostas = atividade.fechamentoRespostas;
+    fechamentoCorrecoes = atividade.fechamentoCorrecoes != null
+        ? atividade.fechamentoCorrecoes!
+        : DateTime.now();
+
+    corrigida = (tipoAtividade == TipoAtividade.Dissertativa &&
+            respostaAtividade.corrigida == true) ||
+        (tipoAtividade == TipoAtividade.Alternativa &&
+            respostaAtividade.encerrada == true);
+    nota = corrigida ? respostaAtividade.nota! : -1;
+
+    if (tipoAtividade == TipoAtividade.Alternativa) {
+      questoes = respostaAtividade.respostas
+          .mapIndexed(
+            (e, index) => InformacoesQuestoes.fromRespostaAlternativa(
+              atividade.itens![index],
+              e,
+              respostaAtividade.encerrada!,
+            ),
+          )
+          .toList();
+    } else if (tipoAtividade == TipoAtividade.Dissertativa) {
+      questoes = respostaAtividade.respostas
+          .mapIndexed(
+            (e, i) => InformacoesQuestoes.fromRespostaDissertativa(
+              atividade.itens![i],
+              e,
+              corrigida,
+              respostaAtividade.correcaoQuestao![i],
+            ),
+          )
+          .toList();
+    } else {
+      questoes = respostaAtividade.respostas
+          .map(
+            (e) => InformacoesQuestoes.fromRespostaBancoDeQuestoes(
+              e,
+              respostaAtividade.avaliada!,
+            ),
+          )
+          .toList();
+    }
+  }
+
   InformacoesAtividade.fromAtividade(Atividade atividade) {
     tipoAtividade = atividade.tipoAtividade;
     nome = TextEditingController(text: atividade.nome);
@@ -517,8 +593,84 @@ class InformacoesQuestoes {
   late bool alternativa;
   late bool respostaImagem;
 
+  late bool respostaEsperadaImagem;
+  late bool corrigida;
+  late TextEditingController comentarioCorrecao;
+  late double notaCorrecao;
+  late StatusRespostaDissertativa? statusRespostaDissertativa;
+
+  InformacoesQuestoes.fromRespostaBancoDeQuestoes(
+      RespostaAtividadeResposta resposta, bool avaliada) {
+    enunciado = TextEditingController(text: resposta.enunciado);
+    textoRespostaEsperada = TextEditingController();
+    textoRespostaInserida = TextEditingController();
+    imagemRespostaEsperada = null;
+    imagemRespostaInserida = null;
+    alternativas = resposta.alternativas!
+        .map((e) => TextEditingController(text: e.item))
+        .toList();
+    alternativaCorreta =
+        resposta.alternativas!.indexWhere((element) => element.value);
+    alternativaSelecionada = -1;
+    alternativa = true;
+    respostaImagem = false;
+    respostaEsperadaImagem = false;
+    corrigida = avaliada;
+  }
+
+  InformacoesQuestoes.fromRespostaDissertativa(
+      AtividadeItens questao,
+      RespostaAtividadeResposta resposta,
+      bool _corrigida,
+      CorrecaoDissertativa? correcaoDissertativa) {
+    enunciado = TextEditingController(text: questao.enunciado);
+    textoRespostaEsperada =
+        TextEditingController(text: questao.respostaEsperada?.texto);
+    textoRespostaInserida =
+        TextEditingController(text: resposta.resposta?.texto);
+    imagemRespostaEsperada = questao.respostaEsperada?.imagem;
+    imagemRespostaInserida = resposta.resposta?.imagem;
+    alternativas = [];
+    alternativaCorreta = -1;
+    alternativaSelecionada = -1;
+    alternativa = false;
+    respostaEsperadaImagem = questao.respostaEsperada?.foto ?? false;
+    respostaImagem = resposta.resposta?.foto ?? false;
+    corrigida = _corrigida;
+    comentarioCorrecao =
+        TextEditingController(text: correcaoDissertativa?.comentarios);
+    notaCorrecao = correcaoDissertativa?.nota ?? -1;
+    statusRespostaDissertativa = correcaoDissertativa?.status;
+  }
+
+  InformacoesQuestoes.fromRespostaAlternativa(AtividadeItens questao,
+      RespostaAtividadeResposta respostaQuestao, bool _corrigida) {
+    enunciado = TextEditingController(text: questao.enunciado);
+    textoRespostaInserida = TextEditingController();
+    textoRespostaEsperada = TextEditingController();
+    imagemRespostaInserida = null;
+    imagemRespostaEsperada = null;
+    alternativas = questao.alternativas != null
+        ? questao.alternativas!
+            .map((e) => TextEditingController(text: e.item))
+            .toList()
+        : [];
+    alternativaCorreta = questao.alternativas != null
+        ? questao.alternativas!.indexWhere((element) => element.value)
+        : -1;
+    alternativaSelecionada = respostaQuestao.alternativas != null
+        ? respostaQuestao.alternativas!.indexWhere((element) => element.value)
+        : -1;
+    corrigida = _corrigida;
+    comentarioCorrecao = TextEditingController();
+    notaCorrecao = -1;
+    statusRespostaDissertativa = null;
+  }
+
   InformacoesQuestoes.fromQuestao(
-      AtividadeItens questao, TipoAtividade tipoAtividade) {
+    AtividadeItens questao,
+    TipoAtividade tipoAtividade,
+  ) {
     enunciado = TextEditingController(text: questao.enunciado);
     textoRespostaEsperada =
         TextEditingController(text: questao.respostaEsperada?.texto);
@@ -536,6 +688,11 @@ class InformacoesQuestoes {
     alternativaSelecionada = -1;
     alternativa = tipoAtividade == TipoAtividade.Alternativa ? true : false;
     respostaImagem = false;
+    corrigida = false;
+    respostaEsperadaImagem = false;
+    comentarioCorrecao = TextEditingController();
+    notaCorrecao = -1;
+    statusRespostaDissertativa = null;
   }
 
   InformacoesQuestoes.alternativa() {
@@ -549,6 +706,13 @@ class InformacoesQuestoes {
     alternativaSelecionada = -1;
     alternativa = true;
     respostaImagem = false;
+    corrigida = false;
+    respostaEsperadaImagem = false;
+    corrigida = false;
+    respostaEsperadaImagem = false;
+    comentarioCorrecao = TextEditingController();
+    notaCorrecao = -1;
+    statusRespostaDissertativa = null;
   }
 
   InformacoesQuestoes.dissertativa() {
@@ -562,6 +726,13 @@ class InformacoesQuestoes {
     alternativaSelecionada = -1;
     alternativa = false;
     respostaImagem = false;
+    corrigida = false;
+    respostaEsperadaImagem = false;
+    corrigida = false;
+    respostaEsperadaImagem = false;
+    comentarioCorrecao = TextEditingController();
+    notaCorrecao = -1;
+    statusRespostaDissertativa = null;
   }
 
   String? verificarErroCriacaoAtividade() {
