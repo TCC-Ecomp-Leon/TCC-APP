@@ -55,6 +55,7 @@ class AtividadeController extends GetxController {
   final Rx<int> _indiceMateriaSelecionada = (-1).obs;
   final Rx<bool> _adicionandoAtividade = false.obs;
   final Rx<bool> _respondendoAtividade = false.obs;
+  final Rx<bool> _corrigindoAtividade = false.obs;
 
   final Rx<String> _erro = "".obs;
 
@@ -83,6 +84,7 @@ class AtividadeController extends GetxController {
       _informacoesAtividade.value.questoes;
   bool get adicionandoAtividade => _adicionandoAtividade.value;
   bool get respondendoAtividade => _respondendoAtividade.value;
+  bool get corrigindoAtividade => _corrigindoAtividade.value;
   List<TextEditingController> get assuntos =>
       _informacoesAtividade.value.assuntos;
 
@@ -352,6 +354,43 @@ class AtividadeController extends GetxController {
     }
   }
 
+  corrigirAtividade() async {
+    String? erro = _informacoesAtividade.value.procurarErrosCorrecao();
+    _erro.value = erro ?? "";
+    if (_erro.value.isEmpty) {
+      _corrigindoAtividade.value = true;
+
+      bool? result = await corrigirAtividadeDissertativa(
+        resposta!.id,
+        _informacoesAtividade.value.questoes
+            .mapIndexed(
+              (questao, indiceQuestao) => CorrecaoQuestaoDissertativaQuestao(
+                idQuestao: atividade!.itens![indiceQuestao].idQuestao,
+                nota: questao.notaCorrecao,
+                status: questao.notaCorrecao == 10
+                    ? StatusRespostaDissertativa.Certo
+                    : questao.notaCorrecao > 4
+                        ? StatusRespostaDissertativa.ParcialmenteCerto
+                        : StatusRespostaDissertativa.Errado,
+                comentarios: questao.comentarioCorrecao.text,
+              ),
+            )
+            .toList(),
+      );
+
+      if (result != null && result) {
+        _erro.value = "";
+      } else {
+        _erro.value = "Erro ao corrigir a atividade";
+      }
+
+      _corrigindoAtividade.value = false;
+      if (_erro.value.isEmpty) {
+        Get.back();
+      }
+    }
+  }
+
   selecionarMateria(int index) {
     _indiceMateriaSelecionada.value = index;
     _indiceMateriaSelecionada.refresh();
@@ -593,6 +632,23 @@ class InformacoesAtividade {
       }
     }
 
+    return null;
+  }
+
+  String? procurarErrosCorrecao() {
+    if (tipoAtividade != TipoAtividade.Dissertativa) {
+      return "Erro com o tipo de atividade";
+    }
+    for (int i = 0; i < questoes.length; i++) {
+      if (questoes[i].notaCorrecao < 0 || questoes[i].notaCorrecao > 10) {
+        return "Questão " + (i + 1).toString() + ". Nota inválida";
+      }
+      if (questoes[i].comentarioCorrecao.text.isEmpty) {
+        return "Questão " +
+            (i + 1).toString() +
+            ". Necessário inserir um comentário";
+      }
+    }
     return null;
   }
 }

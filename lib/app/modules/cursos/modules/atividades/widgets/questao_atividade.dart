@@ -458,9 +458,9 @@ class QuestaoAtividade extends StatelessWidget {
         ),
         RatingBar.builder(
           glow: false,
-          initialRating: questao.notaCorrecao,
+          initialRating: questao.notaCorrecao / 2,
           minRating: 0,
-          maxRating: 10,
+          maxRating: 5,
           direction: Axis.horizontal,
           allowHalfRating: true,
           itemCount: 5,
@@ -472,7 +472,7 @@ class QuestaoAtividade extends StatelessWidget {
             color: Colors.amber,
           ),
           onRatingUpdate: (rating) {
-            atribuirNotaQuestao(rating);
+            atribuirNotaQuestao(2 * rating);
           },
         ),
         const SizedBox(

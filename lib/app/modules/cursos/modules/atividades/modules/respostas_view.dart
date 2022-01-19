@@ -150,8 +150,8 @@ class RespostasView extends GetView<RespostasController> {
     BuildContext context,
     RespostasControllerInformacaoAluno aluno,
   ) {
-    final bool corrigida = controller.atividadeCorrigida(aluno.resposta);
-    final String textoNota = controller.notaCorrecao(aluno.resposta);
+    bool corrigida = controller.atividadeCorrigida(aluno.resposta);
+    String textoNota = controller.notaCorrecao(aluno.resposta);
     return InkWell(
       onTap: () async {
         if (!aluno.respondeu) return;

@@ -17,7 +17,8 @@ class AtividadeView extends GetView<AtividadeController> {
         padding: const EdgeInsets.only(top: 30.0),
         child: Obx(
           () => controller.adicionandoAtividade ||
-                  controller.respondendoAtividade
+                  controller.respondendoAtividade ||
+                  controller.corrigindoAtividade
               ? Container(
                   alignment: Alignment.center,
                   height: 100.0,
@@ -108,6 +109,9 @@ class AtividadeView extends GetView<AtividadeController> {
                         )
                         .toList(),
                     UltimaPaginaAtividade(
+                      corrigir: controller.corrigirAtividade,
+                      corrigindo:
+                          !controller.corrigida && controller.resposta != null,
                       adicionarAtividade: controller.salvarAtividade,
                       nome: controller.nome,
                       tipoAtividade: controller.tipoAtividade,
