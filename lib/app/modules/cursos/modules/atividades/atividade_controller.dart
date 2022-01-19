@@ -423,7 +423,7 @@ class InformacoesAtividade {
               atividade.itens![i],
               e,
               corrigida,
-              respostaAtividade.correcaoQuestao![i],
+              respostaAtividade.correcaoQuestao?[i],
             ),
           )
           .toList();
