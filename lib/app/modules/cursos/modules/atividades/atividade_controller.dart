@@ -47,7 +47,7 @@ class AtividadeController extends GetxController {
       Get.find<CollectionsController>();
 
   late final Atividade? atividade;
-  late final RespostaAtividade? resposta;
+  RespostaAtividade? resposta;
 
   late Curso curso;
   late TipoUsoControllerAtividades tipoUsoController;
