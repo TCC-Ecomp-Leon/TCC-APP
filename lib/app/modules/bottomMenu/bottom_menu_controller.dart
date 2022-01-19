@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:tcc_app/app/modules/administracao/administracao_view.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_view.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_view.dart';
 import 'package:tcc_app/app/modules/perfil/perfil_view.dart';
@@ -117,7 +118,7 @@ List<BottomMenuPage> obterPaginasComPermisssao(
 
 final List<BottomMenuPage> pages = [
   BottomMenuPage(
-    page: const Dummy(),
+    page: AdministracaoView(),
     label: "Administração",
     icon: const Icon(Icons.admin_panel_settings),
     routeName: Routes.administracao,
