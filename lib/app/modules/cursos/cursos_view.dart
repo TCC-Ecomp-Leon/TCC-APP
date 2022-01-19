@@ -133,7 +133,7 @@ class CursosView extends GetView<CursosController> {
                             child: Align(
                               alignment: Alignment.topCenter,
                               child: Text(
-                                "Suas matérias",
+                                "Seus cursos",
                                 textScaleFactor: 1.2,
                               ),
                             ),

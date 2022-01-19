@@ -7,6 +7,7 @@ import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/atividade.dart';
 import 'package:tcc_app/services/curso.dart';
 import 'package:tcc_app/services/projeto.dart';
+import 'package:tcc_app/services/respostaAtividade.dart';
 
 class VisualizacaoCursoController extends GetxController {
   final LoginController loginController = Get.find<LoginController>();
@@ -15,6 +16,7 @@ class VisualizacaoCursoController extends GetxController {
 
   final RxList<dynamic> _atividades = [].obs;
   final Rx<bool> _carregandoAtividades = false.obs;
+  late RxMap<String, List<RespostaAtividade>> mapaRespostasAtividades;
 
   @override
   void onInit() {
@@ -43,6 +45,21 @@ class VisualizacaoCursoController extends GetxController {
               : false,
     );
     if (result != null) {
+      Map<String, List<RespostaAtividade>> map = {};
+      for (int i = 0; i < result.length; i++) {
+        Atividade atividade = result[i];
+        List<RespostaAtividade>? respostas =
+            await lerRespostasPerfilEmAtividade(
+          loginController.perfil.id,
+          atividade.id,
+        );
+        if (respostas != null) {
+          map[atividade.id] = respostas;
+        }
+      }
+
+      mapaRespostasAtividades = map.obs;
+
       _atividades.value = result;
     }
 
@@ -200,20 +217,17 @@ class VisualizacaoCursoController extends GetxController {
 
   visualizarAbertas(RefreshController refreshController) {
     _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Abertas;
-    carregarAtividades(
-        pullRefresh: true, refreshControllerAtividades: refreshController);
+    carregarAtividades();
   }
 
   visualizarFechadas(RefreshController refreshController) {
     _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Fechadas;
-    carregarAtividades(
-        pullRefresh: true, refreshControllerAtividades: refreshController);
+    carregarAtividades();
   }
 
   visualizarTodas(RefreshController refreshController) {
     _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Todas;
-    carregarAtividades(
-        pullRefresh: true, refreshControllerAtividades: refreshController);
+    carregarAtividades();
   }
 
   bool get visualizandoAbertas =>
@@ -240,6 +254,19 @@ class VisualizacaoCursoController extends GetxController {
     }
     return atividade.fechamentoRespostas;
   }
+
+  List<RespostaAtividade> respostasUsuarioAtividade(String idAtividade) {
+    if (mapaRespostasAtividades.keys.contains(idAtividade)) {
+      return mapaRespostasAtividades[idAtividade]!;
+    }
+    return [];
+  }
+
+  bool get regraAdministrador => loginController.regraAdministrador;
+  bool get regraProjeto => loginController.regraProjeto;
+  bool get regraAluno => loginController.regraAluno;
+  bool get regraProfessor => loginController.regraProfessor;
+  bool get regraUniversitario => loginController.regraUniversitario;
 }
 
 enum TipoAtividadeVisualizando {

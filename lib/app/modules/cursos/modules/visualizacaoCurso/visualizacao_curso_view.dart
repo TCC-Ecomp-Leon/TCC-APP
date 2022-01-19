@@ -106,13 +106,37 @@ class VisualizacaoGeralCurso extends StatelessWidget {
         controller.referenciaTempoFecharAtividade(atividade);
     final bool atividadeFechada =
         DateTime.now().isAfter(referenciaTempoFechamento);
+    List<RespostaAtividade> respostas =
+        controller.respostasUsuarioAtividade(atividade.id);
+    final int quantidadeRespostas = respostas.length;
+    final bool regraUniversitario = controller.regraUniversitario;
+    final bool regraProfessor = controller.regraProfessor;
+    final bool regraAluno = controller.regraAluno;
+
     return InkWell(
       onTap: () async {
-        await Get.toNamed(Routes.atividade, arguments: {
-          'curso': controller.curso,
-          'uso': TipoUsoControllerAtividades.Respondendo,
-          'atividade': atividade,
-        });
+        if (!atividadeFechada) {
+          if (regraAluno) {
+            await Get.toNamed(Routes.atividade, arguments: {
+              'curso': controller.curso,
+              'uso': TipoUsoControllerAtividades.Respondendo,
+              'atividade': atividade,
+            });
+          }
+        } else {
+          if (!regraAluno) {
+            //Modo de correção de atividade
+
+          } else {
+            //Ver a resposta se já tiver corrigida ver a nota
+            await Get.toNamed(Routes.atividade, arguments: {
+              'curso': controller.curso,
+              'uso': TipoUsoControllerAtividades.Respondendo,
+              'atividade': atividade,
+              'resposta': respostas[0],
+            });
+          }
+        }
         controller.carregarAtividades(pullRefresh: true);
       },
       child: Opacity(
@@ -121,46 +145,69 @@ class VisualizacaoGeralCurso extends StatelessWidget {
           children: [
             Card(
               child: ListTile(
-                leading: CircleAvatar(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.white,
-                  child: Center(
-                    child: Icon(
-                      iconeAtividade(atividade.tipoAtividade),
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: width * 0.8,
-                      child: Text(atividade.nome),
-                    ),
-                    SizedBox(
-                      child: Text(
-                        diaMes(
-                              referenciaTempoFechamento,
-                            ) +
-                            "\n" +
-                            horario(
-                              referenciaTempoFechamento,
-                            ),
+                  leading: CircleAvatar(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Icon(
+                        iconeAtividade(atividade.tipoAtividade),
+                        color: Colors.black,
                       ),
-                    )
-                  ],
-                ),
-                subtitle: Container(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    textoParaTamanhoFixo(
-                      subtituloAtividade(atividade),
-                      30,
                     ),
                   ),
-                ),
-              ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: width * 0.8,
+                        child: Text(atividade.nome),
+                      ),
+                      SizedBox(
+                          child: Column(
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            color: atividadeFechada ? Colors.red : Colors.green,
+                          ),
+                          const SizedBox(
+                            height: 1.0,
+                          ),
+                          Text(
+                            diaMes(
+                                  referenciaTempoFechamento,
+                                ) +
+                                "\n" +
+                                horario(
+                                  referenciaTempoFechamento,
+                                ),
+                            textScaleFactor: 0.5,
+                          ),
+                        ],
+                      ))
+                    ],
+                  ),
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Text(
+                            textoParaTamanhoFixo(
+                              subtituloAtividade(atividade),
+                              30,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        quantidadeRespostas > 0 ? Icons.check : Icons.close,
+                        color:
+                            quantidadeRespostas > 0 ? Colors.green : Colors.red,
+                      ),
+                    ],
+                  )),
             ),
             const Divider(height: 3.0, color: Colors.black),
           ],
