@@ -78,12 +78,15 @@ class AtividadeController extends GetxController {
   TextEditingController get nome => _informacoesAtividade.value.nome;
   TextEditingController get tempoColaborao =>
       _informacoesAtividade.value.tempoColaborao;
+  TextEditingController get notaAtividade => _informacoesAtividade.value.nota;
   List<InformacoesQuestoes> get questoes =>
       _informacoesAtividade.value.questoes;
   bool get adicionandoAtividade => _adicionandoAtividade.value;
   bool get respondendoAtividade => _respondendoAtividade.value;
   List<TextEditingController> get assuntos =>
       _informacoesAtividade.value.assuntos;
+
+  bool get corrigida => _informacoesAtividade.value.corrigida;
 
   adicionarQuestao() {
     if (tipoAtividade == TipoAtividade.Alternativa) {
@@ -367,10 +370,12 @@ class InformacoesAtividade {
   late TipoAtividade tipoAtividade;
 
   late bool corrigida;
-  late double nota;
+  late TextEditingController nota;
 
   InformacoesAtividade.fromResposta(
-      Atividade atividade, RespostaAtividade respostaAtividade) {
+    Atividade atividade,
+    RespostaAtividade respostaAtividade,
+  ) {
     tipoAtividade = respostaAtividade.tipo;
     nome = TextEditingController(text: atividade.nome);
     assuntos = atividade.assuntos != null
@@ -398,7 +403,8 @@ class InformacoesAtividade {
             respostaAtividade.corrigida == true) ||
         (tipoAtividade == TipoAtividade.Alternativa &&
             respostaAtividade.encerrada == true);
-    nota = corrigida ? respostaAtividade.nota! : -1;
+    nota = TextEditingController(
+        text: corrigida ? respostaAtividade.nota!.toStringAsFixed(3) : "-1");
 
     if (tipoAtividade == TipoAtividade.Alternativa) {
       questoes = respostaAtividade.respostas
@@ -466,6 +472,8 @@ class InformacoesAtividade {
     fechamentoCorrecoes = atividade.fechamentoCorrecoes != null
         ? atividade.fechamentoCorrecoes!
         : DateTime.now();
+    corrigida = false;
+    nota = TextEditingController();
   }
 
   InformacoesAtividade({
@@ -483,6 +491,8 @@ class InformacoesAtividade {
     fechamentoRespostas = DateTime.now();
     fechamentoCorrecoes = DateTime.now();
     notaReferencia = TextEditingController(text: '10');
+    corrigida = false;
+    nota = TextEditingController();
   }
 
   alterarTipoAtividade(TipoAtividade tipoAtividade) {

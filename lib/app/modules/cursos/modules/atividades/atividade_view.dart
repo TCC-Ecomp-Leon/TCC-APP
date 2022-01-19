@@ -29,6 +29,9 @@ class AtividadeView extends GetView<AtividadeController> {
               : CarouselIndicator(
                   children: [
                     PrimeiraPaginaAtividade(
+                      corrigida: controller.corrigida,
+                      notaAtividade: controller.notaAtividade,
+                      jaRespondida: controller.resposta != null,
                       tempoColaboracao: controller.tempoColaborao,
                       assuntos: controller.assuntos,
                       onChangeTipoAtividade: controller.alterarTipoAtividade,

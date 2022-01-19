@@ -24,6 +24,9 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
   OnChangeTipoAtividade onChangeTipoAtividade;
   List<TextEditingController> assuntos;
   TextEditingController tempoColaboracao;
+  bool jaRespondida;
+  bool corrigida;
+  TextEditingController notaAtividade;
 
   PrimeiraPaginaAtividade({
     required this.nome,
@@ -41,6 +44,9 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
     required this.onChangeTipoAtividade,
     required this.assuntos,
     required this.tempoColaboracao,
+    required this.jaRespondida,
+    required this.corrigida,
+    required this.notaAtividade,
     Key? key,
   }) : super(key: key);
 
@@ -103,6 +109,26 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
                           nome,
                           "Nome",
                         ),
+                        jaRespondida
+                            ? Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: corrigida
+                                    ? const Text(
+                                        "Corrigida",
+                                        style: TextStyle(color: Colors.black),
+                                      )
+                                    : const Text(
+                                        "Não corrigida",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                              )
+                            : Container(),
+                        jaRespondida && corrigida
+                            ? buildTextField(
+                                notaAtividade,
+                                "Nota",
+                              )
+                            : Container(),
                         buildDateSelector(
                           context,
                           "Início da atividade",
