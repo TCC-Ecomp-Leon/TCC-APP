@@ -34,11 +34,11 @@ class _$RespostaAtividadeTearOff {
       String? idAluno,
       String? idUniversitario,
       bool? encerrada,
-      String? nota,
+      double? nota,
       bool? corrigida,
       @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
-      CorrecaoDissertativa? correcaoQuestao,
+      List<CorrecaoDissertativa>? correcaoQuestao,
       EstadoRevisao? revisao,
       @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
       @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
@@ -104,12 +104,12 @@ mixin _$RespostaAtividade {
   String? get idAluno => throw _privateConstructorUsedError;
   String? get idUniversitario => throw _privateConstructorUsedError;
   bool? get encerrada => throw _privateConstructorUsedError;
-  String? get nota => throw _privateConstructorUsedError;
+  double? get nota => throw _privateConstructorUsedError;
   bool? get corrigida => throw _privateConstructorUsedError;
   @NullableDateTimeConverter()
   DateTime? get horarioCorrecao => throw _privateConstructorUsedError;
   String? get idPerfilCorrecao => throw _privateConstructorUsedError;
-  CorrecaoDissertativa? get correcaoQuestao =>
+  List<CorrecaoDissertativa>? get correcaoQuestao =>
       throw _privateConstructorUsedError;
   EstadoRevisao? get revisao => throw _privateConstructorUsedError;
   @NullableDateTimeConverter()
@@ -151,11 +151,11 @@ abstract class $RespostaAtividadeCopyWith<$Res> {
       String? idAluno,
       String? idUniversitario,
       bool? encerrada,
-      String? nota,
+      double? nota,
       bool? corrigida,
       @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
-      CorrecaoDissertativa? correcaoQuestao,
+      List<CorrecaoDissertativa>? correcaoQuestao,
       EstadoRevisao? revisao,
       @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
       @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
@@ -168,7 +168,6 @@ abstract class $RespostaAtividadeCopyWith<$Res> {
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario});
 
-  $CorrecaoDissertativaCopyWith<$Res>? get correcaoQuestao;
   $CorrecaoDissertativaCopyWith<$Res>? get revisaoQuestoes;
 }
 
@@ -259,7 +258,7 @@ class _$RespostaAtividadeCopyWithImpl<$Res>
       nota: nota == freezed
           ? _value.nota
           : nota // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       corrigida: corrigida == freezed
           ? _value.corrigida
           : corrigida // ignore: cast_nullable_to_non_nullable
@@ -275,7 +274,7 @@ class _$RespostaAtividadeCopyWithImpl<$Res>
       correcaoQuestao: correcaoQuestao == freezed
           ? _value.correcaoQuestao
           : correcaoQuestao // ignore: cast_nullable_to_non_nullable
-              as CorrecaoDissertativa?,
+              as List<CorrecaoDissertativa>?,
       revisao: revisao == freezed
           ? _value.revisao
           : revisao // ignore: cast_nullable_to_non_nullable
@@ -324,18 +323,6 @@ class _$RespostaAtividadeCopyWithImpl<$Res>
   }
 
   @override
-  $CorrecaoDissertativaCopyWith<$Res>? get correcaoQuestao {
-    if (_value.correcaoQuestao == null) {
-      return null;
-    }
-
-    return $CorrecaoDissertativaCopyWith<$Res>(_value.correcaoQuestao!,
-        (value) {
-      return _then(_value.copyWith(correcaoQuestao: value));
-    });
-  }
-
-  @override
   $CorrecaoDissertativaCopyWith<$Res>? get revisaoQuestoes {
     if (_value.revisaoQuestoes == null) {
       return null;
@@ -367,11 +354,11 @@ abstract class _$RespostaAtividadeCopyWith<$Res>
       String? idAluno,
       String? idUniversitario,
       bool? encerrada,
-      String? nota,
+      double? nota,
       bool? corrigida,
       @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
-      CorrecaoDissertativa? correcaoQuestao,
+      List<CorrecaoDissertativa>? correcaoQuestao,
       EstadoRevisao? revisao,
       @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
       @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
@@ -384,8 +371,6 @@ abstract class _$RespostaAtividadeCopyWith<$Res>
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario});
 
-  @override
-  $CorrecaoDissertativaCopyWith<$Res>? get correcaoQuestao;
   @override
   $CorrecaoDissertativaCopyWith<$Res>? get revisaoQuestoes;
 }
@@ -479,7 +464,7 @@ class __$RespostaAtividadeCopyWithImpl<$Res>
       nota == freezed
           ? _value.nota
           : nota // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       corrigida == freezed
           ? _value.corrigida
           : corrigida // ignore: cast_nullable_to_non_nullable
@@ -495,7 +480,7 @@ class __$RespostaAtividadeCopyWithImpl<$Res>
       correcaoQuestao == freezed
           ? _value.correcaoQuestao
           : correcaoQuestao // ignore: cast_nullable_to_non_nullable
-              as CorrecaoDissertativa?,
+              as List<CorrecaoDissertativa>?,
       revisao == freezed
           ? _value.revisao
           : revisao // ignore: cast_nullable_to_non_nullable
@@ -604,7 +589,7 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final bool? encerrada;
   @override
-  final String? nota;
+  final double? nota;
   @override
   final bool? corrigida;
   @override
@@ -613,7 +598,7 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final String? idPerfilCorrecao;
   @override
-  final CorrecaoDissertativa? correcaoQuestao;
+  final List<CorrecaoDissertativa>? correcaoQuestao;
   @override
   final EstadoRevisao? revisao;
   @override
@@ -750,11 +735,11 @@ abstract class _RespostaAtividade implements RespostaAtividade {
       String? idAluno,
       String? idUniversitario,
       bool? encerrada,
-      String? nota,
+      double? nota,
       bool? corrigida,
       @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
-      CorrecaoDissertativa? correcaoQuestao,
+      List<CorrecaoDissertativa>? correcaoQuestao,
       EstadoRevisao? revisao,
       @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
       @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
@@ -794,7 +779,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   bool? get encerrada;
   @override
-  String? get nota;
+  double? get nota;
   @override
   bool? get corrigida;
   @override
@@ -803,7 +788,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   String? get idPerfilCorrecao;
   @override
-  CorrecaoDissertativa? get correcaoQuestao;
+  List<CorrecaoDissertativa>? get correcaoQuestao;
   @override
   EstadoRevisao? get revisao;
   @override

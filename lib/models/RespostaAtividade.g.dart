@@ -22,15 +22,14 @@ _$_RespostaAtividade _$$_RespostaAtividadeFromJson(Map<String, dynamic> json) =>
       json['idAluno'] as String?,
       json['idUniversitario'] as String?,
       json['encerrada'] as bool?,
-      json['nota'] as String?,
+      (json['nota'] as num?)?.toDouble(),
       json['corrigida'] as bool?,
       const NullableDateTimeConverter()
           .fromJson(json['horarioCorrecao'] as String?),
       json['idPerfilCorrecao'] as String?,
-      json['correcaoQuestao'] == null
-          ? null
-          : CorrecaoDissertativa.fromJson(
-              json['correcaoQuestao'] as Map<String, dynamic>),
+      (json['correcaoQuestao'] as List<dynamic>?)
+          ?.map((e) => CorrecaoDissertativa.fromJson(e as Map<String, dynamic>))
+          .toList(),
       $enumDecodeNullable(_$EstadoRevisaoEnumMap, json['revisao']),
       const NullableDateTimeConverter()
           .fromJson(json['revisaoRequisitadaEm'] as String?),
@@ -71,7 +70,8 @@ Map<String, dynamic> _$$_RespostaAtividadeToJson(
       'horarioCorrecao':
           const NullableDateTimeConverter().toJson(instance.horarioCorrecao),
       'idPerfilCorrecao': instance.idPerfilCorrecao,
-      'correcaoQuestao': instance.correcaoQuestao?.toJson(),
+      'correcaoQuestao':
+          instance.correcaoQuestao?.map((e) => e.toJson()).toList(),
       'revisao': _$EstadoRevisaoEnumMap[instance.revisao],
       'revisaoRequisitadaEm': const NullableDateTimeConverter()
           .toJson(instance.revisaoRequisitadaEm),
