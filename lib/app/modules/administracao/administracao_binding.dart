@@ -8,7 +8,7 @@ class AdministracaoBinding implements Bindings {
   @override
   void dependencies() {
     Get.put<CollectionsController>(CollectionsController());
-    Get.lazyPut<LoginController>(() => LoginController());
+    Get.put<LoginController>(LoginController());
     Get.lazyPut<AdministracaoController>(() => AdministracaoController());
   }
 }

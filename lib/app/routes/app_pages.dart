@@ -2,6 +2,8 @@ import 'package:tcc_app/app/modules/administracao/administracao_binding.dart';
 import 'package:tcc_app/app/modules/administracao/administracao_view.dart';
 import 'package:tcc_app/app/modules/administracao/modules/adicao_curso_universitario_binding.dart';
 import 'package:tcc_app/app/modules/administracao/modules/adicao_curso_universitario_view.dart';
+import 'package:tcc_app/app/modules/colaboracao/colaboracao_binding.dart';
+import 'package:tcc_app/app/modules/colaboracao/colaboracao_view.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_binding.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_view.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/atividade_binding.dart';
@@ -51,9 +53,9 @@ class AppPages {
       binding: SignUpBinding(),
     ),
     GetPage(
-      name: Routes.dummy,
-      page: () => DummyView(),
-      binding: DummyBinding(),
+      name: Routes.colaboracao,
+      page: () => ColaboracaoView(),
+      binding: ColaboracaoBinding(),
       transition: Transition.circularReveal,
     ),
     GetPage(

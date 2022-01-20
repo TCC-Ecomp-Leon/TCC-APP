@@ -5,7 +5,7 @@ import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 class DummyBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<LoginController>(() => LoginController());
+    Get.put<LoginController>(LoginController());
     Get.lazyPut<DummyController>(() => DummyController());
   }
 }

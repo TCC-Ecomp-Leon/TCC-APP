@@ -8,7 +8,7 @@ class PerfilBinding implements Bindings {
   @override
   void dependencies() {
     Get.put(CollectionsController());
-    Get.lazyPut<LoginController>(() => LoginController());
+    Get.put<LoginController>(LoginController());
     Get.lazyPut<PerfilController>(() => PerfilController());
   }
 }
