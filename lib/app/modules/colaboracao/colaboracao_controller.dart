@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/data/collections/collections_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
-import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/atividade.dart';
 
@@ -21,7 +20,7 @@ class ColaboracaoController extends BottomMenuController {
   final Rx<bool> _carregandoCursos = false.obs;
   final Rx<bool> _carregandoColaboracoes = false.obs;
   final Rx<bool> _carregandoAtividadesColaboradas = false.obs;
-  late Rx<Atividade> _atividadeColaboradaCarregada;
+  late Rx<AtividadeColaboradaCarregada> _atividadeColaboradaCarregada;
   final Rx<String> _erro = "".obs;
   final RxList<ColaboracaoAtividade> _colaboracoes =
       ([].map((e) => e as ColaboracaoAtividade).toList()).obs;
@@ -103,7 +102,22 @@ class ColaboracaoController extends BottomMenuController {
       _erro.value = "Falha ao obter a atividade";
     } else {
       _erro.value = "";
-      _atividadeColaboradaCarregada.value = atividade;
+      List<InformacoesCursoProjeto> cursos = _cursos.value
+          .where((element) => element.curso.id == atividade.idCurso)
+          .toList();
+      if (cursos.isEmpty) {
+        await carregarCursos();
+      }
+      cursos = _cursos.value
+          .where((element) => element.curso.id == atividade.idCurso)
+          .toList();
+
+      _atividadeColaboradaCarregada = AtividadeColaboradaCarregada(
+        atividade: atividade,
+        curso: cursos[0].curso,
+        nomeProjeto: cursos[0].nomeProjeto,
+        imagemProjeto: cursos[0].imagemProjeto,
+      ).obs;
     }
 
     _carregandoAtividadesColaboradas.value = false;
@@ -116,7 +130,7 @@ class ColaboracaoController extends BottomMenuController {
 
   bool get carregandoAtividadesColaboradas =>
       _carregandoAtividadesColaboradas.value;
-  Atividade get atividadeColaboradaCarregada =>
+  AtividadeColaboradaCarregada get atividadeColaboradaCarregada =>
       _atividadeColaboradaCarregada.value;
   String? get erro => _erro.value.isEmpty ? null : _erro.value;
 }
@@ -130,5 +144,19 @@ class InformacoesCursoProjeto {
     required this.nomeProjeto,
     required this.imagemProjeto,
     required this.curso,
+  });
+}
+
+class AtividadeColaboradaCarregada {
+  String nomeProjeto;
+  String imagemProjeto;
+  Curso curso;
+  Atividade atividade;
+
+  AtividadeColaboradaCarregada({
+    required this.nomeProjeto,
+    required this.imagemProjeto,
+    required this.curso,
+    required this.atividade,
   });
 }

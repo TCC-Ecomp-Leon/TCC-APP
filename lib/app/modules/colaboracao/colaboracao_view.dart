@@ -5,7 +5,6 @@ import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/colaboracao/colaboracao_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/index.dart';
-import 'package:tcc_app/screens/dummy.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
 import 'package:tcc_app/widgets/loading.dart';
@@ -145,7 +144,19 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
   Widget buildColaboracao(
       BuildContext context, ColaboracaoAtividade colaboracao, int index) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        controller.carregarAtividadeColaborada(
+          colaboracao,
+        );
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return PopUpAtividadeColaborada(
+              controller: controller,
+            );
+          },
+        );
+      },
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(7.0),
@@ -216,6 +227,88 @@ class ColaboracaoRefreshViewList extends StatelessWidget {
       refreshController: refreshController,
       onRefresh: () => onRefreshColaboracoes(refreshController),
       child: child,
+    );
+  }
+}
+
+class PopUpAtividadeColaborada extends StatelessWidget {
+  final ColaboracaoController controller;
+  const PopUpAtividadeColaborada({
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Atividade colaborada"),
+      content: Obx(
+        () => SizedBox(
+          height: 300.0,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: controller.carregandoAtividadesColaboradas
+              ? Container(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  child:
+                      const Loading(color: Colors.white, circleTimeSeconds: 2),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildCampo(
+                      "Nome Projeto",
+                      controller.atividadeColaboradaCarregada.nomeProjeto,
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    buildCampo(
+                      "Nome Atividade",
+                      controller.atividadeColaboradaCarregada.atividade.nome,
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text("Fechar"),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(10.0),
+                            primary: Colors.white,
+                            backgroundColor: Colors.teal,
+                            onSurface: Colors.grey,
+                            textStyle: const TextStyle(fontSize: 17.0),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildCampo(String nomeCampo, String? campo) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          nomeCampo + ":",
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(campo ?? ""),
+      ],
     );
   }
 }
