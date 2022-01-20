@@ -95,7 +95,11 @@ class LoginController extends GetxController {
 
     cancelableOperation.value.then(
       (value) {
-        informacoesObtidas = value as AuthInfo;
+        try {
+          informacoesObtidas = value as AuthInfo;
+        } catch (e) {
+          informacoesObtidas = null;
+        }
       },
     );
 
