@@ -208,3 +208,20 @@ Future<bool?> removerAtividade(
     },
   );
 }
+
+Future<Atividade?> obterAtividade(
+  String idAtividade,
+) async {
+  return executeRequest(
+    () {
+      return httpClient.request(
+        Endpoints.atividadeEndpoint + "/unica/" + idAtividade,
+        options: Options(method: 'GET'),
+      );
+    },
+    (Response<dynamic> response) {
+      final body = response.data as Map<String, dynamic>;
+      return Atividade.fromJson(body['atividade']);
+    },
+  );
+}

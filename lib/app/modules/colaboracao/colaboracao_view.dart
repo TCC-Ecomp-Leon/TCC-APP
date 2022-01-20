@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/colaboracao/colaboracao_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
+import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/screens/dummy.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
@@ -10,6 +12,9 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class ColaboracaoView extends GetView<ColaboracaoController> {
+  RefreshController refreshControllerCursos = RefreshController();
+  RefreshController refreshControllerColaboracoesFeiras = RefreshController();
+
   @override
   Widget build(BuildContext context) {
     return BottomMenuView(
@@ -22,50 +27,86 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
         child: CarouselIndicator(
           children: [
             Obx(
-              () => controller.carregando
-                  ? Container(
-                      alignment: Alignment.center,
-                      height: 90.0,
-                      child: const Loading(
-                          color: Colors.white, circleTimeSeconds: 2),
-                    )
-                  : RefreshListView(
-                      header: Card(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Text(
-                                "Cursos para colaborar",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
+              () => ColaboracaoRefreshViewList(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(top: 0.0),
+                  itemCount: controller.cursos.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return buildCurso(
+                      context,
+                      controller.cursos[index],
+                    );
+                  },
+                ),
+                loading: controller.carregandoCursos,
+                header: Card(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Cursos para colaborar",
+                          style: TextStyle(
+                            color: Colors.black,
                           ),
                         ),
-                      ),
-                      bottomOffset: 170.0,
-                      refreshController: controller.refreshController,
-                      onRefresh: () =>
-                          controller.carregarCursos(pullRefresh: true),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.only(top: 0.0),
-                        itemCount: controller.cursos.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return buildCurso(
-                            context,
-                            controller.cursos[index],
-                          );
-                        },
-                      ),
+                      ],
                     ),
+                  ),
+                ),
+                bottomOffset: 170.0,
+                onRefreshColaboracoes: (refreshController) =>
+                    controller.carregarCursos(
+                  pullRefresh: true,
+                  refreshController: refreshController,
+                ),
+              ),
             ),
-            const Dummy(),
+            Obx(
+              () => ColaboracaoRefreshViewList(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(top: 0.0),
+                  itemCount: controller.colaboracoes.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return buildColaboracao(
+                      context,
+                      controller.colaboracoes[index],
+                      index,
+                    );
+                  },
+                ),
+                loading: controller.carregandoAtividadesColaboradas,
+                header: Card(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Atividades que colaborou",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                bottomOffset: 170.0,
+                onRefreshColaboracoes: (refreshController) =>
+                    controller.carregarColaboracoes(
+                  refreshController: refreshController,
+                  pullRefresh: true,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -98,6 +139,82 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildColaboracao(
+      BuildContext context, ColaboracaoAtividade colaboracao, int index) {
+    return InkWell(
+      onTap: () {},
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.white,
+                child: Center(
+                  child: Text(
+                    (index + 1).toString(),
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: Text(colaboracao.horas.toStringAsFixed(2) + " horas"),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+typedef OnRefreshColaboracoes = void Function(
+    RefreshController refreshController);
+
+class ColaboracaoRefreshViewList extends StatelessWidget {
+  final Widget child;
+  final bool loading;
+  final Widget header;
+  final double bottomOffset;
+  final OnRefreshColaboracoes onRefreshColaboracoes;
+
+  const ColaboracaoRefreshViewList(
+      {required this.child,
+      required this.loading,
+      required this.header,
+      required this.bottomOffset,
+      required this.onRefreshColaboracoes,
+      Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final RefreshController refreshController = RefreshController();
+    if (loading) {
+      return Container(
+        alignment: Alignment.center,
+        height: 90.0,
+        child: const Loading(
+          color: Colors.white,
+          circleTimeSeconds: 2,
+        ),
+      );
+    }
+    return RefreshListView(
+      header: header,
+      bottomOffset: bottomOffset,
+      refreshController: refreshController,
+      onRefresh: () => onRefreshColaboracoes(refreshController),
+      child: child,
     );
   }
 }
