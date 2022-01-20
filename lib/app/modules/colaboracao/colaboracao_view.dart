@@ -178,7 +178,8 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
 }
 
 typedef OnRefreshColaboracoes = void Function(
-    RefreshController refreshController);
+  RefreshController refreshController,
+);
 
 class ColaboracaoRefreshViewList extends StatelessWidget {
   final Widget child;
@@ -187,14 +188,14 @@ class ColaboracaoRefreshViewList extends StatelessWidget {
   final double bottomOffset;
   final OnRefreshColaboracoes onRefreshColaboracoes;
 
-  const ColaboracaoRefreshViewList(
-      {required this.child,
-      required this.loading,
-      required this.header,
-      required this.bottomOffset,
-      required this.onRefreshColaboracoes,
-      Key? key})
-      : super(key: key);
+  const ColaboracaoRefreshViewList({
+    required this.child,
+    required this.loading,
+    required this.header,
+    required this.bottomOffset,
+    required this.onRefreshColaboracoes,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
