@@ -195,7 +195,7 @@ class QuestaoAtividade extends StatelessWidget {
                     "Comentário:",
                     (imagem) {},
                     false,
-                    true,
+                    !corrigida,
                   ),
                   buildNota(),
                   const SizedBox(
@@ -456,24 +456,27 @@ class QuestaoAtividade extends StatelessWidget {
         const SizedBox(
           height: 10.0,
         ),
-        RatingBar.builder(
-          glow: false,
-          initialRating: questao.notaCorrecao / 2,
-          minRating: 0,
-          maxRating: 5,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: const EdgeInsets.symmetric(
-            horizontal: 4.0,
+        AbsorbPointer(
+          absorbing: corrigida,
+          child: RatingBar.builder(
+            glow: false,
+            initialRating: questao.notaCorrecao / 2,
+            minRating: 0,
+            maxRating: 5,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: const EdgeInsets.symmetric(
+              horizontal: 4.0,
+            ),
+            itemBuilder: (context, _) => const Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              atribuirNotaQuestao(2 * rating);
+            },
           ),
-          itemBuilder: (context, _) => const Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) {
-            atribuirNotaQuestao(2 * rating);
-          },
         ),
         const SizedBox(
           height: 5.0,

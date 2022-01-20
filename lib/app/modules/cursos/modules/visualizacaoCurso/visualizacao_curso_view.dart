@@ -136,7 +136,19 @@ class VisualizacaoGeralCurso extends StatelessWidget {
               'atividade': atividade,
             });
           } else {
-            //TODO: Página de visualização de resposta e nota
+            if (respostas.isNotEmpty &&
+                ((atividade.tipoAtividade == TipoAtividade.Dissertativa &&
+                        respostas[0].corrigida == true) ||
+                    (atividade.tipoAtividade == TipoAtividade.Alternativa &&
+                        respostas[0].encerrada == true))) {
+              await Get.toNamed(Routes.atividade, arguments: {
+                'curso': controller.curso,
+                'tipo': atividade.tipoAtividade,
+                'uso': TipoUsoControllerAtividades.Visualizando,
+                'atividade': atividade,
+                'resposta': respostas[0],
+              });
+            }
           }
         }
         controller.carregarAtividades(pullRefresh: true);
