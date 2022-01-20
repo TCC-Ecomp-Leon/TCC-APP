@@ -15,6 +15,60 @@ class InitialView extends GetView<InitialController> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const Text(
+                  "Grabalho de graduação",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                const Text(
+                  "Leon Tenório da Silva",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                const Text(
+                  "Engenharia de Computação",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                const Text(
+                  "2º semestre de 2021",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                const Text(
+                  "Fevereiro de 2022",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                const Text(
+                  "Orientador: Tiago Silva da Silva",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  height: 35.0,
+                ),
                 Container(
                   alignment: Alignment.center,
                   height: 100.0,
@@ -23,20 +77,10 @@ class InitialView extends GetView<InitialController> {
                     color: Colors.red,
                     circleTimeSeconds: 1,
                   ),
-                )
+                ),
               ],
             ),
           ),
-          // SplashScreen.timer(
-          //   seconds: controller.splashTime,
-          //   navigateAfterSeconds: controller.navigateAfterSplashTime(),
-          //   title: const Text(
-          //     'Splash Screen',
-          //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-          //   ),
-          //   backgroundColor: Colors.white,
-          //   loaderColor: Colors.red,
-          // ),
           Container(
             margin: const EdgeInsets.all(100),
             child: Image.network(
