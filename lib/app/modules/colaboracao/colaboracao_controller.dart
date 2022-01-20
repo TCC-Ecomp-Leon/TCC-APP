@@ -23,6 +23,8 @@ class ColaboracaoController extends BottomMenuController {
   final Rx<bool> _carregandoAtividadesColaboradas = false.obs;
   late Rx<Atividade> _atividadeColaboradaCarregada;
   final Rx<String> _erro = "".obs;
+  final RxList<ColaboracaoAtividade> _colaboracoes =
+      ([].map((e) => e as ColaboracaoAtividade).toList()).obs;
 
   final RxList<InformacoesCursoProjeto> _cursos = ([]
           .map(
@@ -83,6 +85,8 @@ class ColaboracaoController extends BottomMenuController {
     }
 
     await loginController.recarregarPerfil();
+    _colaboracoes.value =
+        loginController.perfil.universitario!.atividadesQueColaborou!;
 
     if (pullRefresh != null && pullRefresh && refreshController != null) {
       refreshController.refreshCompleted();
@@ -108,8 +112,7 @@ class ColaboracaoController extends BottomMenuController {
   bool get carregandoCursos => _carregandoCursos.value;
   List<InformacoesCursoProjeto> get cursos => _cursos.value;
   Perfil get perfil => loginController.perfil;
-  List<ColaboracaoAtividade> get colaboracoes =>
-      loginController.perfil.universitario!.atividadesQueColaborou!;
+  List<ColaboracaoAtividade> get colaboracoes => _colaboracoes.value;
 
   bool get carregandoAtividadesColaboradas =>
       _carregandoAtividadesColaboradas.value;
