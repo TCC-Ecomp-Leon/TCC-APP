@@ -25,7 +25,7 @@ class RespostasView extends GetView<RespostasController> {
                 buildHeaderTabelaRespostas(context),
               ],
             ),
-            bottomOffset: 335.0,
+            bottomOffset: 350.0,
             child: controller.carregando
                 ? Container(
                     alignment: Alignment.center,
@@ -61,36 +61,96 @@ class RespostasView extends GetView<RespostasController> {
         padding: const EdgeInsets.all(5.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Nome:"),
-            Text(atividade.nome),
-            const Text("Tipo:"),
-            Text(atividade.tipoAtividade == TipoAtividade.Alternativa
-                ? "Alternativa"
-                : atividade.tipoAtividade == TipoAtividade.Dissertativa
-                    ? "Dissertativa"
-                    : "Banco de questões"),
-            const Text("Abertura respostas: "),
+            const Text(
+              "Nome:",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              textScaleFactor: 0.9,
+            ),
+            Text(
+              atividade.nome,
+              textScaleFactor: 0.8,
+            ),
+            const Text(
+              "Tipo:",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              textScaleFactor: 0.9,
+            ),
+            Text(
+              atividade.tipoAtividade == TipoAtividade.Alternativa
+                  ? "Alternativa"
+                  : atividade.tipoAtividade == TipoAtividade.Dissertativa
+                      ? "Dissertativa"
+                      : "Banco de questões",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              textScaleFactor: 0.8,
+            ),
+            const Text(
+              "Abertura respostas: ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              textScaleFactor: 0.9,
+            ),
             Text(
               diaComAno(atividade.aberturaRespostas) +
                   " " +
                   horario(atividade.aberturaRespostas),
+              textScaleFactor: 0.8,
             ),
-            const Text("Fechamento respostas: "),
+            const Text(
+              "Fechamento respostas: ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              textScaleFactor: 0.9,
+            ),
             Text(
               diaComAno(atividade.fechamentoRespostas) +
                   " " +
                   horario(atividade.fechamentoRespostas),
+              textScaleFactor: 0.8,
             ),
-            const Text("Fechamento correções: "),
+            const Text(
+              "Fechamento correções: ",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+              textScaleFactor: 0.9,
+            ),
             atividade.fechamentoCorrecoes != null
                 ? Text(
                     diaComAno(atividade.fechamentoCorrecoes!) +
                         " " +
                         horario(atividade.fechamentoCorrecoes!),
+                    textScaleFactor: 0.8,
                   )
-                : const Text("Não se aplica")
+                : const Text(
+                    "Não se aplica",
+                    textScaleFactor: 0.8,
+                  ),
+            atividade.tempoColaboracao != null
+                ? const Text(
+                    "Tempo colaboração: ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textScaleFactor: 0.9,
+                  )
+                : Container(),
+            atividade.tempoColaboracao != null
+                ? Text(
+                    atividade.tempoColaboracao!.toStringAsFixed(2) + " horas",
+                    textScaleFactor: 0.8,
+                  )
+                : Container(),
           ],
         ),
       ),
