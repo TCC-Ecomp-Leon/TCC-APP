@@ -129,7 +129,7 @@ class VisualizacaoGeralCurso extends StatelessWidget {
             });
           }
         } else if (regraAluno) {
-          if (!atividadeFechada) {
+          if (!atividadeFechada && quantidadeRespostas == 0) {
             await Get.toNamed(Routes.atividade, arguments: {
               'curso': controller.curso,
               'uso': TipoUsoControllerAtividades.Respondendo,
