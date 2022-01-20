@@ -128,9 +128,17 @@ List<BottomMenuPage> obterPaginasComPermisssao(
       Routes.perfil,
     ];
   } else if (loginController.regraAluno) {
-    bottomMenuRoutes = [Routes.cursos, Routes.duvidas, Routes.perfil];
+    bottomMenuRoutes = [
+      Routes.cursos,
+      Routes.duvidas,
+      Routes.perfil,
+    ];
   } else {
-    bottomMenuRoutes = [Routes.perfil];
+    bottomMenuRoutes = [
+      Routes.colaboracao,
+      Routes.duvidas,
+      Routes.perfil,
+    ];
   }
 
   return pages
