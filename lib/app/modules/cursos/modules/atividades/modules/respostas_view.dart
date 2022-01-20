@@ -215,6 +215,8 @@ class RespostasView extends GetView<RespostasController> {
     return InkWell(
       onTap: () async {
         if (!aluno.respondeu) return;
+        //TODO: Chamar a página de visualização de correções para projeto, professor e o aluno que respondeu
+        if (aluno.resposta?.corrigida == true) return;
         await Get.toNamed(Routes.atividade, arguments: {
           'curso': controller.curso,
           'tipo': controller.atividade.tipoAtividade,
