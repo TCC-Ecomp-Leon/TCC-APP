@@ -105,16 +105,39 @@ List<BottomMenuPage> obterPaginasComPermisssao(
     loginController.signOut();
   }
 
-  if (perfil!.regra == RegraPerfil.Geral) {
-    return [pages[1], pages[2], pages[3], pages[4]];
-  } else if (loginController.regraAdministrador) {
-    return [pages[0], pages[2], pages[3], pages[4]];
-  }
-  // else if (perfil.regra == RegraPerfil.Projeto) {
-  //   return [pages[0], pages[1], pages[3], pages[4]];
-  // }
+  List<String> bottomMenuRoutes;
 
-  return pages;
+  if (perfil!.regra == RegraPerfil.Administrador) {
+    bottomMenuRoutes = [
+      Routes.administracao,
+      Routes.cursos,
+      Routes.duvidas,
+      Routes.perfil,
+    ];
+  } else if (perfil.regra == RegraPerfil.Projeto) {
+    bottomMenuRoutes = [
+      Routes.administracao,
+      Routes.cursos,
+      Routes.duvidas,
+      Routes.perfil,
+    ];
+  } else if (loginController.regraProfessor) {
+    bottomMenuRoutes = [
+      Routes.cursos,
+      Routes.duvidas,
+      Routes.perfil,
+    ];
+  } else if (loginController.regraAluno) {
+    bottomMenuRoutes = [Routes.cursos, Routes.duvidas, Routes.perfil];
+  } else {
+    bottomMenuRoutes = [Routes.perfil];
+  }
+
+  return pages
+      .where(
+        (element) => bottomMenuRoutes.contains(element.routeName),
+      )
+      .toList();
 }
 
 final List<BottomMenuPage> pages = [
