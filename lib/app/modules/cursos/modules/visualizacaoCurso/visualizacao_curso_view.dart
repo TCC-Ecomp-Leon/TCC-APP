@@ -116,7 +116,7 @@ class VisualizacaoGeralCurso extends StatelessWidget {
 
     return InkWell(
       onTap: () async {
-        if (regraProfessor || regraProjeto) {
+        if (regraProfessor || regraProjeto || regraUniversitario) {
           await Get.toNamed(Routes.respostasAtividade, arguments: {
             'atividade': atividade,
             'curso': controller.curso,
