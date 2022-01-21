@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart' as GetX;
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 
-const String backendUrl = "http://192.168.1.13:3000";
+const String backendUrl =
+    "http://ec2-18-221-232-215.us-east-2.compute.amazonaws.com:3000/";
 
 String? getAuthToken() {
   final controller = GetX.Get.find<LoginController>();
