@@ -33,10 +33,9 @@ class ColaboracaoController extends BottomMenuController {
       .obs;
 
   carregarCursos({
-    bool? pullRefresh,
     RefreshController? refreshController,
   }) async {
-    if (pullRefresh != null && pullRefresh && refreshController != null) {
+    if (refreshController != null) {
       refreshController.requestRefresh();
     } else {
       _carregandoCursos.value = true;
@@ -66,7 +65,7 @@ class ColaboracaoController extends BottomMenuController {
 
     _cursos.value = informacoes;
 
-    if (pullRefresh != null && pullRefresh && refreshController != null) {
+    if (refreshController != null) {
       refreshController.refreshCompleted();
     } else {
       _carregandoCursos.value = false;
@@ -74,10 +73,9 @@ class ColaboracaoController extends BottomMenuController {
   }
 
   carregarColaboracoes({
-    bool? pullRefresh,
     RefreshController? refreshController,
   }) async {
-    if (pullRefresh != null && pullRefresh && refreshController != null) {
+    if (refreshController != null) {
       refreshController.requestRefresh();
     } else {
       _carregandoColaboracoes.value = true;
@@ -87,7 +85,7 @@ class ColaboracaoController extends BottomMenuController {
     _colaboracoes.value =
         loginController.perfil.universitario!.atividadesQueColaborou!;
 
-    if (pullRefresh != null && pullRefresh && refreshController != null) {
+    if (refreshController != null) {
       refreshController.refreshCompleted();
     } else {
       _carregandoColaboracoes.value = false;

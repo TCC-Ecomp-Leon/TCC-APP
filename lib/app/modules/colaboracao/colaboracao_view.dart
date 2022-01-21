@@ -35,6 +35,7 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
                     return buildCurso(
                       context,
                       controller.cursos[index],
+                      refreshControllerCursos,
                     );
                   },
                 ),
@@ -60,7 +61,6 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
                 bottomOffset: 170.0,
                 onRefreshColaboracoes: (refreshController) =>
                     controller.carregarCursos(
-                  pullRefresh: true,
                   refreshController: refreshController,
                 ),
               ),
@@ -102,7 +102,6 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
                 onRefreshColaboracoes: (refreshController) =>
                     controller.carregarColaboracoes(
                   refreshController: refreshController,
-                  pullRefresh: true,
                 ),
               ),
             ),
@@ -113,14 +112,17 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
     );
   }
 
-  Widget buildCurso(BuildContext context, InformacoesCursoProjeto info) {
+  Widget buildCurso(BuildContext context, InformacoesCursoProjeto info,
+      RefreshController refreshController) {
     return InkWell(
       onTap: () async {
         await Get.toNamed(
           Routes.visualizacaoCurso,
           arguments: info.curso,
         );
-        controller.carregarCursos(pullRefresh: true);
+        controller.carregarCursos(
+          refreshController: refreshController,
+        );
       },
       child: IconLabelDescriptionCard(
         value: IconLabelDescriptionCardProps(
