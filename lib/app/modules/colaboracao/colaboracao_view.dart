@@ -5,6 +5,7 @@ import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/colaboracao/colaboracao_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/index.dart';
+import 'package:tcc_app/screens/dummy.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
 import 'package:tcc_app/widgets/loading.dart';
@@ -65,46 +66,48 @@ class ColaboracaoView extends GetView<ColaboracaoController> {
                 ),
               ),
             ),
-            Obx(
-              () => ColaboracaoRefreshViewList(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 0.0),
-                  itemCount: controller.colaboracoes.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return buildColaboracao(
-                      context,
-                      controller.colaboracoes[index],
-                      index,
-                    );
-                  },
-                ),
-                loading: controller.carregandoAtividadesColaboradas,
-                header: Card(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "Atividades que colaborou",
-                          style: TextStyle(
-                            color: Colors.black,
+            controller.perfil.universitario != null
+                ? Obx(
+                    () => ColaboracaoRefreshViewList(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 0.0),
+                        itemCount: controller.colaboracoes.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return buildColaboracao(
+                            context,
+                            controller.colaboracoes[index],
+                            index,
+                          );
+                        },
+                      ),
+                      loading: controller.carregandoAtividadesColaboradas,
+                      header: Card(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "Atividades que colaborou",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
+                      bottomOffset: 170.0,
+                      onRefreshColaboracoes: (refreshController) =>
+                          controller.carregarColaboracoes(
+                        refreshController: refreshController,
+                      ),
                     ),
-                  ),
-                ),
-                bottomOffset: 170.0,
-                onRefreshColaboracoes: (refreshController) =>
-                    controller.carregarColaboracoes(
-                  refreshController: refreshController,
-                ),
-              ),
-            ),
+                  )
+                : const Dummy(),
           ],
         ),
       ),
