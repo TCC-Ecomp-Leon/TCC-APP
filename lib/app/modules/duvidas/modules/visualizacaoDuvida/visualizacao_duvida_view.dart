@@ -3,13 +3,95 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/duvidas/modules/visualizacaoDuvida/visualizacao_duvida_controller.dart';
+import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/models/index.dart';
+import 'package:tcc_app/utils/base64_image.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
+import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/shimmer_loading_mask.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
-  Widget buildMensagem(String mensagem, DateTime horarioMensagem) {
+  final LoginController loginController = Get.find<LoginController>();
+
+  Widget buildRemetenteMensagem(String idPerfil) {
+    if (controller.carregandoPerfis) {
+      return Transform.scale(
+        scale: 0.5,
+        child: Container(
+          alignment: Alignment.center,
+          child: const Loading(color: Colors.white, circleTimeSeconds: 2),
+        ),
+      );
+    }
+
+    Perfil? perfil = controller.perfisMensagens[idPerfil];
+    if (perfil == null) {
+      return const Icon(
+        Icons.info,
+        color: Colors.red,
+        size: 20.0,
+      );
+    } else {
+      bool propriaMensagem = perfil.id == loginController.perfil.id;
+      return Column(
+        children: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 3.0,
+                ),
+                child: CircleAvatar(
+                  radius: 15.0,
+                  backgroundColor: Colors.white,
+                  backgroundImage:
+                      imageFromBase64String(perfil.fotoPerfil).image,
+                ),
+              ),
+              CircleAvatar(
+                backgroundColor: Colors.orange,
+                child: Text(
+                  perfil.regra == RegraPerfil.Administrador
+                      ? "G"
+                      : perfil.regra == RegraPerfil.Projeto
+                          ? "P"
+                          : perfil.associacoes!.professor.professor
+                              ? "P"
+                              : perfil.universitario!.universitario
+                                  ? "U"
+                                  : "A",
+                  style: const TextStyle(
+                    fontSize: 10.0,
+                    color: Colors.black,
+                  ),
+                ),
+                radius: 6.0,
+              ),
+            ],
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Text(
+                propriaMensagem
+                    ? "Você"
+                    : textoParaTamanhoFixo(
+                        perfil.nome,
+                        20,
+                      ),
+                textScaleFactor: 0.5,
+              ),
+            ),
+          )
+        ],
+      );
+    }
+  }
+
+  Widget buildMensagem(
+      String mensagem, DateTime horarioMensagem, String idPerfil) {
     BubbleStyle styleAdm = const BubbleStyle(
       nip: BubbleNip.rightTop,
       color: Colors.blueAccent,
@@ -20,33 +102,45 @@ class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
       alignment: Alignment.topRight,
     );
 
-    return ListView(
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(8.0),
-      physics: const NeverScrollableScrollPhysics(),
+    return Row(
       children: [
-        Bubble(
-          alignment: Alignment.center,
-          color: Colors.greenAccent,
-          borderColor: Colors.black,
-          borderWidth: 2,
-          margin: const BubbleEdges.only(top: 8),
-          child: Text(
-            horario(horarioMensagem) + " do dia " + diaMes(horarioMensagem),
-            style: const TextStyle(fontSize: 13, color: Colors.black),
-          ),
+        SizedBox(
+          width: 50.0,
+          child: Obx(() => buildRemetenteMensagem(idPerfil)),
         ),
-        Bubble(
-          style: styleAdm,
-          child: Text(
-            mensagem,
-            style: const TextStyle(
-              fontSize: 16.0,
-            ),
+        Expanded(
+          child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(8.0),
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              Bubble(
+                alignment: Alignment.center,
+                color: Colors.greenAccent,
+                borderColor: Colors.black,
+                borderWidth: 2,
+                margin: const BubbleEdges.only(top: 8),
+                child: Text(
+                  horario(horarioMensagem) +
+                      " do dia " +
+                      diaMes(horarioMensagem),
+                  style: const TextStyle(fontSize: 13, color: Colors.black),
+                ),
+              ),
+              Bubble(
+                style: styleAdm,
+                child: Text(
+                  mensagem,
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+            ],
           ),
-        ),
-        const SizedBox(
-          height: 10.0,
         ),
       ],
     );
@@ -254,6 +348,7 @@ class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
                           return buildMensagem(
                             mensagem.mensagem,
                             mensagem.horario,
+                            mensagem.idPerfil,
                           );
                         },
                       ),
