@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/administracao/administracao_controller.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
@@ -96,12 +97,15 @@ class ViewAdministrador extends StatelessWidget {
     );
   }
 
-  Widget buildNovoCursoUniversitario(BuildContext context) {
+  Widget buildNovoCursoUniversitario(
+      BuildContext context, RefreshController refreshController) {
     final double width = MediaQuery.of(context).size.width * 0.9;
     return InkWell(
       onTap: () async {
         await Get.toNamed(Routes.adicaoCursoUniversitario);
-        controller.carregarCursosUniversitarios(notSilent: true);
+        controller.carregarCursosUniversitarios(
+          refreshController: refreshController,
+        );
       },
       child: Column(
         children: [
@@ -175,6 +179,11 @@ class ViewAdministrador extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RefreshController refreshControllerProjetosAprovados = RefreshController();
+    RefreshController refreshControllerProjetosNaoAprovados =
+        RefreshController();
+    RefreshController refreshControllerCursosUniversitarios =
+        RefreshController();
     return CarouselIndicator(
       children: [
         Obx(
@@ -204,10 +213,10 @@ class ViewAdministrador extends StatelessWidget {
                     ],
                   ),
                   bottomOffset: 170.0,
-                  refreshController:
-                      controller.refreshControllerProjetosAprovados,
+                  refreshController: refreshControllerProjetosAprovados,
                   onRefresh: () {
-                    controller.carregarProjetosAprovados(notSilent: true);
+                    controller.carregarProjetosAprovados(
+                        refreshController: refreshControllerProjetosAprovados);
                   },
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -249,10 +258,11 @@ class ViewAdministrador extends StatelessWidget {
                     ],
                   ),
                   bottomOffset: 170.0,
-                  refreshController:
-                      controller.refreshControllerProjetosNaoAprovados,
+                  refreshController: refreshControllerProjetosNaoAprovados,
                   onRefresh: () {
-                    controller.carregarProjetosNaoAprovados(notSilent: true);
+                    controller.carregarProjetosNaoAprovados(
+                        refreshController:
+                            refreshControllerProjetosNaoAprovados);
                   },
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -277,27 +287,25 @@ class ViewAdministrador extends StatelessWidget {
                 )
               : RefreshListView(
                   header: Column(
-                    children: const [
-                      SizedBox(
+                    children: [
+                      const SizedBox(
                         height: 20.0,
                       ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Text(
-                          "Cursos universitários",
-                          style: TextStyle(fontSize: 20.0),
-                        ),
+                      buildNovoCursoUniversitario(
+                        context,
+                        refreshControllerCursosUniversitarios,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                     ],
                   ),
                   bottomOffset: 170.0,
-                  refreshController:
-                      controller.refreshControllerCursosUniversitarios,
+                  refreshController: refreshControllerCursosUniversitarios,
                   onRefresh: () {
-                    controller.carregarCursosUniversitarios(notSilent: true);
+                    controller.carregarCursosUniversitarios(
+                        refreshController:
+                            refreshControllerCursosUniversitarios);
                   },
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -428,13 +436,18 @@ class ViewProjeto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RefreshController refreshControllerCodigosDeEntrada = RefreshController();
     return Obx(
       () => RefreshListView(
-        header: buildCriarCodigoDeEntrada(context),
+        header: buildCriarCodigoDeEntrada(
+          context,
+          refreshControllerCodigosDeEntrada,
+        ),
         bottomOffset: 170.0,
-        refreshController: controller.refreshControllerCodigosDeEntrada,
+        refreshController: refreshControllerCodigosDeEntrada,
         onRefresh: () {
-          controller.carregarCodigosDeEntrada(notSilent: true);
+          controller.carregarCodigosDeEntrada(
+              refreshController: refreshControllerCodigosDeEntrada);
         },
         child: ListView.builder(
           shrinkWrap: true,
@@ -496,7 +509,8 @@ class ViewProjeto extends StatelessWidget {
     );
   }
 
-  Widget buildCriarCodigoDeEntrada(BuildContext context) {
+  Widget buildCriarCodigoDeEntrada(BuildContext context,
+      RefreshController refreshControllerCodigosDeEntrada) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
       onTap: () async {
@@ -506,6 +520,8 @@ class ViewProjeto extends StatelessWidget {
             controller.entrarEmModoDeAdicaoCodigo();
             return PopUpCriacaoCodigoDeEntrada(
               controller: controller,
+              refreshControllerCodigosDeEntrada:
+                  refreshControllerCodigosDeEntrada,
             );
           },
         );
@@ -562,8 +578,10 @@ typedef OnFocusFunction = void Function();
 
 class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
   final AdministracaoController controller;
+  final RefreshController refreshControllerCodigosDeEntrada;
   PopUpCriacaoCodigoDeEntrada({
     required this.controller,
+    required this.refreshControllerCodigosDeEntrada,
     Key? key,
   }) : super(key: key);
 
@@ -742,7 +760,8 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            controller.sairModoAdicaoCodigo();
+                            controller.sairModoAdicaoCodigo(
+                                refreshControllerCodigosDeEntrada);
                           },
                           child: const Text("Fechar"),
                           style: TextButton.styleFrom(

@@ -21,16 +21,6 @@ enum EstadoAdicaoCodigoDeEntrada {
 
 class AdministracaoController extends BottomMenuController {
   final collectionsController = Get.find<CollectionsController>();
-
-  final RefreshController refreshControllerCodigosDeEntrada =
-      RefreshController();
-  final RefreshController refreshControllerProjetosAprovados =
-      RefreshController();
-  final RefreshController refreshControllerProjetosNaoAprovados =
-      RefreshController();
-  final RefreshController refreshControllerCursosUniversitarios =
-      RefreshController();
-
   @override
   void onInit() {
     super.onInit();
@@ -43,25 +33,32 @@ class AdministracaoController extends BottomMenuController {
     }
   }
 
-  carregarProjetosAprovados({bool? notSilent}) async {
-    if (notSilent != null && notSilent) {
-      refreshControllerProjetosAprovados.requestRefresh();
+  carregarProjetosAprovados({
+    RefreshController? refreshController,
+  }) async {
+    if (refreshController != null) {
+      refreshController.requestRefresh();
+    } else {
+      _carregandoProjetosAprovados.value = true;
     }
-    _carregandoProjetosAprovados.value = true;
 
     await collectionsController.carregarProjetos();
 
-    _carregandoProjetosAprovados.value = false;
-    if (notSilent != null && notSilent) {
-      refreshControllerProjetosAprovados.refreshCompleted();
+    if (refreshController != null) {
+      refreshController.refreshCompleted();
+    } else {
+      _carregandoProjetosAprovados.value = false;
     }
   }
 
-  carregarProjetosNaoAprovados({bool? notSilent}) async {
-    if (notSilent != null && notSilent) {
-      refreshControllerProjetosNaoAprovados.requestRefresh();
+  carregarProjetosNaoAprovados({
+    RefreshController? refreshController,
+  }) async {
+    if (refreshController != null) {
+      refreshController.requestRefresh();
+    } else {
+      _carregandoProjetosNaoAprovados.value = true;
     }
-    _carregandoProjetosNaoAprovados.value = true;
 
     List<Projeto>? result = await obterListaDeProjetosNaoAprovados();
 
@@ -69,23 +66,26 @@ class AdministracaoController extends BottomMenuController {
       _projetosNaoAprovados.value = result;
     }
 
-    _carregandoProjetosNaoAprovados.value = false;
-    if (notSilent != null && notSilent) {
-      refreshControllerProjetosNaoAprovados.refreshCompleted();
+    if (refreshController != null) {
+      refreshController.refreshCompleted();
+    } else {
+      _carregandoProjetosNaoAprovados.value = false;
     }
   }
 
-  carregarCursosUniversitarios({bool? notSilent}) async {
-    if (notSilent != null && notSilent) {
-      refreshControllerCursosUniversitarios.requestRefresh();
+  carregarCursosUniversitarios({
+    RefreshController? refreshController,
+  }) async {
+    if (refreshController != null) {
+      refreshController.requestRefresh();
     } else {
       _carregandoCursosUniversitarios.value = true;
     }
 
     await collectionsController.carregarCursosUniversitarios();
 
-    if (notSilent != null && notSilent) {
-      refreshControllerCursosUniversitarios.refreshCompleted();
+    if (refreshController != null) {
+      refreshController.refreshCompleted();
     } else {
       _carregandoCursosUniversitarios.value = false;
     }
@@ -130,22 +130,24 @@ class AdministracaoController extends BottomMenuController {
     }
   }
 
-  carregarCodigosDeEntrada({bool? notSilent}) async {
-    if (notSilent != null && notSilent) {
-      refreshControllerCodigosDeEntrada.requestRefresh();
+  carregarCodigosDeEntrada({
+    RefreshController? refreshController,
+  }) async {
+    if (refreshController != null) {
+      refreshController.requestRefresh();
+    } else {
+      _carregandoCodigosDeEntrada.value = true;
     }
-
-    _carregandoCodigosDeEntrada.value = true;
 
     List<CodigoEntrada>? result = await obterCodigosDeEntrada();
     if (result != null) {
       _codigosDeEntrada.value = result;
     }
 
-    _carregandoCodigosDeEntrada.value = false;
-
-    if (notSilent != null && notSilent) {
-      refreshControllerCodigosDeEntrada.refreshCompleted();
+    if (refreshController != null) {
+      refreshController.refreshCompleted();
+    } else {
+      _carregandoCodigosDeEntrada.value = false;
     }
   }
 
@@ -165,9 +167,11 @@ class AdministracaoController extends BottomMenuController {
     _codigoGerado.value = "";
   }
 
-  sairModoAdicaoCodigo() {
+  sairModoAdicaoCodigo(RefreshController refreshController) {
     Get.back();
-    carregarCodigosDeEntrada(notSilent: true);
+    carregarCodigosDeEntrada(
+      refreshController: refreshController,
+    );
   }
 
   adicionarCodigo() async {
