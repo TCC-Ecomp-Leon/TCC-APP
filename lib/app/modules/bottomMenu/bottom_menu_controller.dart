@@ -110,7 +110,7 @@ List<BottomMenuPage> obterPaginasComPermisssao(
   if (perfil!.regra == RegraPerfil.Administrador) {
     bottomMenuRoutes = [
       Routes.administracao,
-      Routes.cursos,
+      Routes.colaboracao,
       Routes.duvidas,
       Routes.perfil,
     ];
