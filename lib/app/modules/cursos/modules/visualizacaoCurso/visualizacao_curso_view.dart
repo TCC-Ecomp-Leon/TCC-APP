@@ -114,6 +114,10 @@ class VisualizacaoGeralCurso extends StatelessWidget {
     final bool regraAluno = controller.regraAluno;
     final bool regraProjeto = controller.regraProjeto;
 
+    final String? textoNota = respostas.isNotEmpty && respostas[0].nota != null
+        ? respostas[0].nota!.toStringAsFixed(2)
+        : null;
+
     return InkWell(
       onTap: () async {
         if (regraProfessor || regraProjeto) {
@@ -215,11 +219,22 @@ class VisualizacaoGeralCurso extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Icon(
-                        quantidadeRespostas > 0 ? Icons.check : Icons.close,
-                        color:
-                            quantidadeRespostas > 0 ? Colors.green : Colors.red,
-                      ),
+                      textoNota != null && !regraUniversitario
+                          ? Text(
+                              textoNota,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textScaleFactor: 0.8,
+                            )
+                          : Icon(
+                              quantidadeRespostas > 0
+                                  ? Icons.check
+                                  : Icons.close,
+                              color: quantidadeRespostas > 0
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
                     ],
                   )),
             ),
