@@ -121,7 +121,8 @@ class __$LocalizacaoCopyWithImpl<$Res> extends _$LocalizacaoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Localizacao implements _Localizacao {
   const _$_Localizacao(this.lat, this.lng);
 

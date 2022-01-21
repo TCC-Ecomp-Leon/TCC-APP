@@ -163,7 +163,8 @@ class __$MateriaCopyWithImpl<$Res> extends _$MateriaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Materia implements _Materia {
   const _$_Materia(
       this.id, this.idPerfilProfessor, this.nome, this.descricao, this.idCurso);

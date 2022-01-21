@@ -26,18 +26,20 @@ class _$ProjetoTearOff {
       String id,
       String nome,
       String descricao,
+      String email,
       int telefone,
-      DateTime requisicaoEntradaEm,
+      @DateTimeConverter() DateTime requisicaoEntradaEm,
       String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
-      DateTime? entradaEm,
-      List<Curso> cursos) {
+      @NullableDateTimeConverter() DateTime? entradaEm,
+      List<Curso>? cursos) {
     return _Projeto(
       id,
       nome,
       descricao,
+      email,
       telefone,
       requisicaoEntradaEm,
       imgProjeto,
@@ -62,14 +64,17 @@ mixin _$Projeto {
   String get id => throw _privateConstructorUsedError;
   String get nome => throw _privateConstructorUsedError;
   String get descricao => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
   int get telefone => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get requisicaoEntradaEm => throw _privateConstructorUsedError;
   String get imgProjeto => throw _privateConstructorUsedError;
   Endereco get endereco => throw _privateConstructorUsedError;
   bool get aprovado => throw _privateConstructorUsedError;
   String? get idPerfilResponsavel => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get entradaEm => throw _privateConstructorUsedError;
-  List<Curso> get cursos => throw _privateConstructorUsedError;
+  List<Curso>? get cursos => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -84,14 +89,15 @@ abstract class $ProjetoCopyWith<$Res> {
       {String id,
       String nome,
       String descricao,
+      String email,
       int telefone,
-      DateTime requisicaoEntradaEm,
+      @DateTimeConverter() DateTime requisicaoEntradaEm,
       String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
-      DateTime? entradaEm,
-      List<Curso> cursos});
+      @NullableDateTimeConverter() DateTime? entradaEm,
+      List<Curso>? cursos});
 
   $EnderecoCopyWith<$Res> get endereco;
 }
@@ -109,6 +115,7 @@ class _$ProjetoCopyWithImpl<$Res> implements $ProjetoCopyWith<$Res> {
     Object? id = freezed,
     Object? nome = freezed,
     Object? descricao = freezed,
+    Object? email = freezed,
     Object? telefone = freezed,
     Object? requisicaoEntradaEm = freezed,
     Object? imgProjeto = freezed,
@@ -130,6 +137,10 @@ class _$ProjetoCopyWithImpl<$Res> implements $ProjetoCopyWith<$Res> {
       descricao: descricao == freezed
           ? _value.descricao
           : descricao // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       telefone: telefone == freezed
           ? _value.telefone
@@ -162,7 +173,7 @@ class _$ProjetoCopyWithImpl<$Res> implements $ProjetoCopyWith<$Res> {
       cursos: cursos == freezed
           ? _value.cursos
           : cursos // ignore: cast_nullable_to_non_nullable
-              as List<Curso>,
+              as List<Curso>?,
     ));
   }
 
@@ -183,14 +194,15 @@ abstract class _$ProjetoCopyWith<$Res> implements $ProjetoCopyWith<$Res> {
       {String id,
       String nome,
       String descricao,
+      String email,
       int telefone,
-      DateTime requisicaoEntradaEm,
+      @DateTimeConverter() DateTime requisicaoEntradaEm,
       String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
-      DateTime? entradaEm,
-      List<Curso> cursos});
+      @NullableDateTimeConverter() DateTime? entradaEm,
+      List<Curso>? cursos});
 
   @override
   $EnderecoCopyWith<$Res> get endereco;
@@ -210,6 +222,7 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
     Object? id = freezed,
     Object? nome = freezed,
     Object? descricao = freezed,
+    Object? email = freezed,
     Object? telefone = freezed,
     Object? requisicaoEntradaEm = freezed,
     Object? imgProjeto = freezed,
@@ -231,6 +244,10 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
       descricao == freezed
           ? _value.descricao
           : descricao // ignore: cast_nullable_to_non_nullable
+              as String,
+      email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       telefone == freezed
           ? _value.telefone
@@ -263,25 +280,27 @@ class __$ProjetoCopyWithImpl<$Res> extends _$ProjetoCopyWithImpl<$Res>
       cursos == freezed
           ? _value.cursos
           : cursos // ignore: cast_nullable_to_non_nullable
-              as List<Curso>,
+              as List<Curso>?,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Projeto implements _Projeto {
   const _$_Projeto(
       this.id,
       this.nome,
       this.descricao,
+      this.email,
       this.telefone,
-      this.requisicaoEntradaEm,
+      @DateTimeConverter() this.requisicaoEntradaEm,
       this.imgProjeto,
       this.endereco,
       this.aprovado,
       this.idPerfilResponsavel,
-      this.entradaEm,
+      @NullableDateTimeConverter() this.entradaEm,
       this.cursos);
 
   factory _$_Projeto.fromJson(Map<String, dynamic> json) =>
@@ -294,8 +313,11 @@ class _$_Projeto implements _Projeto {
   @override
   final String descricao;
   @override
+  final String email;
+  @override
   final int telefone;
   @override
+  @DateTimeConverter()
   final DateTime requisicaoEntradaEm;
   @override
   final String imgProjeto;
@@ -306,13 +328,14 @@ class _$_Projeto implements _Projeto {
   @override
   final String? idPerfilResponsavel;
   @override
+  @NullableDateTimeConverter()
   final DateTime? entradaEm;
   @override
-  final List<Curso> cursos;
+  final List<Curso>? cursos;
 
   @override
   String toString() {
-    return 'Projeto(id: $id, nome: $nome, descricao: $descricao, telefone: $telefone, requisicaoEntradaEm: $requisicaoEntradaEm, imgProjeto: $imgProjeto, endereco: $endereco, aprovado: $aprovado, idPerfilResponsavel: $idPerfilResponsavel, entradaEm: $entradaEm, cursos: $cursos)';
+    return 'Projeto(id: $id, nome: $nome, descricao: $descricao, email: $email, telefone: $telefone, requisicaoEntradaEm: $requisicaoEntradaEm, imgProjeto: $imgProjeto, endereco: $endereco, aprovado: $aprovado, idPerfilResponsavel: $idPerfilResponsavel, entradaEm: $entradaEm, cursos: $cursos)';
   }
 
   @override
@@ -323,6 +346,7 @@ class _$_Projeto implements _Projeto {
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.nome, nome) &&
             const DeepCollectionEquality().equals(other.descricao, descricao) &&
+            const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.telefone, telefone) &&
             const DeepCollectionEquality()
                 .equals(other.requisicaoEntradaEm, requisicaoEntradaEm) &&
@@ -342,6 +366,7 @@ class _$_Projeto implements _Projeto {
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(nome),
       const DeepCollectionEquality().hash(descricao),
+      const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(telefone),
       const DeepCollectionEquality().hash(requisicaoEntradaEm),
       const DeepCollectionEquality().hash(imgProjeto),
@@ -367,14 +392,15 @@ abstract class _Projeto implements Projeto {
       String id,
       String nome,
       String descricao,
+      String email,
       int telefone,
-      DateTime requisicaoEntradaEm,
+      @DateTimeConverter() DateTime requisicaoEntradaEm,
       String imgProjeto,
       Endereco endereco,
       bool aprovado,
       String? idPerfilResponsavel,
-      DateTime? entradaEm,
-      List<Curso> cursos) = _$_Projeto;
+      @NullableDateTimeConverter() DateTime? entradaEm,
+      List<Curso>? cursos) = _$_Projeto;
 
   factory _Projeto.fromJson(Map<String, dynamic> json) = _$_Projeto.fromJson;
 
@@ -385,8 +411,11 @@ abstract class _Projeto implements Projeto {
   @override
   String get descricao;
   @override
+  String get email;
+  @override
   int get telefone;
   @override
+  @DateTimeConverter()
   DateTime get requisicaoEntradaEm;
   @override
   String get imgProjeto;
@@ -397,9 +426,10 @@ abstract class _Projeto implements Projeto {
   @override
   String? get idPerfilResponsavel;
   @override
+  @NullableDateTimeConverter()
   DateTime? get entradaEm;
   @override
-  List<Curso> get cursos;
+  List<Curso>? get cursos;
   @override
   @JsonKey(ignore: true)
   _$ProjetoCopyWith<_Projeto> get copyWith =>

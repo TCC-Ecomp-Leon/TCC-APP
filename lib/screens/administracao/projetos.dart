@@ -20,7 +20,7 @@ class Projetos extends StatelessWidget {
           return IconLabelDescriptionCard(
             value: IconLabelDescriptionCardProps(
               base64Image: imgProjeto,
-              label: value,
+              label: "value",
               description: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,7 +28,7 @@ class Projetos extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: Text(
-                      value,
+                      "value",
                       textScaleFactor: 0.6,
                     ),
                   ),

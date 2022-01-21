@@ -26,8 +26,8 @@ class _$PerfilTearOff {
       String id,
       String email,
       String nome,
-      String telefone,
-      DateTime entradaEm,
+      int telefone,
+      @DateTimeConverter() DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
       String? cpf,
@@ -60,7 +60,8 @@ mixin _$Perfil {
   String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get nome => throw _privateConstructorUsedError;
-  String get telefone => throw _privateConstructorUsedError;
+  int get telefone => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get entradaEm => throw _privateConstructorUsedError;
   String get fotoPerfil => throw _privateConstructorUsedError;
   RegraPerfil get regra => throw _privateConstructorUsedError;
@@ -82,8 +83,8 @@ abstract class $PerfilCopyWith<$Res> {
       {String id,
       String email,
       String nome,
-      String telefone,
-      DateTime entradaEm,
+      int telefone,
+      @DateTimeConverter() DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
       String? cpf,
@@ -131,7 +132,7 @@ class _$PerfilCopyWithImpl<$Res> implements $PerfilCopyWith<$Res> {
       telefone: telefone == freezed
           ? _value.telefone
           : telefone // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       entradaEm: entradaEm == freezed
           ? _value.entradaEm
           : entradaEm // ignore: cast_nullable_to_non_nullable
@@ -192,8 +193,8 @@ abstract class _$PerfilCopyWith<$Res> implements $PerfilCopyWith<$Res> {
       {String id,
       String email,
       String nome,
-      String telefone,
-      DateTime entradaEm,
+      int telefone,
+      @DateTimeConverter() DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
       String? cpf,
@@ -244,7 +245,7 @@ class __$PerfilCopyWithImpl<$Res> extends _$PerfilCopyWithImpl<$Res>
       telefone == freezed
           ? _value.telefone
           : telefone // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       entradaEm == freezed
           ? _value.entradaEm
           : entradaEm // ignore: cast_nullable_to_non_nullable
@@ -274,14 +275,15 @@ class __$PerfilCopyWithImpl<$Res> extends _$PerfilCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Perfil implements _Perfil {
   const _$_Perfil(
       this.id,
       this.email,
       this.nome,
       this.telefone,
-      this.entradaEm,
+      @DateTimeConverter() this.entradaEm,
       this.fotoPerfil,
       this.regra,
       this.cpf,
@@ -298,8 +300,9 @@ class _$_Perfil implements _Perfil {
   @override
   final String nome;
   @override
-  final String telefone;
+  final int telefone;
   @override
+  @DateTimeConverter()
   final DateTime entradaEm;
   @override
   final String fotoPerfil;
@@ -367,8 +370,8 @@ abstract class _Perfil implements Perfil {
       String id,
       String email,
       String nome,
-      String telefone,
-      DateTime entradaEm,
+      int telefone,
+      @DateTimeConverter() DateTime entradaEm,
       String fotoPerfil,
       RegraPerfil regra,
       String? cpf,
@@ -384,8 +387,9 @@ abstract class _Perfil implements Perfil {
   @override
   String get nome;
   @override
-  String get telefone;
+  int get telefone;
   @override
+  @DateTimeConverter()
   DateTime get entradaEm;
   @override
   String get fotoPerfil;
@@ -534,7 +538,8 @@ class __$PerfilAssociacoesCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_PerfilAssociacoes implements _PerfilAssociacoes {
   const _$_PerfilAssociacoes(this.aluno, this.professor);
 
@@ -704,7 +709,8 @@ class __$InformacoesCursoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_InformacoesCurso implements _InformacoesCurso {
   const _$_InformacoesCurso(this.alunoParceiro, this.cursos);
 
@@ -874,7 +880,8 @@ class __$InformacoesProfessorCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_InformacoesProfessor implements _InformacoesProfessor {
   const _$_InformacoesProfessor(this.professor, this.materiasProfessor);
 
@@ -1103,7 +1110,8 @@ class __$InformacoesUniversitarioCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_InformacoesUniversitario implements _InformacoesUniversitario {
   const _$_InformacoesUniversitario(this.universitario, this.email,
       this.graduacao, this.atividadesQueColaborou);
@@ -1193,7 +1201,7 @@ class _$InformacoesUniversitarioGraduacaoTearOff {
   const _$InformacoesUniversitarioGraduacaoTearOff();
 
   _InformacoesUniversitarioGraduacao call(
-      DateTime atualizadoEm, CursoUniversitario curso) {
+      @DateTimeConverter() DateTime atualizadoEm, CursoUniversitario curso) {
     return _InformacoesUniversitarioGraduacao(
       atualizadoEm,
       curso,
@@ -1211,6 +1219,7 @@ const $InformacoesUniversitarioGraduacao =
 
 /// @nodoc
 mixin _$InformacoesUniversitarioGraduacao {
+  @DateTimeConverter()
   DateTime get atualizadoEm => throw _privateConstructorUsedError;
   CursoUniversitario get curso => throw _privateConstructorUsedError;
 
@@ -1226,7 +1235,8 @@ abstract class $InformacoesUniversitarioGraduacaoCopyWith<$Res> {
           InformacoesUniversitarioGraduacao value,
           $Res Function(InformacoesUniversitarioGraduacao) then) =
       _$InformacoesUniversitarioGraduacaoCopyWithImpl<$Res>;
-  $Res call({DateTime atualizadoEm, CursoUniversitario curso});
+  $Res call(
+      {@DateTimeConverter() DateTime atualizadoEm, CursoUniversitario curso});
 
   $CursoUniversitarioCopyWith<$Res> get curso;
 }
@@ -1273,7 +1283,8 @@ abstract class _$InformacoesUniversitarioGraduacaoCopyWith<$Res>
           $Res Function(_InformacoesUniversitarioGraduacao) then) =
       __$InformacoesUniversitarioGraduacaoCopyWithImpl<$Res>;
   @override
-  $Res call({DateTime atualizadoEm, CursoUniversitario curso});
+  $Res call(
+      {@DateTimeConverter() DateTime atualizadoEm, CursoUniversitario curso});
 
   @override
   $CursoUniversitarioCopyWith<$Res> get curso;
@@ -1311,16 +1322,19 @@ class __$InformacoesUniversitarioGraduacaoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_InformacoesUniversitarioGraduacao
     implements _InformacoesUniversitarioGraduacao {
-  const _$_InformacoesUniversitarioGraduacao(this.atualizadoEm, this.curso);
+  const _$_InformacoesUniversitarioGraduacao(
+      @DateTimeConverter() this.atualizadoEm, this.curso);
 
   factory _$_InformacoesUniversitarioGraduacao.fromJson(
           Map<String, dynamic> json) =>
       _$$_InformacoesUniversitarioGraduacaoFromJson(json);
 
   @override
+  @DateTimeConverter()
   final DateTime atualizadoEm;
   @override
   final CursoUniversitario curso;
@@ -1362,14 +1376,15 @@ class _$_InformacoesUniversitarioGraduacao
 abstract class _InformacoesUniversitarioGraduacao
     implements InformacoesUniversitarioGraduacao {
   const factory _InformacoesUniversitarioGraduacao(
-          DateTime atualizadoEm, CursoUniversitario curso) =
-      _$_InformacoesUniversitarioGraduacao;
+      @DateTimeConverter() DateTime atualizadoEm,
+      CursoUniversitario curso) = _$_InformacoesUniversitarioGraduacao;
 
   factory _InformacoesUniversitarioGraduacao.fromJson(
           Map<String, dynamic> json) =
       _$_InformacoesUniversitarioGraduacao.fromJson;
 
   @override
+  @DateTimeConverter()
   DateTime get atualizadoEm;
   @override
   CursoUniversitario get curso;
@@ -1536,7 +1551,8 @@ class __$ColaboracaoAtividadeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_ColaboracaoAtividade implements _ColaboracaoAtividade {
   const _$_ColaboracaoAtividade(this.idResposta, this.idAtividade, this.horas,
       this.aprovado, this.horasEmitidas);

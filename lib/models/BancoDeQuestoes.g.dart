@@ -9,7 +9,7 @@ part of 'BancoDeQuestoes.dart';
 _$_BancoDeQuestoes _$$_BancoDeQuestoesFromJson(Map<String, dynamic> json) =>
     _$_BancoDeQuestoes(
       json['id'] as String,
-      DateTime.parse(json['criadoEm'] as String),
+      const DateTimeConverter().fromJson(json['criadoEm'] as String),
       json['idProjeto'] as String,
       json['idCurso'] as String,
       json['idMateria'] as String?,
@@ -20,10 +20,10 @@ _$_BancoDeQuestoes _$$_BancoDeQuestoesFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_BancoDeQuestoesToJson(_$_BancoDeQuestoes instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'criadoEm': instance.criadoEm.toIso8601String(),
+      'criadoEm': const DateTimeConverter().toJson(instance.criadoEm),
       'idProjeto': instance.idProjeto,
       'idCurso': instance.idCurso,
       'idMateria': instance.idMateria,
-      'questao': instance.questao,
+      'questao': instance.questao.toJson(),
       'assuntos': instance.assuntos,
     };

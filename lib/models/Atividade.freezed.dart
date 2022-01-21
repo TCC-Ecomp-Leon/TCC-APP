@@ -157,7 +157,8 @@ class __$QuestaoAlternativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoAlternativa implements _QuestaoAlternativa {
   const _$_QuestaoAlternativa(
       this.idQuestao, this.enunciado, this.peso, this.alternativas);
@@ -348,7 +349,8 @@ class __$QuestaoAlternativaAlternativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoAlternativaAlternativa
     implements _QuestaoAlternativaAlternativa {
   const _$_QuestaoAlternativaAlternativa(this.item, this.value);
@@ -568,7 +570,8 @@ class __$QuestaoDissertativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoDissertativa implements _QuestaoDissertativa {
   const _$_QuestaoDissertativa(
       this.idQuestao, this.enunciado, this.peso, this.respostaEsperada);
@@ -773,7 +776,8 @@ class __$QuestaoDissertativaRespostaEsperadaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoDissertativaRespostaEsperada
     implements _QuestaoDissertativaRespostaEsperada {
   const _$_QuestaoDissertativaRespostaEsperada(
@@ -859,18 +863,18 @@ class _$AtividadeTearOff {
   _Atividade call(
       String id,
       String nome,
-      DateTime criadoEm,
+      @DateTimeConverter() DateTime criadoEm,
       String idProjeto,
       String idCurso,
       String? idMateria,
       TipoAtividade tipoAtividade,
-      DateTime aberturaRespostas,
-      DateTime fechamentoRespostas,
+      @DateTimeConverter() DateTime aberturaRespostas,
+      @DateTimeConverter() DateTime fechamentoRespostas,
       List<String>? assuntos,
       double? tempoColaboracao,
       double? notaReferencia,
       List<AtividadeItens>? itens,
-      DateTime? fechamentoCorrecoes) {
+      @NullableDateTimeConverter() DateTime? fechamentoCorrecoes) {
     return _Atividade(
       id,
       nome,
@@ -901,17 +905,21 @@ const $Atividade = _$AtividadeTearOff();
 mixin _$Atividade {
   String get id => throw _privateConstructorUsedError;
   String get nome => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get criadoEm => throw _privateConstructorUsedError;
   String get idProjeto => throw _privateConstructorUsedError;
   String get idCurso => throw _privateConstructorUsedError;
   String? get idMateria => throw _privateConstructorUsedError;
   TipoAtividade get tipoAtividade => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get aberturaRespostas => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get fechamentoRespostas => throw _privateConstructorUsedError;
   List<String>? get assuntos => throw _privateConstructorUsedError;
   double? get tempoColaboracao => throw _privateConstructorUsedError;
   double? get notaReferencia => throw _privateConstructorUsedError;
   List<AtividadeItens>? get itens => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get fechamentoCorrecoes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -927,18 +935,18 @@ abstract class $AtividadeCopyWith<$Res> {
   $Res call(
       {String id,
       String nome,
-      DateTime criadoEm,
+      @DateTimeConverter() DateTime criadoEm,
       String idProjeto,
       String idCurso,
       String? idMateria,
       TipoAtividade tipoAtividade,
-      DateTime aberturaRespostas,
-      DateTime fechamentoRespostas,
+      @DateTimeConverter() DateTime aberturaRespostas,
+      @DateTimeConverter() DateTime fechamentoRespostas,
       List<String>? assuntos,
       double? tempoColaboracao,
       double? notaReferencia,
       List<AtividadeItens>? itens,
-      DateTime? fechamentoCorrecoes});
+      @NullableDateTimeConverter() DateTime? fechamentoCorrecoes});
 }
 
 /// @nodoc
@@ -1036,18 +1044,18 @@ abstract class _$AtividadeCopyWith<$Res> implements $AtividadeCopyWith<$Res> {
   $Res call(
       {String id,
       String nome,
-      DateTime criadoEm,
+      @DateTimeConverter() DateTime criadoEm,
       String idProjeto,
       String idCurso,
       String? idMateria,
       TipoAtividade tipoAtividade,
-      DateTime aberturaRespostas,
-      DateTime fechamentoRespostas,
+      @DateTimeConverter() DateTime aberturaRespostas,
+      @DateTimeConverter() DateTime fechamentoRespostas,
       List<String>? assuntos,
       double? tempoColaboracao,
       double? notaReferencia,
       List<AtividadeItens>? itens,
-      DateTime? fechamentoCorrecoes});
+      @NullableDateTimeConverter() DateTime? fechamentoCorrecoes});
 }
 
 /// @nodoc
@@ -1138,23 +1146,24 @@ class __$AtividadeCopyWithImpl<$Res> extends _$AtividadeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Atividade implements _Atividade {
   const _$_Atividade(
       this.id,
       this.nome,
-      this.criadoEm,
+      @DateTimeConverter() this.criadoEm,
       this.idProjeto,
       this.idCurso,
       this.idMateria,
       this.tipoAtividade,
-      this.aberturaRespostas,
-      this.fechamentoRespostas,
+      @DateTimeConverter() this.aberturaRespostas,
+      @DateTimeConverter() this.fechamentoRespostas,
       this.assuntos,
       this.tempoColaboracao,
       this.notaReferencia,
       this.itens,
-      this.fechamentoCorrecoes);
+      @NullableDateTimeConverter() this.fechamentoCorrecoes);
 
   factory _$_Atividade.fromJson(Map<String, dynamic> json) =>
       _$$_AtividadeFromJson(json);
@@ -1164,6 +1173,7 @@ class _$_Atividade implements _Atividade {
   @override
   final String nome;
   @override
+  @DateTimeConverter()
   final DateTime criadoEm;
   @override
   final String idProjeto;
@@ -1174,8 +1184,10 @@ class _$_Atividade implements _Atividade {
   @override
   final TipoAtividade tipoAtividade;
   @override
+  @DateTimeConverter()
   final DateTime aberturaRespostas;
   @override
+  @DateTimeConverter()
   final DateTime fechamentoRespostas;
   @override
   final List<String>? assuntos;
@@ -1186,6 +1198,7 @@ class _$_Atividade implements _Atividade {
   @override
   final List<AtividadeItens>? itens;
   @override
+  @NullableDateTimeConverter()
   final DateTime? fechamentoCorrecoes;
 
   @override
@@ -1251,20 +1264,21 @@ class _$_Atividade implements _Atividade {
 
 abstract class _Atividade implements Atividade {
   const factory _Atividade(
-      String id,
-      String nome,
-      DateTime criadoEm,
-      String idProjeto,
-      String idCurso,
-      String? idMateria,
-      TipoAtividade tipoAtividade,
-      DateTime aberturaRespostas,
-      DateTime fechamentoRespostas,
-      List<String>? assuntos,
-      double? tempoColaboracao,
-      double? notaReferencia,
-      List<AtividadeItens>? itens,
-      DateTime? fechamentoCorrecoes) = _$_Atividade;
+          String id,
+          String nome,
+          @DateTimeConverter() DateTime criadoEm,
+          String idProjeto,
+          String idCurso,
+          String? idMateria,
+          TipoAtividade tipoAtividade,
+          @DateTimeConverter() DateTime aberturaRespostas,
+          @DateTimeConverter() DateTime fechamentoRespostas,
+          List<String>? assuntos,
+          double? tempoColaboracao,
+          double? notaReferencia,
+          List<AtividadeItens>? itens,
+          @NullableDateTimeConverter() DateTime? fechamentoCorrecoes) =
+      _$_Atividade;
 
   factory _Atividade.fromJson(Map<String, dynamic> json) =
       _$_Atividade.fromJson;
@@ -1274,6 +1288,7 @@ abstract class _Atividade implements Atividade {
   @override
   String get nome;
   @override
+  @DateTimeConverter()
   DateTime get criadoEm;
   @override
   String get idProjeto;
@@ -1284,8 +1299,10 @@ abstract class _Atividade implements Atividade {
   @override
   TipoAtividade get tipoAtividade;
   @override
+  @DateTimeConverter()
   DateTime get aberturaRespostas;
   @override
+  @DateTimeConverter()
   DateTime get fechamentoRespostas;
   @override
   List<String>? get assuntos;
@@ -1296,6 +1313,7 @@ abstract class _Atividade implements Atividade {
   @override
   List<AtividadeItens>? get itens;
   @override
+  @NullableDateTimeConverter()
   DateTime? get fechamentoCorrecoes;
   @override
   @JsonKey(ignore: true)
@@ -1482,7 +1500,8 @@ class __$AtividadeItensCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_AtividadeItens implements _AtividadeItens {
   const _$_AtividadeItens(this.idQuestao, this.enunciado, this.peso,
       this.alternativas, this.respostaEsperada);

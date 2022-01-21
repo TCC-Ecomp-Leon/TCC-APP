@@ -26,5 +26,5 @@ Map<String, dynamic> _$$_EnderecoToJson(_$_Endereco instance) =>
       'cidade': instance.cidade,
       'estado': instance.estado,
       'cep': instance.cep,
-      'localizacao': instance.localizacao,
+      'localizacao': instance.localizacao.toJson(),
     };

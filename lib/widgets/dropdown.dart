@@ -9,38 +9,48 @@ class DropDown<T> extends StatelessWidget {
   final OnChangeDropDown onChangeDropDown;
   final GetItemText getItemText;
   final int selectedIndex;
+  final Alignment alignment;
+  final bool enabled;
 
   const DropDown({
     required this.getItemText,
     required this.onChangeDropDown,
     required this.items,
     required this.selectedIndex,
+    this.alignment = Alignment.centerLeft,
+    this.enabled = true,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<int>(
-      iconEnabledColor: Colors.black,
-      dropdownColor: Colors.white,
-      underline: const SizedBox(
-        height: 0.0,
-      ),
-      value: selectedIndex >= 0 ? selectedIndex : null,
-      style: const TextStyle(color: Colors.black),
-      items: items
-          .mapIndexed(
-            (e, index) => DropdownMenuItem<int>(
-              child: Text(
-                getItemText(e),
+    return IgnorePointer(
+      ignoring: !enabled,
+      child: DropdownButton<int>(
+        iconEnabledColor: Colors.black,
+        alignment: alignment,
+        dropdownColor: Colors.white,
+        underline: const SizedBox(
+          height: 0.0,
+        ),
+        value: selectedIndex >= 0 ? selectedIndex : null,
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+        items: items
+            .mapIndexed(
+              (e, index) => DropdownMenuItem<int>(
+                child: Text(
+                  getItemText(e),
+                ),
+                value: index,
               ),
-              value: index,
-            ),
-          )
-          .toList(),
-      onChanged: (value) {
-        onChangeDropDown(value!);
-      },
+            )
+            .toList(),
+        onChanged: (value) {
+          onChangeDropDown(value!);
+        },
+      ),
     );
   }
 }

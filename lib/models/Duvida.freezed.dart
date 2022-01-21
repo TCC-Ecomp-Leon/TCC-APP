@@ -227,7 +227,8 @@ class __$DuvidaCopyWithImpl<$Res> extends _$DuvidaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Duvida implements _Duvida {
   const _$_Duvida(
       this.id,
@@ -354,7 +355,8 @@ DuvidaMensagem _$DuvidaMensagemFromJson(Map<String, dynamic> json) {
 class _$DuvidaMensagemTearOff {
   const _$DuvidaMensagemTearOff();
 
-  _DuvidaMensagem call(String idPerfil, DateTime horario, String mensagem) {
+  _DuvidaMensagem call(
+      String idPerfil, @DateTimeConverter() DateTime horario, String mensagem) {
     return _DuvidaMensagem(
       idPerfil,
       horario,
@@ -373,6 +375,7 @@ const $DuvidaMensagem = _$DuvidaMensagemTearOff();
 /// @nodoc
 mixin _$DuvidaMensagem {
   String get idPerfil => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get horario => throw _privateConstructorUsedError;
   String get mensagem => throw _privateConstructorUsedError;
 
@@ -387,7 +390,10 @@ abstract class $DuvidaMensagemCopyWith<$Res> {
   factory $DuvidaMensagemCopyWith(
           DuvidaMensagem value, $Res Function(DuvidaMensagem) then) =
       _$DuvidaMensagemCopyWithImpl<$Res>;
-  $Res call({String idPerfil, DateTime horario, String mensagem});
+  $Res call(
+      {String idPerfil,
+      @DateTimeConverter() DateTime horario,
+      String mensagem});
 }
 
 /// @nodoc
@@ -429,7 +435,10 @@ abstract class _$DuvidaMensagemCopyWith<$Res>
           _DuvidaMensagem value, $Res Function(_DuvidaMensagem) then) =
       __$DuvidaMensagemCopyWithImpl<$Res>;
   @override
-  $Res call({String idPerfil, DateTime horario, String mensagem});
+  $Res call(
+      {String idPerfil,
+      @DateTimeConverter() DateTime horario,
+      String mensagem});
 }
 
 /// @nodoc
@@ -467,9 +476,11 @@ class __$DuvidaMensagemCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_DuvidaMensagem implements _DuvidaMensagem {
-  const _$_DuvidaMensagem(this.idPerfil, this.horario, this.mensagem);
+  const _$_DuvidaMensagem(
+      this.idPerfil, @DateTimeConverter() this.horario, this.mensagem);
 
   factory _$_DuvidaMensagem.fromJson(Map<String, dynamic> json) =>
       _$$_DuvidaMensagemFromJson(json);
@@ -477,6 +488,7 @@ class _$_DuvidaMensagem implements _DuvidaMensagem {
   @override
   final String idPerfil;
   @override
+  @DateTimeConverter()
   final DateTime horario;
   @override
   final String mensagem;
@@ -516,7 +528,9 @@ class _$_DuvidaMensagem implements _DuvidaMensagem {
 
 abstract class _DuvidaMensagem implements DuvidaMensagem {
   const factory _DuvidaMensagem(
-      String idPerfil, DateTime horario, String mensagem) = _$_DuvidaMensagem;
+      String idPerfil,
+      @DateTimeConverter() DateTime horario,
+      String mensagem) = _$_DuvidaMensagem;
 
   factory _DuvidaMensagem.fromJson(Map<String, dynamic> json) =
       _$_DuvidaMensagem.fromJson;
@@ -524,6 +538,7 @@ abstract class _DuvidaMensagem implements DuvidaMensagem {
   @override
   String get idPerfil;
   @override
+  @DateTimeConverter()
   DateTime get horario;
   @override
   String get mensagem;

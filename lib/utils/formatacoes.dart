@@ -2,10 +2,10 @@ String diaMes(DateTime date) {
   String dia = date.day.toString();
   String mes = date.month.toString();
   while (dia.length < 2) {
-    dia = " " + dia;
+    dia = "0" + dia;
   }
   while (mes.length < 2) {
-    mes = " " + mes;
+    mes = "0" + mes;
   }
 
   return dia + "/" + mes;
@@ -29,13 +29,13 @@ String diaComAno(DateTime date) {
   String mes = date.month.toString();
   String ano = date.year.toString();
   while (dia.length < 2) {
-    dia = " " + dia;
+    dia = "0" + dia;
   }
   while (mes.length < 2) {
-    mes = " " + mes;
+    mes = "0" + mes;
   }
   while (ano.length < 4) {
-    ano = " " + ano;
+    ano = "0" + ano;
   }
 
   return dia + "/" + mes + "/" + ano;

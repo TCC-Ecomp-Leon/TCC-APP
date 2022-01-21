@@ -1,3 +1,4 @@
+import 'package:tcc_app/models/core/date_time_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'Atividade.freezed.dart';
@@ -5,6 +6,7 @@ part 'Atividade.g.dart';
 
 @freezed
 abstract class QuestaoAlternativa with _$QuestaoAlternativa {
+  @JsonSerializable(explicitToJson: true)
   const factory QuestaoAlternativa(
     String idQuestao,
     String enunciado,
@@ -22,6 +24,7 @@ abstract class QuestaoAlternativa with _$QuestaoAlternativa {
 
 @freezed
 abstract class QuestaoAlternativaAlternativa with _$QuestaoAlternativaAlternativa {
+  @JsonSerializable(explicitToJson: true)
   const factory QuestaoAlternativaAlternativa(
     String item,
     bool value,
@@ -37,6 +40,7 @@ abstract class QuestaoAlternativaAlternativa with _$QuestaoAlternativaAlternativ
 
 @freezed
 abstract class QuestaoDissertativa with _$QuestaoDissertativa {
+  @JsonSerializable(explicitToJson: true)
   const factory QuestaoDissertativa(
     String idQuestao,
     String enunciado,
@@ -54,6 +58,7 @@ abstract class QuestaoDissertativa with _$QuestaoDissertativa {
 
 @freezed
 abstract class QuestaoDissertativaRespostaEsperada with _$QuestaoDissertativaRespostaEsperada {
+  @JsonSerializable(explicitToJson: true)
   const factory QuestaoDissertativaRespostaEsperada(
     bool foto,
     String? texto,
@@ -70,21 +75,22 @@ abstract class QuestaoDissertativaRespostaEsperada with _$QuestaoDissertativaRes
 
 @freezed
 abstract class Atividade with _$Atividade {
+  @JsonSerializable(explicitToJson: true)
   const factory Atividade(
     String id,
     String nome,
-    DateTime criadoEm,
+    @DateTimeConverter() DateTime criadoEm,
     String idProjeto,
     String idCurso,
     String? idMateria,
     TipoAtividade tipoAtividade,
-    DateTime aberturaRespostas,
-    DateTime fechamentoRespostas,
+    @DateTimeConverter() DateTime aberturaRespostas,
+    @DateTimeConverter() DateTime fechamentoRespostas,
     List<String>? assuntos,
     double? tempoColaboracao,
     double? notaReferencia,
     List<AtividadeItens>? itens,
-    DateTime? fechamentoCorrecoes,
+    @NullableDateTimeConverter() DateTime? fechamentoCorrecoes,
   ) = _Atividade;
 
   factory Atividade.fromJson(
@@ -97,6 +103,7 @@ abstract class Atividade with _$Atividade {
 
 @freezed
 abstract class AtividadeItens with _$AtividadeItens {
+  @JsonSerializable(explicitToJson: true)
   const factory AtividadeItens(
     String idQuestao,
     String enunciado,

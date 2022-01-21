@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 
+typedef OnVisibleChanged = void Function();
+typedef OnChange = void Function();
+
 class TextFieldImplementation extends StatefulWidget {
   final TextEditingController controller;
+  final Color fillColor;
   final String label;
-  final double height;
+  final double? height;
   final TextInputType textInputType;
+  final TextAlign textAlign;
   final bool useHidden;
+  final OnVisibleChanged? onVisibleChanged;
+  final OnChange? onChange;
+  String? errorMessage;
+  bool isHidden;
   final double? width;
+  bool readOnly;
 
-  const TextFieldImplementation(
-      {required this.controller,
-      required this.label,
-      this.height = 60.0,
-      this.width,
-      this.textInputType = TextInputType.text,
-      this.useHidden = false,
-      Key? key})
-      : super(key: key);
+  TextFieldImplementation({
+    required this.controller,
+    required this.label,
+    this.height,
+    this.width,
+    this.textInputType = TextInputType.text,
+    this.useHidden = false,
+    this.isHidden = false,
+    this.onVisibleChanged,
+    this.onChange,
+    this.errorMessage,
+    this.readOnly = false,
+    this.textAlign = TextAlign.center,
+    this.fillColor = Colors.black,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TextFieldImplementation> createState() =>
@@ -24,48 +41,58 @@ class TextFieldImplementation extends StatefulWidget {
 }
 
 class _TextFieldImplementationState extends State<TextFieldImplementation> {
-  bool _isHidden = false;
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.9;
-    double height = widget.height;
+    double? height = widget.height;
     if (widget.width != null) {
       width = widget.width!;
     }
     return Align(
-      alignment: Alignment.topCenter,
+      alignment: Alignment.center,
       child: SizedBox(
         width: width,
         height: height,
         child: Stack(
           children: [
             TextFormField(
-              obscureText: _isHidden,
+              readOnly: widget.readOnly,
+              obscureText: widget.isHidden,
               keyboardType: widget.textInputType,
-              textAlign: TextAlign.center,
+              textAlign: widget.textAlign,
               style: const TextStyle(fontSize: 15.0),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.black,
+                fillColor: widget.fillColor,
                 border: const OutlineInputBorder(),
                 hintText: widget.label,
+                errorText: (widget.errorMessage != null &&
+                        widget.errorMessage!.isNotEmpty)
+                    ? widget.errorMessage
+                    : null,
               ),
               controller: widget.controller,
+              onChanged: (value) {
+                if (widget.onChange != null) {
+                  widget.onChange!();
+                }
+              },
             ),
             widget.useHidden
                 ? Container(
-                    height: height,
+                    height: height ?? 60.0,
                     padding: const EdgeInsets.only(right: 10.0, bottom: 2.0),
                     alignment: Alignment.centerRight,
                     child: InkWell(
                       onTap: () {
-                        setState(() {
-                          _isHidden = !_isHidden;
-                        });
+                        if (widget.onVisibleChanged != null) {
+                          widget.onVisibleChanged!();
+                        }
                       },
                       child: Icon(
-                        _isHidden ? Icons.visibility : Icons.visibility_off,
+                        widget.isHidden
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                       ),
                     ),
                   )

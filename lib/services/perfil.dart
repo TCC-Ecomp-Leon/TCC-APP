@@ -19,21 +19,6 @@ Future<Perfil?> obterOutroPerfil(String idPerfil) {
   );
 }
 
-Future<Perfil?> obterPerfil() {
-  return executeRequest(
-    () {
-      return httpClient.request(
-        Endpoints.perfilEndpoint,
-        options: Options(method: 'GET'),
-      );
-    },
-    (Response<dynamic> response) {
-      final body = response.data as Map<String, dynamic>;
-      return Perfil.fromJson(body['profile']);
-    },
-  );
-}
-
 Future<bool?> atualizarPerfil(
   String idPerfil,
   String? nome,
@@ -49,15 +34,15 @@ Future<bool?> atualizarPerfil(
         camposAtualizacaoPerfil ??= {};
         camposAtualizacaoPerfil['nome'] = nome;
       }
-      if (nome != null) {
+      if (telefone != null) {
         camposAtualizacaoPerfil ??= {};
         camposAtualizacaoPerfil['telefone'] = telefone;
       }
-      if (nome != null) {
+      if (fotoPerfil != null) {
         camposAtualizacaoPerfil ??= {};
         camposAtualizacaoPerfil['fotoPerfil'] = fotoPerfil;
       }
-      if (nome != null) {
+      if (cpf != null) {
         camposAtualizacaoPerfil ??= {};
         camposAtualizacaoPerfil['cpf'] = cpf;
       }
@@ -71,13 +56,15 @@ Future<bool?> atualizarPerfil(
       Map<String, dynamic> camposAtualizacao = {};
       if (camposAtualizacaoPerfil != null) {
         camposAtualizacao['profile'] = camposAtualizacaoPerfil;
+      } else {
+        camposAtualizacao['profile'] = {};
       }
       if (camposAtualizacaoCursoUniversitario != null) {
         camposAtualizacao['cursoUniversitario'] =
             camposAtualizacaoCursoUniversitario;
       }
       return httpClient.request(
-        Endpoints.perfilEndpoint + "/" + idPerfil,
+        Endpoints.perfilEndpoint,
         data: camposAtualizacao,
         options: Options(method: 'PUT'),
       );

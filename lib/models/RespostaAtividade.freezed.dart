@@ -25,7 +25,7 @@ class _$RespostaAtividadeTearOff {
   _RespostaAtividade call(
       String id,
       String idAtividade,
-      DateTime respondidoEm,
+      @DateTimeConverter() DateTime respondidoEm,
       String idProjeto,
       String? idCurso,
       String? idMateria,
@@ -34,19 +34,19 @@ class _$RespostaAtividadeTearOff {
       String? idAluno,
       String? idUniversitario,
       bool? encerrada,
-      String? nota,
+      double? nota,
       bool? corrigida,
-      DateTime? horarioCorrecao,
+      @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
-      CorrecaoDissertativa? correcaoQuestao,
+      List<CorrecaoDissertativa>? correcaoQuestao,
       EstadoRevisao? revisao,
-      DateTime? revisaoRequisitadaEm,
-      DateTime? revisaoAtendidaEm,
+      @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+      @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
       CorrecaoDissertativa? revisaoQuestoes,
       double? notaRevisao,
       double? notaAnteriorRevisao,
       bool? avaliada,
-      DateTime? avaliadaEm,
+      @NullableDateTimeConverter() DateTime? avaliadaEm,
       String? avaliadaPor,
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario) {
@@ -93,6 +93,7 @@ const $RespostaAtividade = _$RespostaAtividadeTearOff();
 mixin _$RespostaAtividade {
   String get id => throw _privateConstructorUsedError;
   String get idAtividade => throw _privateConstructorUsedError;
+  @DateTimeConverter()
   DateTime get respondidoEm => throw _privateConstructorUsedError;
   String get idProjeto => throw _privateConstructorUsedError;
   String? get idCurso => throw _privateConstructorUsedError;
@@ -103,20 +104,24 @@ mixin _$RespostaAtividade {
   String? get idAluno => throw _privateConstructorUsedError;
   String? get idUniversitario => throw _privateConstructorUsedError;
   bool? get encerrada => throw _privateConstructorUsedError;
-  String? get nota => throw _privateConstructorUsedError;
+  double? get nota => throw _privateConstructorUsedError;
   bool? get corrigida => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get horarioCorrecao => throw _privateConstructorUsedError;
   String? get idPerfilCorrecao => throw _privateConstructorUsedError;
-  CorrecaoDissertativa? get correcaoQuestao =>
+  List<CorrecaoDissertativa>? get correcaoQuestao =>
       throw _privateConstructorUsedError;
   EstadoRevisao? get revisao => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get revisaoRequisitadaEm => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get revisaoAtendidaEm => throw _privateConstructorUsedError;
   CorrecaoDissertativa? get revisaoQuestoes =>
       throw _privateConstructorUsedError;
   double? get notaRevisao => throw _privateConstructorUsedError;
   double? get notaAnteriorRevisao => throw _privateConstructorUsedError;
   bool? get avaliada => throw _privateConstructorUsedError;
+  @NullableDateTimeConverter()
   DateTime? get avaliadaEm => throw _privateConstructorUsedError;
   String? get avaliadaPor => throw _privateConstructorUsedError;
   List<RespostaAtividadeAvaliacaoBanco>? get avaliacaoQuestoes =>
@@ -137,7 +142,7 @@ abstract class $RespostaAtividadeCopyWith<$Res> {
   $Res call(
       {String id,
       String idAtividade,
-      DateTime respondidoEm,
+      @DateTimeConverter() DateTime respondidoEm,
       String idProjeto,
       String? idCurso,
       String? idMateria,
@@ -146,24 +151,23 @@ abstract class $RespostaAtividadeCopyWith<$Res> {
       String? idAluno,
       String? idUniversitario,
       bool? encerrada,
-      String? nota,
+      double? nota,
       bool? corrigida,
-      DateTime? horarioCorrecao,
+      @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
-      CorrecaoDissertativa? correcaoQuestao,
+      List<CorrecaoDissertativa>? correcaoQuestao,
       EstadoRevisao? revisao,
-      DateTime? revisaoRequisitadaEm,
-      DateTime? revisaoAtendidaEm,
+      @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+      @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
       CorrecaoDissertativa? revisaoQuestoes,
       double? notaRevisao,
       double? notaAnteriorRevisao,
       bool? avaliada,
-      DateTime? avaliadaEm,
+      @NullableDateTimeConverter() DateTime? avaliadaEm,
       String? avaliadaPor,
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario});
 
-  $CorrecaoDissertativaCopyWith<$Res>? get correcaoQuestao;
   $CorrecaoDissertativaCopyWith<$Res>? get revisaoQuestoes;
 }
 
@@ -254,7 +258,7 @@ class _$RespostaAtividadeCopyWithImpl<$Res>
       nota: nota == freezed
           ? _value.nota
           : nota // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       corrigida: corrigida == freezed
           ? _value.corrigida
           : corrigida // ignore: cast_nullable_to_non_nullable
@@ -270,7 +274,7 @@ class _$RespostaAtividadeCopyWithImpl<$Res>
       correcaoQuestao: correcaoQuestao == freezed
           ? _value.correcaoQuestao
           : correcaoQuestao // ignore: cast_nullable_to_non_nullable
-              as CorrecaoDissertativa?,
+              as List<CorrecaoDissertativa>?,
       revisao: revisao == freezed
           ? _value.revisao
           : revisao // ignore: cast_nullable_to_non_nullable
@@ -319,18 +323,6 @@ class _$RespostaAtividadeCopyWithImpl<$Res>
   }
 
   @override
-  $CorrecaoDissertativaCopyWith<$Res>? get correcaoQuestao {
-    if (_value.correcaoQuestao == null) {
-      return null;
-    }
-
-    return $CorrecaoDissertativaCopyWith<$Res>(_value.correcaoQuestao!,
-        (value) {
-      return _then(_value.copyWith(correcaoQuestao: value));
-    });
-  }
-
-  @override
   $CorrecaoDissertativaCopyWith<$Res>? get revisaoQuestoes {
     if (_value.revisaoQuestoes == null) {
       return null;
@@ -353,7 +345,7 @@ abstract class _$RespostaAtividadeCopyWith<$Res>
   $Res call(
       {String id,
       String idAtividade,
-      DateTime respondidoEm,
+      @DateTimeConverter() DateTime respondidoEm,
       String idProjeto,
       String? idCurso,
       String? idMateria,
@@ -362,25 +354,23 @@ abstract class _$RespostaAtividadeCopyWith<$Res>
       String? idAluno,
       String? idUniversitario,
       bool? encerrada,
-      String? nota,
+      double? nota,
       bool? corrigida,
-      DateTime? horarioCorrecao,
+      @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
-      CorrecaoDissertativa? correcaoQuestao,
+      List<CorrecaoDissertativa>? correcaoQuestao,
       EstadoRevisao? revisao,
-      DateTime? revisaoRequisitadaEm,
-      DateTime? revisaoAtendidaEm,
+      @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+      @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
       CorrecaoDissertativa? revisaoQuestoes,
       double? notaRevisao,
       double? notaAnteriorRevisao,
       bool? avaliada,
-      DateTime? avaliadaEm,
+      @NullableDateTimeConverter() DateTime? avaliadaEm,
       String? avaliadaPor,
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario});
 
-  @override
-  $CorrecaoDissertativaCopyWith<$Res>? get correcaoQuestao;
   @override
   $CorrecaoDissertativaCopyWith<$Res>? get revisaoQuestoes;
 }
@@ -474,7 +464,7 @@ class __$RespostaAtividadeCopyWithImpl<$Res>
       nota == freezed
           ? _value.nota
           : nota // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       corrigida == freezed
           ? _value.corrigida
           : corrigida // ignore: cast_nullable_to_non_nullable
@@ -490,7 +480,7 @@ class __$RespostaAtividadeCopyWithImpl<$Res>
       correcaoQuestao == freezed
           ? _value.correcaoQuestao
           : correcaoQuestao // ignore: cast_nullable_to_non_nullable
-              as CorrecaoDissertativa?,
+              as List<CorrecaoDissertativa>?,
       revisao == freezed
           ? _value.revisao
           : revisao // ignore: cast_nullable_to_non_nullable
@@ -540,12 +530,13 @@ class __$RespostaAtividadeCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividade implements _RespostaAtividade {
   const _$_RespostaAtividade(
       this.id,
       this.idAtividade,
-      this.respondidoEm,
+      @DateTimeConverter() this.respondidoEm,
       this.idProjeto,
       this.idCurso,
       this.idMateria,
@@ -556,17 +547,17 @@ class _$_RespostaAtividade implements _RespostaAtividade {
       this.encerrada,
       this.nota,
       this.corrigida,
-      this.horarioCorrecao,
+      @NullableDateTimeConverter() this.horarioCorrecao,
       this.idPerfilCorrecao,
       this.correcaoQuestao,
       this.revisao,
-      this.revisaoRequisitadaEm,
-      this.revisaoAtendidaEm,
+      @NullableDateTimeConverter() this.revisaoRequisitadaEm,
+      @NullableDateTimeConverter() this.revisaoAtendidaEm,
       this.revisaoQuestoes,
       this.notaRevisao,
       this.notaAnteriorRevisao,
       this.avaliada,
-      this.avaliadaEm,
+      @NullableDateTimeConverter() this.avaliadaEm,
       this.avaliadaPor,
       this.avaliacaoQuestoes,
       this.comentario);
@@ -579,6 +570,7 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final String idAtividade;
   @override
+  @DateTimeConverter()
   final DateTime respondidoEm;
   @override
   final String idProjeto;
@@ -597,20 +589,23 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final bool? encerrada;
   @override
-  final String? nota;
+  final double? nota;
   @override
   final bool? corrigida;
   @override
+  @NullableDateTimeConverter()
   final DateTime? horarioCorrecao;
   @override
   final String? idPerfilCorrecao;
   @override
-  final CorrecaoDissertativa? correcaoQuestao;
+  final List<CorrecaoDissertativa>? correcaoQuestao;
   @override
   final EstadoRevisao? revisao;
   @override
+  @NullableDateTimeConverter()
   final DateTime? revisaoRequisitadaEm;
   @override
+  @NullableDateTimeConverter()
   final DateTime? revisaoAtendidaEm;
   @override
   final CorrecaoDissertativa? revisaoQuestoes;
@@ -621,6 +616,7 @@ class _$_RespostaAtividade implements _RespostaAtividade {
   @override
   final bool? avaliada;
   @override
+  @NullableDateTimeConverter()
   final DateTime? avaliadaEm;
   @override
   final String? avaliadaPor;
@@ -730,7 +726,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   const factory _RespostaAtividade(
       String id,
       String idAtividade,
-      DateTime respondidoEm,
+      @DateTimeConverter() DateTime respondidoEm,
       String idProjeto,
       String? idCurso,
       String? idMateria,
@@ -739,19 +735,19 @@ abstract class _RespostaAtividade implements RespostaAtividade {
       String? idAluno,
       String? idUniversitario,
       bool? encerrada,
-      String? nota,
+      double? nota,
       bool? corrigida,
-      DateTime? horarioCorrecao,
+      @NullableDateTimeConverter() DateTime? horarioCorrecao,
       String? idPerfilCorrecao,
-      CorrecaoDissertativa? correcaoQuestao,
+      List<CorrecaoDissertativa>? correcaoQuestao,
       EstadoRevisao? revisao,
-      DateTime? revisaoRequisitadaEm,
-      DateTime? revisaoAtendidaEm,
+      @NullableDateTimeConverter() DateTime? revisaoRequisitadaEm,
+      @NullableDateTimeConverter() DateTime? revisaoAtendidaEm,
       CorrecaoDissertativa? revisaoQuestoes,
       double? notaRevisao,
       double? notaAnteriorRevisao,
       bool? avaliada,
-      DateTime? avaliadaEm,
+      @NullableDateTimeConverter() DateTime? avaliadaEm,
       String? avaliadaPor,
       List<RespostaAtividadeAvaliacaoBanco>? avaliacaoQuestoes,
       String? comentario) = _$_RespostaAtividade;
@@ -764,6 +760,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   String get idAtividade;
   @override
+  @DateTimeConverter()
   DateTime get respondidoEm;
   @override
   String get idProjeto;
@@ -782,20 +779,23 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   bool? get encerrada;
   @override
-  String? get nota;
+  double? get nota;
   @override
   bool? get corrigida;
   @override
+  @NullableDateTimeConverter()
   DateTime? get horarioCorrecao;
   @override
   String? get idPerfilCorrecao;
   @override
-  CorrecaoDissertativa? get correcaoQuestao;
+  List<CorrecaoDissertativa>? get correcaoQuestao;
   @override
   EstadoRevisao? get revisao;
   @override
+  @NullableDateTimeConverter()
   DateTime? get revisaoRequisitadaEm;
   @override
+  @NullableDateTimeConverter()
   DateTime? get revisaoAtendidaEm;
   @override
   CorrecaoDissertativa? get revisaoQuestoes;
@@ -806,6 +806,7 @@ abstract class _RespostaAtividade implements RespostaAtividade {
   @override
   bool? get avaliada;
   @override
+  @NullableDateTimeConverter()
   DateTime? get avaliadaEm;
   @override
   String? get avaliadaPor;
@@ -934,7 +935,8 @@ class __$RespostaAtividadeAvaliacaoBancoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividadeAvaliacaoBanco
     implements _RespostaAtividadeAvaliacaoBanco {
   const _$_RespostaAtividadeAvaliacaoBanco(this.idQuestao, this.aprovada);
@@ -1179,7 +1181,8 @@ class __$RespostaAtividadeRespostaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividadeResposta implements _RespostaAtividadeResposta {
   const _$_RespostaAtividadeResposta(this.idQuestao, this.alternativas,
       this.resposta, this.idAtividade, this.enunciado);
@@ -1382,7 +1385,8 @@ class __$RespostaAtividadeRespostaAlternativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividadeRespostaAlternativa
     implements _RespostaAtividadeRespostaAlternativa {
   const _$_RespostaAtividadeRespostaAlternativa(this.item, this.value);
@@ -1579,7 +1583,8 @@ class __$RespostaAtividadeDissertativaRespostaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_RespostaAtividadeDissertativaResposta
     implements _RespostaAtividadeDissertativaResposta {
   const _$_RespostaAtividadeDissertativaResposta(
@@ -1801,7 +1806,8 @@ class __$QuestaoBancoDeQuestoesCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_QuestaoBancoDeQuestoes implements _QuestaoBancoDeQuestoes {
   const _$_QuestaoBancoDeQuestoes(
       this.idAtividade, this.idQuestao, this.enunciado, this.alternativas);
@@ -2071,7 +2077,8 @@ class __$CorrecaoDissertativaCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_CorrecaoDissertativa implements _CorrecaoDissertativa {
   const _$_CorrecaoDissertativa(this.idQuestao, this.nota, this.status,
       this.comentarios, this.idProjeto, this.idCurso, this.idMateria);

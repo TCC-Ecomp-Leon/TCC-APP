@@ -5,6 +5,7 @@ part 'Materia.g.dart';
 
 @freezed
 abstract class Materia with _$Materia {
+  @JsonSerializable(explicitToJson: true)
   const factory Materia(
     String id,
     String? idPerfilProfessor,

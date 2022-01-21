@@ -10,8 +10,8 @@ _$_Perfil _$$_PerfilFromJson(Map<String, dynamic> json) => _$_Perfil(
       json['id'] as String,
       json['email'] as String,
       json['nome'] as String,
-      json['telefone'] as String,
-      DateTime.parse(json['entradaEm'] as String),
+      json['telefone'] as int,
+      const DateTimeConverter().fromJson(json['entradaEm'] as String),
       json['fotoPerfil'] as String,
       $enumDecode(_$RegraPerfilEnumMap, json['regra']),
       json['cpf'] as String?,
@@ -30,12 +30,12 @@ Map<String, dynamic> _$$_PerfilToJson(_$_Perfil instance) => <String, dynamic>{
       'email': instance.email,
       'nome': instance.nome,
       'telefone': instance.telefone,
-      'entradaEm': instance.entradaEm.toIso8601String(),
+      'entradaEm': const DateTimeConverter().toJson(instance.entradaEm),
       'fotoPerfil': instance.fotoPerfil,
       'regra': _$RegraPerfilEnumMap[instance.regra],
       'cpf': instance.cpf,
-      'associacoes': instance.associacoes,
-      'universitario': instance.universitario,
+      'associacoes': instance.associacoes?.toJson(),
+      'universitario': instance.universitario?.toJson(),
     };
 
 const _$RegraPerfilEnumMap = {
@@ -53,8 +53,8 @@ _$_PerfilAssociacoes _$$_PerfilAssociacoesFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_PerfilAssociacoesToJson(
         _$_PerfilAssociacoes instance) =>
     <String, dynamic>{
-      'aluno': instance.aluno,
-      'professor': instance.professor,
+      'aluno': instance.aluno.toJson(),
+      'professor': instance.professor.toJson(),
     };
 
 _$_InformacoesCurso _$$_InformacoesCursoFromJson(Map<String, dynamic> json) =>
@@ -68,7 +68,7 @@ _$_InformacoesCurso _$$_InformacoesCursoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_InformacoesCursoToJson(_$_InformacoesCurso instance) =>
     <String, dynamic>{
       'alunoParceiro': instance.alunoParceiro,
-      'cursos': instance.cursos,
+      'cursos': instance.cursos?.map((e) => e.toJson()).toList(),
     };
 
 _$_InformacoesProfessor _$$_InformacoesProfessorFromJson(
@@ -84,7 +84,8 @@ Map<String, dynamic> _$$_InformacoesProfessorToJson(
         _$_InformacoesProfessor instance) =>
     <String, dynamic>{
       'professor': instance.professor,
-      'materiasProfessor': instance.materiasProfessor,
+      'materiasProfessor':
+          instance.materiasProfessor?.map((e) => e.toJson()).toList(),
     };
 
 _$_InformacoesUniversitario _$$_InformacoesUniversitarioFromJson(
@@ -106,22 +107,23 @@ Map<String, dynamic> _$$_InformacoesUniversitarioToJson(
     <String, dynamic>{
       'universitario': instance.universitario,
       'email': instance.email,
-      'graduacao': instance.graduacao,
-      'atividadesQueColaborou': instance.atividadesQueColaborou,
+      'graduacao': instance.graduacao?.toJson(),
+      'atividadesQueColaborou':
+          instance.atividadesQueColaborou?.map((e) => e.toJson()).toList(),
     };
 
 _$_InformacoesUniversitarioGraduacao
     _$$_InformacoesUniversitarioGraduacaoFromJson(Map<String, dynamic> json) =>
         _$_InformacoesUniversitarioGraduacao(
-          DateTime.parse(json['atualizadoEm'] as String),
+          const DateTimeConverter().fromJson(json['atualizadoEm'] as String),
           CursoUniversitario.fromJson(json['curso'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$_InformacoesUniversitarioGraduacaoToJson(
         _$_InformacoesUniversitarioGraduacao instance) =>
     <String, dynamic>{
-      'atualizadoEm': instance.atualizadoEm.toIso8601String(),
-      'curso': instance.curso,
+      'atualizadoEm': const DateTimeConverter().toJson(instance.atualizadoEm),
+      'curso': instance.curso.toJson(),
     };
 
 _$_ColaboracaoAtividade _$$_ColaboracaoAtividadeFromJson(

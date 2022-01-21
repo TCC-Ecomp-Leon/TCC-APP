@@ -5,6 +5,7 @@ part 'Localizacao.g.dart';
 
 @freezed
 abstract class Localizacao with _$Localizacao {
+  @JsonSerializable(explicitToJson: true)
   const factory Localizacao(
     double lat,
     double lng,

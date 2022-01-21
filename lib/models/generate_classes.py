@@ -3,9 +3,26 @@ import os
 
 os.chdir('./lib/models')
 
+def add_date_converter(processed_input):
+    processed_output = processed_input
+    need_import = False
+    search_date = processed_input.split("DateTime ")
+    if(len(search_date)>1):
+        need_import = True
+        processed_output = "@DateTimeConverter() DateTime ".join(search_date)
+    search_nullable_date = processed_output.split("DateTime? ")
+    if(len(search_nullable_date)>1):
+        need_import = True
+        processed_output = "@NullableDateTimeConverter() DateTime? ".join(search_nullable_date)
+    if(need_import):
+        processed_output = "import 'package:tcc_app/models/core/date_time_converter.dart';\n" + processed_output
+    return processed_output
+
+
 def criador_class_freezed(class_name, fields):
     ret = '\n@freezed\n'
     ret = ret + 'abstract class '+class_name+' with _$'+class_name+' {\n'
+    ret = ret + '  @JsonSerializable(explicitToJson: true)\n'
     ret = ret + '  const factory '+class_name+'(\n    '
     ret = ret + ',\n    '.join(fields)
     ret = ret + ',\n  ) = _'+class_name+';\n'
@@ -47,7 +64,7 @@ def arquivo_freezed(nome_arquivo, classes, imports, enums):
             texto_conversor = texto_conversor + '}\n'
         conteudo = conteudo + '\n' + texto_conversor + '\n'
     with open(nome_arquivo+'.dart', 'w') as f:
-        f.write(conteudo)
+        f.write(add_date_converter(conteudo))
 
 
 parametros_localizacao = [
@@ -293,7 +310,7 @@ parametros_perfil = [
                 'String id',
                 'String email',
                 'String nome',
-                'String telefone',
+                'int telefone',
                 'DateTime entradaEm',
                 'String fotoPerfil',
                 'RegraPerfil regra',
@@ -370,6 +387,7 @@ parametros_projeto = [
                 'String id',
                 'String nome',
                 'String descricao',
+                'String email',
                 'int telefone',
                 'DateTime requisicaoEntradaEm',
                 'String imgProjeto',
@@ -377,7 +395,7 @@ parametros_projeto = [
                 'bool aprovado',
                 'String? idPerfilResponsavel',
                 'DateTime? entradaEm',
-                'List<Curso> cursos',
+                'List<Curso>? cursos',
             ], 
         ],
     ],
@@ -400,11 +418,11 @@ parametros_resposta_atividade = [
                 'String? idAluno',
                 'String? idUniversitario',
                 'bool? encerrada',
-                'String? nota',
+                'double? nota',
                 'bool? corrigida',
                 'DateTime? horarioCorrecao',
                 'String? idPerfilCorrecao',
-                'CorrecaoDissertativa? correcaoQuestao',
+                'List<CorrecaoDissertativa>? correcaoQuestao',
                 'EstadoRevisao? revisao',
                 'DateTime? revisaoRequisitadaEm',
                 'DateTime? revisaoAtendidaEm',
@@ -519,11 +537,12 @@ for parametro in parametros:
 
 index_str = ''
 for name in nomes_arquivos:
-    index_str = index_str + "import './"+name+".dart';\n"
+    index_str = index_str + "export './"+name+".dart';\n"
 
 with open('index.dart', 'w') as f:
     f.write(index_str)
 
 os.chdir('../../')
+print('going to run dart build runner')
 subprocess.Popen("dart run build_runner build --delete-conflicting-outputs", shell=True).wait()
 

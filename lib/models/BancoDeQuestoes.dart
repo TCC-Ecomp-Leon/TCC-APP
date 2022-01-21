@@ -1,3 +1,4 @@
+import 'package:tcc_app/models/core/date_time_converter.dart';
 import './RespostaAtividade.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -6,9 +7,10 @@ part 'BancoDeQuestoes.g.dart';
 
 @freezed
 abstract class BancoDeQuestoes with _$BancoDeQuestoes {
+  @JsonSerializable(explicitToJson: true)
   const factory BancoDeQuestoes(
     String id,
-    DateTime criadoEm,
+    @DateTimeConverter() DateTime criadoEm,
     String idProjeto,
     String idCurso,
     String? idMateria,

@@ -218,7 +218,8 @@ class __$EnderecoCopyWithImpl<$Res> extends _$EnderecoCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_Endereco implements _Endereco {
   const _$_Endereco(this.rua, this.numero, this.complemento, this.bairro,
       this.cidade, this.estado, this.cep, this.localizacao);

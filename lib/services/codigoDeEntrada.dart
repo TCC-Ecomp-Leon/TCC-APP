@@ -31,7 +31,7 @@ Future<CodigoEntrada?> registrarCodigoDeEntrada(
       return httpClient.request(
         Endpoints.codigoDeEntradaEndpoint,
         data: {
-          'tipo': tipo,
+          'tipo': getNumeroTipoCodigoDeEntrada(tipo),
           'idCurso': idCurso,
           'idMateria': idMateria,
         },

@@ -87,7 +87,7 @@ class _RegistroState extends State<Registro> {
                   .toList(),
               LabeledSwitch(
                   labels: const ["Usuário", "Projeto"],
-                  initialLabelIndex: projeto ? 1 : 0,
+                  index: projeto ? 1 : 0,
                   switchFunction: (index) {
                     setState(() {
                       projeto = index == 1;

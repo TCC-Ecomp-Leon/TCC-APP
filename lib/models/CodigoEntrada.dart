@@ -1,3 +1,4 @@
+import 'package:tcc_app/models/core/date_time_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'CodigoEntrada.freezed.dart';
@@ -5,12 +6,13 @@ part 'CodigoEntrada.g.dart';
 
 @freezed
 abstract class CodigoEntrada with _$CodigoEntrada {
+  @JsonSerializable(explicitToJson: true)
   const factory CodigoEntrada(
     String id,
     String idProjeto,
-    DateTime geradoEm,
+    @DateTimeConverter() DateTime geradoEm,
     bool usado,
-    DateTime? usadoEm,
+    @NullableDateTimeConverter() DateTime? usadoEm,
     String? idPerfilUsou,
     TipoCodigoDeEntrada tipo,
     String idCurso,

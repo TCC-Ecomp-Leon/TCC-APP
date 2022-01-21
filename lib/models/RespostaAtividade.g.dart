@@ -10,7 +10,7 @@ _$_RespostaAtividade _$$_RespostaAtividadeFromJson(Map<String, dynamic> json) =>
     _$_RespostaAtividade(
       json['id'] as String,
       json['idAtividade'] as String,
-      DateTime.parse(json['respondidoEm'] as String),
+      const DateTimeConverter().fromJson(json['respondidoEm'] as String),
       json['idProjeto'] as String,
       json['idCurso'] as String?,
       json['idMateria'] as String?,
@@ -22,23 +22,19 @@ _$_RespostaAtividade _$$_RespostaAtividadeFromJson(Map<String, dynamic> json) =>
       json['idAluno'] as String?,
       json['idUniversitario'] as String?,
       json['encerrada'] as bool?,
-      json['nota'] as String?,
+      (json['nota'] as num?)?.toDouble(),
       json['corrigida'] as bool?,
-      json['horarioCorrecao'] == null
-          ? null
-          : DateTime.parse(json['horarioCorrecao'] as String),
+      const NullableDateTimeConverter()
+          .fromJson(json['horarioCorrecao'] as String?),
       json['idPerfilCorrecao'] as String?,
-      json['correcaoQuestao'] == null
-          ? null
-          : CorrecaoDissertativa.fromJson(
-              json['correcaoQuestao'] as Map<String, dynamic>),
+      (json['correcaoQuestao'] as List<dynamic>?)
+          ?.map((e) => CorrecaoDissertativa.fromJson(e as Map<String, dynamic>))
+          .toList(),
       $enumDecodeNullable(_$EstadoRevisaoEnumMap, json['revisao']),
-      json['revisaoRequisitadaEm'] == null
-          ? null
-          : DateTime.parse(json['revisaoRequisitadaEm'] as String),
-      json['revisaoAtendidaEm'] == null
-          ? null
-          : DateTime.parse(json['revisaoAtendidaEm'] as String),
+      const NullableDateTimeConverter()
+          .fromJson(json['revisaoRequisitadaEm'] as String?),
+      const NullableDateTimeConverter()
+          .fromJson(json['revisaoAtendidaEm'] as String?),
       json['revisaoQuestoes'] == null
           ? null
           : CorrecaoDissertativa.fromJson(
@@ -46,9 +42,7 @@ _$_RespostaAtividade _$$_RespostaAtividadeFromJson(Map<String, dynamic> json) =>
       (json['notaRevisao'] as num?)?.toDouble(),
       (json['notaAnteriorRevisao'] as num?)?.toDouble(),
       json['avaliada'] as bool?,
-      json['avaliadaEm'] == null
-          ? null
-          : DateTime.parse(json['avaliadaEm'] as String),
+      const NullableDateTimeConverter().fromJson(json['avaliadaEm'] as String?),
       json['avaliadaPor'] as String?,
       (json['avaliacaoQuestoes'] as List<dynamic>?)
           ?.map((e) => RespostaAtividadeAvaliacaoBanco.fromJson(
@@ -62,30 +56,36 @@ Map<String, dynamic> _$$_RespostaAtividadeToJson(
     <String, dynamic>{
       'id': instance.id,
       'idAtividade': instance.idAtividade,
-      'respondidoEm': instance.respondidoEm.toIso8601String(),
+      'respondidoEm': const DateTimeConverter().toJson(instance.respondidoEm),
       'idProjeto': instance.idProjeto,
       'idCurso': instance.idCurso,
       'idMateria': instance.idMateria,
       'tipo': _$TipoAtividadeEnumMap[instance.tipo],
-      'respostas': instance.respostas,
+      'respostas': instance.respostas.map((e) => e.toJson()).toList(),
       'idAluno': instance.idAluno,
       'idUniversitario': instance.idUniversitario,
       'encerrada': instance.encerrada,
       'nota': instance.nota,
       'corrigida': instance.corrigida,
-      'horarioCorrecao': instance.horarioCorrecao?.toIso8601String(),
+      'horarioCorrecao':
+          const NullableDateTimeConverter().toJson(instance.horarioCorrecao),
       'idPerfilCorrecao': instance.idPerfilCorrecao,
-      'correcaoQuestao': instance.correcaoQuestao,
+      'correcaoQuestao':
+          instance.correcaoQuestao?.map((e) => e.toJson()).toList(),
       'revisao': _$EstadoRevisaoEnumMap[instance.revisao],
-      'revisaoRequisitadaEm': instance.revisaoRequisitadaEm?.toIso8601String(),
-      'revisaoAtendidaEm': instance.revisaoAtendidaEm?.toIso8601String(),
-      'revisaoQuestoes': instance.revisaoQuestoes,
+      'revisaoRequisitadaEm': const NullableDateTimeConverter()
+          .toJson(instance.revisaoRequisitadaEm),
+      'revisaoAtendidaEm':
+          const NullableDateTimeConverter().toJson(instance.revisaoAtendidaEm),
+      'revisaoQuestoes': instance.revisaoQuestoes?.toJson(),
       'notaRevisao': instance.notaRevisao,
       'notaAnteriorRevisao': instance.notaAnteriorRevisao,
       'avaliada': instance.avaliada,
-      'avaliadaEm': instance.avaliadaEm?.toIso8601String(),
+      'avaliadaEm':
+          const NullableDateTimeConverter().toJson(instance.avaliadaEm),
       'avaliadaPor': instance.avaliadaPor,
-      'avaliacaoQuestoes': instance.avaliacaoQuestoes,
+      'avaliacaoQuestoes':
+          instance.avaliacaoQuestoes?.map((e) => e.toJson()).toList(),
       'comentario': instance.comentario,
     };
 
@@ -135,8 +135,8 @@ Map<String, dynamic> _$$_RespostaAtividadeRespostaToJson(
         _$_RespostaAtividadeResposta instance) =>
     <String, dynamic>{
       'idQuestao': instance.idQuestao,
-      'alternativas': instance.alternativas,
-      'resposta': instance.resposta,
+      'alternativas': instance.alternativas?.map((e) => e.toJson()).toList(),
+      'resposta': instance.resposta?.toJson(),
       'idAtividade': instance.idAtividade,
       'enunciado': instance.enunciado,
     };
@@ -191,7 +191,7 @@ Map<String, dynamic> _$$_QuestaoBancoDeQuestoesToJson(
       'idAtividade': instance.idAtividade,
       'idQuestao': instance.idQuestao,
       'enunciado': instance.enunciado,
-      'alternativas': instance.alternativas,
+      'alternativas': instance.alternativas.map((e) => e.toJson()).toList(),
     };
 
 _$_CorrecaoDissertativa _$$_CorrecaoDissertativaFromJson(
