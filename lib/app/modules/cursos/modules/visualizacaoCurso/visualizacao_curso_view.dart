@@ -483,6 +483,9 @@ class VisualizacaoDetalhadaCurso extends StatelessWidget {
                   entrarModoEdicao: controller.entrarModoEdicaoCurso,
                   permissaoEditar: controller.permissaoEditar,
                   erro: controller.erro,
+                  permissaoAdicionarMateria:
+                      controller.permissaoAdicionarMateria,
+                  entrarModoAdicaoMateria: () {},
                 ),
                 const SizedBox(
                   height: 10.0,

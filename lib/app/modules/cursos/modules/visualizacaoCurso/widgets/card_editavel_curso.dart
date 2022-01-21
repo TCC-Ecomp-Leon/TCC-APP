@@ -19,9 +19,11 @@ class CardEditavelCurso extends StatelessWidget {
   OnSelectDate onSelectDataInicial;
   OnSelectDate onSelectDataFinal;
   bool permissaoEditar;
+  bool permissaoAdicionarMateria;
   ButtonActions cancelarEdicao;
   ButtonActions salvarEdicao;
   ButtonActions entrarModoEdicao;
+  ButtonActions entrarModoAdicaoMateria;
   String? erro;
 
   CardEditavelCurso({
@@ -41,6 +43,8 @@ class CardEditavelCurso extends StatelessWidget {
     required this.salvarEdicao,
     required this.entrarModoEdicao,
     required this.erro,
+    required this.permissaoAdicionarMateria,
+    required this.entrarModoAdicaoMateria,
     Key? key,
   }) : super(key: key);
 
@@ -168,21 +172,53 @@ class CardEditavelCurso extends StatelessWidget {
                           ),
                         )
                       ]
-                    : [
-                        TextButton(
-                          onPressed: () {
-                            entrarModoEdicao();
-                          },
-                          child: const Text("Editar"),
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.all(10.0),
-                            primary: Colors.white,
-                            backgroundColor: Colors.teal,
-                            onSurface: Colors.grey,
-                            textStyle: const TextStyle(fontSize: 17.0),
-                          ),
-                        )
-                      ],
+                    : !permissaoAdicionarMateria
+                        ? [
+                            TextButton(
+                              onPressed: () {
+                                entrarModoEdicao();
+                              },
+                              child: const Text("Editar"),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.all(10.0),
+                                primary: Colors.white,
+                                backgroundColor: Colors.teal,
+                                onSurface: Colors.grey,
+                                textStyle: const TextStyle(fontSize: 17.0),
+                              ),
+                            ),
+                          ]
+                        : [
+                            TextButton(
+                              onPressed: () {
+                                entrarModoEdicao();
+                              },
+                              child: const Text("Editar"),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.all(10.0),
+                                primary: Colors.white,
+                                backgroundColor: Colors.teal,
+                                onSurface: Colors.grey,
+                                textStyle: const TextStyle(fontSize: 17.0),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                entrarModoAdicaoMateria();
+                              },
+                              child: const Text("+ Matéria"),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.all(10.0),
+                                primary: Colors.white,
+                                backgroundColor: Colors.teal,
+                                onSurface: Colors.grey,
+                                textStyle: const TextStyle(fontSize: 17.0),
+                              ),
+                            ),
+                          ],
               )
             : Container(),
       ],

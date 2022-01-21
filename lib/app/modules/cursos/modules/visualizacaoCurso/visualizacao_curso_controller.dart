@@ -194,6 +194,8 @@ class VisualizacaoCursoController extends GetxController {
 
   bool get permissaoEditar =>
       loginController.projeto?.id == _curso.value.idProjeto;
+  bool get permissaoAdicionarMateria =>
+      loginController.perfil.regra == RegraPerfil.Projeto;
   Curso get curso => _curso.value;
   List<Materia> get materias => _curso.value.materias;
 
