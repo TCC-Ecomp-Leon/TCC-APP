@@ -4,6 +4,7 @@ import 'package:tcc_app/app/modules/signUp/signup_controller.dart';
 import 'package:tcc_app/widgets/circular_upload_image.dart';
 import 'package:tcc_app/widgets/labeled_switch.dart';
 import 'package:tcc_app/widgets/loading.dart';
+import 'package:tcc_app/widgets/qr_code_reader.dart';
 import 'package:tcc_app/widgets/text_field.dart';
 import 'package:tcc_app/utils/iterable.dart';
 
@@ -53,17 +54,47 @@ class SignUpView extends GetView<SignUpController> {
                           .mapIndexed(
                             (e, index) => Container(
                               padding: const EdgeInsets.only(bottom: 10.0),
-                              child: TextFieldImplementation(
-                                controller: e.controller,
-                                label: e.label,
-                                useHidden: e.useHidden,
-                                textInputType: e.textInputType,
-                                errorMessage: e.errorMessage,
-                                isHidden: !e.visible,
-                                onVisibleChanged: e.onVisibleChanged,
-                                onChange: () {
-                                  controller.validateItem(index);
-                                },
+                              child: Stack(
+                                children: [
+                                  TextFieldImplementation(
+                                    controller: e.controller,
+                                    label: e.label,
+                                    useHidden: e.useHidden,
+                                    textInputType: e.textInputType,
+                                    errorMessage: e.errorMessage,
+                                    isHidden: !e.visible,
+                                    onVisibleChanged: e.onVisibleChanged,
+                                    onChange: () {
+                                      controller.validateItem(index);
+                                    },
+                                  ),
+                                  e.cameraOption
+                                      ? Container(
+                                          height: 60.0,
+                                          padding: const EdgeInsets.only(
+                                            right: 10.0,
+                                            bottom: 2.0,
+                                          ),
+                                          alignment: Alignment.centerRight,
+                                          child: InkWell(
+                                            onTap: () {
+                                              Get.to(
+                                                () => QrCodeReader(
+                                                  onRead: (value) {
+                                                    e.controller.text = value;
+                                                  },
+                                                  readingMessage:
+                                                      "Leia o seu código do projeto",
+                                                ),
+                                              );
+                                            },
+                                            child: const Icon(
+                                              Icons.camera,
+                                            ),
+                                          ),
+                                        )
+                                      : Container()
+                                ],
                               ),
                             ),
                           )

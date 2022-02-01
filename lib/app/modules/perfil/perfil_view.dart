@@ -668,7 +668,7 @@ class _PopUpAdicaoCodigoDeEntradaState
                                 alignment: Alignment.centerRight,
                                 child: InkWell(
                                   onTap: () {
-                                    Get.off(
+                                    Get.to(
                                       () => QrCodeReader(
                                         onRead: (value) {
                                           textEditingController.text = value;

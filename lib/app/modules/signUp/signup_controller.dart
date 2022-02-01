@@ -24,6 +24,7 @@ class CampoRegistro {
   OnVisibleChanged? onVisibleChanged;
   String? errorMessage;
   ValidateFunction validateFunction;
+  bool cameraOption;
 
   CampoRegistro({
     required this.textInputType,
@@ -33,6 +34,7 @@ class CampoRegistro {
     this.errorMessage,
     this.visible = true,
     this.onVisibleChanged,
+    this.cameraOption = false,
     TextEditingController? controller,
   }) {
     if (controller != null) {
@@ -91,6 +93,7 @@ class SignUpController extends GetxController {
         label: "Código de entrada",
         textInputType: TextInputType.text,
         validateFunction: (String input) => input.isNotEmpty,
+        cameraOption: true,
       ),
     ];
     _camposProjeto = [
