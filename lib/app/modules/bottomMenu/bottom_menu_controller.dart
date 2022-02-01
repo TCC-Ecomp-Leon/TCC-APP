@@ -10,7 +10,6 @@ import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/config/constants.dart';
 import 'package:tcc_app/models/index.dart';
-import 'package:tcc_app/screens/dummy.dart';
 
 class BottomMenuInfo {
   int? tabIndex;
@@ -80,8 +79,8 @@ class BottomMenuController extends GetxController {
 
 BottomMenuInfo? readBottomMenuInfo(GetStorage box) {
   try {
-    Map<String, dynamic> read = box.read(Constants.navigationMenuBoxKey);
-    if (box != null) {
+    Map<String, dynamic>? read = box.read(Constants.navigationMenuBoxKey);
+    if (read != null) {
       return BottomMenuInfo.fromJson(read);
     }
     return null;
@@ -156,7 +155,7 @@ final List<BottomMenuPage> pages = [
     routeName: Routes.administracao,
   ),
   BottomMenuPage(
-    page: CursosView(),
+    page: const CursosView(),
     label: "Cursos",
     icon: const Icon(Icons.menu_book),
     routeName: Routes.cursos,
@@ -168,13 +167,13 @@ final List<BottomMenuPage> pages = [
     routeName: Routes.colaboracao,
   ),
   BottomMenuPage(
-    page: DuvidasView(),
+    page: const DuvidasView(),
     label: "Dúvidas",
     icon: const Icon(Icons.question_answer),
     routeName: Routes.duvidas,
   ),
   BottomMenuPage(
-    page: PerfilView(),
+    page: const PerfilView(),
     label: "Perfil",
     icon: const Icon(Icons.person),
     routeName: Routes.perfil,

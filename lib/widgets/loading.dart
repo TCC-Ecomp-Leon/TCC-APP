@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 enum LoadingType {
-  Circular,
-  Linear,
+  circular,
+  linear,
 }
 
 class Loading extends StatefulWidget {
@@ -12,7 +12,7 @@ class Loading extends StatefulWidget {
   const Loading({
     required this.color,
     required this.circleTimeSeconds,
-    this.loadingType = LoadingType.Circular,
+    this.loadingType = LoadingType.circular,
     Key? key,
   }) : super(key: key);
 
@@ -43,7 +43,7 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.loadingType == LoadingType.Linear) {
+    if (widget.loadingType == LoadingType.linear) {
       return LinearProgressIndicator(
         value: controller.value,
         color: widget.color,

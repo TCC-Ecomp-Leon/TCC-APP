@@ -5,6 +5,7 @@ import 'package:tcc_app/widgets/date_time_picker.dart';
 typedef OnSelectDate = void Function(DateTime dateTime);
 typedef ControllerActions = void Function();
 
+// ignore: must_be_immutable
 class UltimaPaginaAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
   TextEditingController nome;

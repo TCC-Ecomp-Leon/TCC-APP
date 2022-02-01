@@ -1,5 +1,4 @@
 import 'package:card_swiper/card_swiper.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class CarouselIndicator extends StatefulWidget {
@@ -14,8 +13,8 @@ class CarouselIndicator extends StatefulWidget {
 }
 
 class _CarouselIndicatorState extends State<CarouselIndicator> {
-  int _current = 0;
-  final CarouselController _controller = CarouselController();
+  // final int _current = 0;
+  // final CarouselController _controller = CarouselController();
 
   @override
   Widget build(BuildContext context) {

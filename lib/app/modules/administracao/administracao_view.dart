@@ -17,6 +17,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class AdministracaoView extends GetView<AdministracaoController> {
+  AdministracaoView({Key? key}) : super(key: key);
+
   final LoginController loginController = Get.find<LoginController>();
   @override
   Widget build(BuildContext context) {
@@ -579,7 +581,7 @@ typedef OnFocusFunction = void Function();
 class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
   final AdministracaoController controller;
   final RefreshController refreshControllerCodigosDeEntrada;
-  PopUpCriacaoCodigoDeEntrada({
+  const PopUpCriacaoCodigoDeEntrada({
     required this.controller,
     required this.refreshControllerCodigosDeEntrada,
     Key? key,
@@ -685,8 +687,6 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
     );
   }
 
-  final ScrollController _scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -696,7 +696,7 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.9,
         child: Obx(
           () => controller.estadoAdicaoCodigo ==
-                  EstadoAdicaoCodigoDeEntrada.Carregando
+                  EstadoAdicaoCodigoDeEntrada.carregando
               ? Container(
                   alignment: Alignment.center,
                   height: 100.0,
@@ -706,7 +706,7 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
                   ),
                 )
               : controller.estadoAdicaoCodigo ==
-                      EstadoAdicaoCodigoDeEntrada.Adicionado
+                      EstadoAdicaoCodigoDeEntrada.adicionado
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -855,11 +855,13 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
   final CodigoEntrada codigoEntrada;
   final loginController = Get.find<LoginController>();
   Curso? curso;
   Materia? materia;
+
   PopUpVisualizarCodigoDeEntrada({required this.codigoEntrada, Key? key})
       : super(key: key) {
     Projeto projeto = loginController.authInfo.projeto!;
@@ -869,12 +871,14 @@ class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
         curso = projeto.cursos!
             .firstWhere((element) => element.id == codigoEntrada.idCurso);
       }
+      // ignore: empty_catches
     } catch (e) {}
 
     if (codigoEntrada.idMateria != null && curso != null) {
       try {
         materia = curso!.materias
             .firstWhere((element) => element.id == codigoEntrada.idMateria);
+        // ignore: empty_catches
       } catch (e) {}
     }
   }

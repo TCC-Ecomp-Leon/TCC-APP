@@ -36,6 +36,7 @@ class DuvidasController extends BottomMenuController {
     }
   }
 
+  // ignore: invalid_use_of_protected_member
   List<Duvida> get duvidas => _duvidas.value.map((e) => e as Duvida).toList();
   bool get carregandoDuvidas => _carregando.value;
 

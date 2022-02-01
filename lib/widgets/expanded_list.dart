@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 typedef ExpandedLabelTitle = Widget Function(bool expanded);
 typedef RenderList = Widget Function(bool expanded);
 
+// ignore: must_be_immutable
 class ExpandedList extends StatefulWidget {
   bool expanded;
   ExpandedLabelTitle labelTitle;

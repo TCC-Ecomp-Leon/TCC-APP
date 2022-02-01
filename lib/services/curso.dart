@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:tcc_app/models/Curso.dart';
 import 'package:tcc_app/models/Materia.dart';
 import 'package:tcc_app/services/Endpoints.dart';
 

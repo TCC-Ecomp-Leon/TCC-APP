@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_controller.dart';
 
+// ignore: must_be_immutable
 class BottomMenuView<T extends BottomMenuController> extends StatelessWidget {
   Widget child;
   T controller;

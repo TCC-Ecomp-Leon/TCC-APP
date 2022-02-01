@@ -5,6 +5,8 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/text_field.dart';
 
 class LoginView extends GetView<LoginController> {
+  const LoginView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

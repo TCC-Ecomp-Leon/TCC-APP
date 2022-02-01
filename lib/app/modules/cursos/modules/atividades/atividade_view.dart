@@ -10,6 +10,8 @@ import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/loading.dart';
 
 class AtividadeView extends GetView<AtividadeController> {
+  const AtividadeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +45,7 @@ class AtividadeView extends GetView<AtividadeController> {
                       indiceMateriaSelecionada:
                           controller.indiceMateriaSelecionada,
                       editando: controller.tipoUsoController ==
-                          TipoUsoControllerAtividades.Criando,
+                          TipoUsoControllerAtividades.criando,
                       aberturaRespostas: controller.aberturaRespostas,
                       onSelectAberturaRespostas:
                           controller.alterarAberturaRespostas,
@@ -68,13 +70,13 @@ class AtividadeView extends GetView<AtividadeController> {
                                 controller.setarImagemResposta(index, imagem),
                             selecionarAlternativa: (selectIndex) {
                               if (controller.tipoUsoController ==
-                                  TipoUsoControllerAtividades.Criando) {
+                                  TipoUsoControllerAtividades.criando) {
                                 controller.alterarAlternativaCorreta(
                                   index,
                                   selectIndex,
                                 );
                               } else if (controller.tipoUsoController ==
-                                  TipoUsoControllerAtividades.Respondendo) {
+                                  TipoUsoControllerAtividades.respondendo) {
                                 controller.selecionarRepostaAlternativa(
                                   index,
                                   selectIndex,
@@ -89,14 +91,14 @@ class AtividadeView extends GetView<AtividadeController> {
                             indiceQuestao: index,
                             quantidadeQuestoes: controller.questoes.length,
                             edicao: controller.tipoUsoController ==
-                                    TipoUsoControllerAtividades.Criando ||
+                                    TipoUsoControllerAtividades.criando ||
                                 (controller.tipoUsoController ==
                                         TipoUsoControllerAtividades
-                                            .Respondendo &&
+                                            .respondendo &&
                                     controller.tipoAtividade ==
                                         TipoAtividade.BancoDeQuestoes),
                             visualizarCorreta: controller.tipoUsoController ==
-                                TipoUsoControllerAtividades.Visualizando,
+                                TipoUsoControllerAtividades.visualizando,
                             adicionarAlternativa: () =>
                                 controller.adicionarAlternativa(index),
                             removerAlternativa: (indexAlternativa) => controller
@@ -116,14 +118,14 @@ class AtividadeView extends GetView<AtividadeController> {
                       nome: controller.nome,
                       tipoAtividade: controller.tipoAtividade,
                       editando: controller.tipoUsoController ==
-                          TipoUsoControllerAtividades.Criando,
+                          TipoUsoControllerAtividades.criando,
                       aberturaRespostas: controller.aberturaRespostas,
                       fechamentoRespostas: controller.fechamentoRespostas,
                       fechamentoCorrecoes: controller.fechamentoCorrecoes,
                       quantideDeQuestoes: controller.questoes.length,
                       erroMessage: controller.erro,
                       respondendo: controller.tipoUsoController ==
-                          TipoUsoControllerAtividades.Respondendo,
+                          TipoUsoControllerAtividades.respondendo,
                       entregarAtividade: controller.entregarAtividade,
                       sair: () => Get.back(),
                     ),

@@ -9,6 +9,8 @@ typedef OnChangeDropDown = void Function(int index);
 typedef OnFocusFunction = void Function();
 
 class CriacaoDuvidaView extends GetView<CriacaoDuvidaController> {
+  const CriacaoDuvidaView({Key? key}) : super(key: key);
+
   Widget buildTextField(
       TextEditingController textEditingController, String hintText,
       {int maxLines = 1, OnFocusFunction? onFocusFunction}) {

@@ -5,15 +5,18 @@ import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/colaboracao/colaboracao_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/index.dart';
-import 'package:tcc_app/screens/dummy.dart';
+import 'package:tcc_app/widgets/dummy.dart';
 import 'package:tcc_app/widgets/carousel_indicator.dart';
 import 'package:tcc_app/widgets/icon_label_description_card.dart';
 import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class ColaboracaoView extends GetView<ColaboracaoController> {
-  RefreshController refreshControllerCursos = RefreshController();
-  RefreshController refreshControllerColaboracoesFeiras = RefreshController();
+  final RefreshController refreshControllerCursos = RefreshController();
+  final RefreshController refreshControllerColaboracoesFeiras =
+      RefreshController();
+
+  ColaboracaoView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

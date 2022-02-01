@@ -215,29 +215,29 @@ class VisualizacaoCursoController extends GetxController {
       _atividades.map((element) => element as Atividade).toList();
 
   final Rx<TipoAtividadeVisualizando> _tipoAtividadeVisualizando =
-      TipoAtividadeVisualizando.Abertas.obs;
+      TipoAtividadeVisualizando.abertas.obs;
 
   visualizarAbertas(RefreshController refreshController) {
-    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Abertas;
+    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.abertas;
     carregarAtividades();
   }
 
   visualizarFechadas(RefreshController refreshController) {
-    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Fechadas;
+    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.fechadas;
     carregarAtividades();
   }
 
   visualizarTodas(RefreshController refreshController) {
-    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Todas;
+    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.todas;
     carregarAtividades();
   }
 
   bool get visualizandoAbertas =>
-      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Abertas;
+      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.abertas;
   bool get visualizandoFechadas =>
-      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Fechadas;
+      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.fechadas;
   bool get visualizandoTodas =>
-      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Todas;
+      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.todas;
 
   bool get permissaoCriarAtividade => permissaoEditar;
 
@@ -272,7 +272,7 @@ class VisualizacaoCursoController extends GetxController {
 }
 
 enum TipoAtividadeVisualizando {
-  Abertas,
-  Fechadas,
-  Todas,
+  abertas,
+  fechadas,
+  todas,
 }

@@ -4,7 +4,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/atividade_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/widgets/card_editavel_curso.dart';
-import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/widgets/card_informacoes_curso.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/utils/formatacoes.dart';
@@ -22,6 +21,8 @@ typedef OnChangeTextField = void Function();
 //    1 - Nome do curso e listagem de atividades (botão +)
 //    2 - Informações adicionais do curso e listagem de matérias (botão +)
 class VisualizacaoCursoView extends GetView<VisualizacaoCursoController> {
+  const VisualizacaoCursoView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return CarouselIndicator(
@@ -51,7 +52,7 @@ class VisualizacaoGeralCurso extends StatelessWidget {
       onTap: () async {
         await Get.toNamed(Routes.atividade, arguments: {
           'curso': controller.curso,
-          'uso': TipoUsoControllerAtividades.Criando,
+          'uso': TipoUsoControllerAtividades.criando,
         });
         controller.carregarAtividades(pullRefresh: true);
       },
@@ -136,7 +137,7 @@ class VisualizacaoGeralCurso extends StatelessWidget {
           if (!atividadeFechada && quantidadeRespostas == 0) {
             await Get.toNamed(Routes.atividade, arguments: {
               'curso': controller.curso,
-              'uso': TipoUsoControllerAtividades.Respondendo,
+              'uso': TipoUsoControllerAtividades.respondendo,
               'atividade': atividade,
             });
           } else {
@@ -148,7 +149,7 @@ class VisualizacaoGeralCurso extends StatelessWidget {
               await Get.toNamed(Routes.atividade, arguments: {
                 'curso': controller.curso,
                 'tipo': atividade.tipoAtividade,
-                'uso': TipoUsoControllerAtividades.Visualizando,
+                'uso': TipoUsoControllerAtividades.visualizando,
                 'atividade': atividade,
                 'resposta': respostas[0],
               });

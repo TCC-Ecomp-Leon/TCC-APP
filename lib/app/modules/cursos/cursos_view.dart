@@ -10,6 +10,8 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class CursosView extends GetView<CursosController> {
+  const CursosView({Key? key}) : super(key: key);
+
   Widget buildCriarCurso(
     BuildContext context,
     RefreshController refreshController,

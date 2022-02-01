@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/signUp/signup_controller.dart';
-import 'package:tcc_app/widgets/card_overlap_image.dart';
 import 'package:tcc_app/widgets/circular_upload_image.dart';
 import 'package:tcc_app/widgets/labeled_switch.dart';
 import 'package:tcc_app/widgets/loading.dart';
@@ -9,6 +8,8 @@ import 'package:tcc_app/widgets/text_field.dart';
 import 'package:tcc_app/utils/iterable.dart';
 
 class SignUpView extends GetView<SignUpController> {
+  const SignUpView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +71,7 @@ class SignUpView extends GetView<SignUpController> {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      controller.tipoRegistro == TipoRegistro.Projeto
+                      controller.tipoRegistro == TipoRegistro.projeto
                           ? Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: CircularUploadImage(
@@ -100,9 +101,9 @@ class SignUpView extends GetView<SignUpController> {
 }
 
 enum TipoRegistro {
-  Aluno,
-  Projeto,
-  Universitario,
+  aluno,
+  projeto,
+  universitario,
 }
 
 const List<String> tipoRegistros = ["Aluno", "Projeto", "Universitario"];
@@ -110,23 +111,23 @@ const List<String> tipoRegistros = ["Aluno", "Projeto", "Universitario"];
 TipoRegistro getRegistroFromIndex(int index) {
   switch (index) {
     case 0:
-      return TipoRegistro.Aluno;
+      return TipoRegistro.aluno;
     case 1:
-      return TipoRegistro.Projeto;
+      return TipoRegistro.projeto;
     case 2:
-      return TipoRegistro.Universitario;
+      return TipoRegistro.universitario;
     default:
-      return TipoRegistro.Aluno;
+      return TipoRegistro.aluno;
   }
 }
 
 int getIndexTipoRegistro(TipoRegistro tipoRegistro) {
   switch (tipoRegistro) {
-    case TipoRegistro.Aluno:
+    case TipoRegistro.aluno:
       return 0;
-    case TipoRegistro.Projeto:
+    case TipoRegistro.projeto:
       return 1;
-    case TipoRegistro.Universitario:
+    case TipoRegistro.universitario:
       return 2;
     default:
       return 0;

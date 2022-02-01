@@ -31,8 +31,8 @@ get _dioOptions => BaseOptions(
 
 Dio get httpClient => Dio(_dioOptions);
 
-typedef Future<Response<dynamic>> RequestFunction();
-typedef T? ProcessFunction<T>(Response<dynamic> response);
+typedef RequestFunction = Future<Response<dynamic>> Function();
+typedef ProcessFunction<T> = T? Function(Response<dynamic> response);
 
 Future<T?> executeRequest<T>(
   RequestFunction requestFunction,

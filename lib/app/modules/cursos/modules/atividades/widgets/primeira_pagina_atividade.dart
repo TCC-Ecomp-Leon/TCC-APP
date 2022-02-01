@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tcc_app/models/index.dart';
-import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/date_time_picker.dart';
 import 'package:tcc_app/widgets/dropdown.dart';
 
@@ -8,6 +7,7 @@ typedef OnSelectDate = void Function(DateTime dateTime);
 typedef OnChangeDropDown = void Function(int index);
 typedef OnChangeTipoAtividade = void Function(TipoAtividade tipoAtividade);
 
+// ignore: must_be_immutable
 class PrimeiraPaginaAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
   TextEditingController nome;

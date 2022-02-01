@@ -14,6 +14,7 @@ typedef ControllerIndexedActions = void Function(int indexAlternativa);
 typedef ControllerTextActions = void Function(String value);
 typedef ControllerDoubleValueActions = void Function(double value);
 
+// ignore: must_be_immutable
 class QuestaoAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
   InformacoesQuestoes questao;

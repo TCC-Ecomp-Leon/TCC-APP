@@ -13,10 +13,10 @@ import 'package:tcc_app/services/projeto.dart';
 import 'package:tcc_app/utils/conversions.dart';
 
 enum EstadoAdicaoCodigoEntrada {
-  Nenhum,
-  Carregando,
-  Adicionado,
-  Erro,
+  nenhum,
+  carregando,
+  adicionado,
+  erro,
 }
 
 class PerfilController extends BottomMenuController {
@@ -36,7 +36,7 @@ class PerfilController extends BottomMenuController {
   final Rx<bool> _edicaoUniversitario = false.obs;
 
   final Rx<EstadoAdicaoCodigoEntrada> _estadoAdicaoCodigoEntrada =
-      EstadoAdicaoCodigoEntrada.Nenhum.obs;
+      EstadoAdicaoCodigoEntrada.nenhum.obs;
 
   Future<void> _searchCep(String cep) async {
     ViaCepInfo? result = await pesquisaCep(cep);
@@ -150,6 +150,7 @@ class PerfilController extends BottomMenuController {
   }
 
   onChangeCampoProjeto(int index) {
+    // ignore: invalid_use_of_protected_member
     CampoRegistro campoRegistro = _camposProjeto.value[index];
     bool valido = campoRegistro.errorMessage == null;
     if (!campoRegistro.validateFunction(campoRegistro.controller.text)) {
@@ -158,6 +159,7 @@ class PerfilController extends BottomMenuController {
     } else if (!valido) {
       campoRegistro.errorMessage = null;
     }
+    // ignore: invalid_use_of_protected_member
     _camposProjeto.value[index] = campoRegistro;
     _camposProjeto.refresh();
   }
@@ -331,6 +333,7 @@ class PerfilController extends BottomMenuController {
   }
 
   bool validarCamposEdicaoProjeto() {
+    // ignore: invalid_use_of_protected_member
     for (int i = 0; i < _camposProjeto.value.length; i++) {
       onChangeCampoProjeto(i);
       final CampoRegistro campoRegistro = _camposProjeto[i] as CampoRegistro;
@@ -400,17 +403,17 @@ class PerfilController extends BottomMenuController {
   }
 
   inicioInsercaoCodigoEntrada() {
-    _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Nenhum;
+    _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.nenhum;
   }
 
   adicionarCodigoDeEntrada(String codigo) async {
-    _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Carregando;
+    _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.carregando;
 
     bool? result = await usarCodigoDeEntrada(codigo);
     if (result != null && result) {
-      _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Adicionado;
+      _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.adicionado;
     } else {
-      _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.Erro;
+      _estadoAdicaoCodigoEntrada.value = EstadoAdicaoCodigoEntrada.erro;
     }
 
     loginController.recarregarPerfil();
@@ -442,6 +445,7 @@ class PerfilController extends BottomMenuController {
 
   Projeto? get projeto => loginController.authInfo.projeto;
   List<CampoRegistro> get camposProjeto =>
+      // ignore: invalid_use_of_protected_member
       _camposProjeto.value.map((e) => e as CampoRegistro).toList();
   bool get salvandoEdicaoProjeto => _salvandoEdicaoProjeto.value;
 

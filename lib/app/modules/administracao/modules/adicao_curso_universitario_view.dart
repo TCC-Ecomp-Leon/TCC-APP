@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:tcc_app/app/modules/administracao/modules/adicao_curso_universitario_controller.dart';
@@ -12,6 +11,8 @@ typedef OnChangeTextField = void Function();
 
 class AdicaoCursoUniversitarioView
     extends GetView<AdicaoCursoUniversitarioController> {
+  const AdicaoCursoUniversitarioView({Key? key}) : super(key: key);
+
   Widget buildTextField(
     TextEditingController textEditingController,
     String hintText, {

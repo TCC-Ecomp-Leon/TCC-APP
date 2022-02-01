@@ -13,6 +13,8 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/qr_code_reader.dart';
 
 class PerfilView extends GetView<PerfilController> {
+  const PerfilView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BottomMenuView(
@@ -612,19 +614,19 @@ class _PopUpAdicaoCodigoDeEntradaState
         height: 150.0,
         width: MediaQuery.of(context).size.width * 0.9,
         child: Obx(() => widget.controller.estadoAdicaoCodigoEntrada ==
-                EstadoAdicaoCodigoEntrada.Carregando
+                EstadoAdicaoCodigoEntrada.carregando
             ? Container(
                 alignment: Alignment.center,
                 height: 100.0,
                 child: const Loading(color: Colors.white, circleTimeSeconds: 2),
               )
             : widget.controller.estadoAdicaoCodigoEntrada ==
-                    EstadoAdicaoCodigoEntrada.Adicionado
+                    EstadoAdicaoCodigoEntrada.adicionado
                 ? const Center(
                     child: Text("Código adicionado com sucesso"),
                   )
                 : widget.controller.estadoAdicaoCodigoEntrada ==
-                        EstadoAdicaoCodigoEntrada.Erro
+                        EstadoAdicaoCodigoEntrada.erro
                     ? const Center(
                         child: Text(
                             "Erro ao adicionar o código. Talvez ele já tenha sido usado, contate seu projeto."),

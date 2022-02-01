@@ -20,7 +20,7 @@ class AtividadeController extends GetxController {
     if (args.keys.contains('tipo')) {
       tipoAtividade = args['tipo'] as TipoAtividade;
     }
-    tipoUsoController = TipoUsoControllerAtividades.Criando;
+    tipoUsoController = TipoUsoControllerAtividades.criando;
     if (args.keys.contains('uso')) {
       tipoUsoController = args['uso'] as TipoUsoControllerAtividades;
     }
@@ -37,7 +37,7 @@ class AtividadeController extends GetxController {
       if (args.keys.contains('resposta')) {
         resposta = args['resposta'] as RespostaAtividade;
       }
-      if (tipoUsoController == TipoUsoControllerAtividades.Visualizando) {
+      if (tipoUsoController == TipoUsoControllerAtividades.visualizando) {
         _informacoesAtividade =
             InformacoesAtividade.fromResposta(atividade!, resposta!).obs;
       } else {
@@ -406,9 +406,9 @@ class AtividadeController extends GetxController {
 }
 
 enum TipoUsoControllerAtividades {
-  Criando,
-  Visualizando,
-  Respondendo,
+  criando,
+  visualizando,
+  respondendo,
 }
 
 class InformacoesAtividade {
@@ -556,13 +556,13 @@ class InformacoesAtividade {
         questoes = [];
       } else {
         if (tipoAtividade == TipoAtividade.Dissertativa) {
-          questoes.forEach((element) {
+          for (var element in questoes) {
             element.alternativa = false;
-          });
+          }
         } else {
-          questoes.forEach((element) {
+          for (var element in questoes) {
             element.alternativa = true;
-          });
+          }
           if (questoes.isEmpty) {
             questoes.add(InformacoesQuestoes.alternativa());
           }

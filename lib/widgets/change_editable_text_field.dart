@@ -3,6 +3,7 @@ import 'package:tcc_app/widgets/text_field.dart';
 
 typedef OnChange = void Function();
 
+// ignore: must_be_immutable
 class ChangeEditableTextField extends StatelessWidget {
   String label;
   bool editable;

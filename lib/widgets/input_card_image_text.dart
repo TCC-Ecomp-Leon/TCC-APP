@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tcc_app/utils/base64_image.dart';
 import 'package:tcc_app/widgets/full_screen_image.dart';
