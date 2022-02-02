@@ -251,4 +251,27 @@ class AdministracaoController extends BottomMenuController {
       _carregandoCursosUniversitarios.value;
   List<CursoUniversitario> get cursosUniversitarios =>
       collectionsController.cursosUniversitarios;
+
+  final Rx<bool> _carregandoPerfil = false.obs;
+  bool get carregandoPerfil => _carregandoPerfil.value;
+  late Rx<Perfil?> _perfilCarregado;
+
+  Perfil? get perfilCarregado => _perfilCarregado.value;
+
+  Future<void> obterPerfil(String? idPerfil) async {
+    if (idPerfil == null) {
+      _perfilCarregado = null.obs;
+    } else {
+      _carregandoPerfil.value = true;
+
+      await collectionsController.carregarUsuario(idPerfil, false);
+
+      UsuarioItem? carregado =
+          collectionsController.usuariosCarregados.getItem(idPerfil);
+
+      _perfilCarregado = (carregado?.usuario).obs;
+
+      _carregandoPerfil.value = false;
+    }
+  }
 }
