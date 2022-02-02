@@ -251,7 +251,7 @@ class PerfilController extends BottomMenuController {
 
   cancelarEdicao() {
     inicializarCamposEdicaoPerfil();
-    _modoEdicaoProjeto.value = false;
+    _modoEdicao.value = false;
   }
 
   cancelarEdicaoProjeto() {
