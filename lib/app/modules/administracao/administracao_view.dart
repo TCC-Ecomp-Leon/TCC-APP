@@ -659,8 +659,7 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
           height: 10.0,
         ),
         Padding(
-          padding: const EdgeInsets.only(
-              left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
+          padding: const EdgeInsets.only(top: 2.0, bottom: 2.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: Container(
@@ -668,10 +667,10 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
               child: Container(
                 alignment: Alignment.centerRight,
                 // width: 200.0,
-                padding: const EdgeInsets.only(
-                  right: 8.0,
-                  left: 8.0,
-                ),
+                // padding: const EdgeInsets.only(
+                //   right: 8.0,
+                //   left: 8.0,
+                // ),
                 child: DropDown<String>(
                   alignment: Alignment.centerRight,
                   selectedIndex: selectedIndex + 1,
