@@ -141,7 +141,7 @@ enum TipoRegistro {
   universitario,
 }
 
-const List<String> tipoRegistros = ["Aluno", "Projeto", "Universitario"];
+const List<String> tipoRegistros = ["Geral", "Projeto", "Universitario"];
 
 TipoRegistro getRegistroFromIndex(int index) {
   switch (index) {
