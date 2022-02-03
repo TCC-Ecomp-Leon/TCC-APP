@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/modules/adicao_materia_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
+import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/atividade.dart';
 import 'package:tcc_app/services/curso.dart';
@@ -187,6 +189,11 @@ class VisualizacaoCursoController extends GetxController {
   sairModoEdicaoCurso() {
     _editandoCurso.value = false;
     inicializarVariaveisCurso(curso);
+  }
+
+  chamarPaginaAdicaoMateria() async {
+    await Get.toNamed(Routes.adicaoMateria, arguments: curso);
+    recarregarCurso();
   }
 
   final Rx<bool> _editandoCurso = false.obs;

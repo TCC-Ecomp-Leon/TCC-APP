@@ -71,3 +71,26 @@ Future<bool?> atualizarCurso(
     },
   );
 }
+
+Future<bool?> adicionarMateria(
+  String idProjeto,
+  String idCurso,
+  String nome,
+  String descricao,
+) {
+  return executeRequest(
+    () {
+      return httpClient.request(
+        Endpoints.cursoEndpoint + "/" + idProjeto + "/" + idCurso + "/materia",
+        data: {
+          'nome': nome,
+          'descricao': descricao,
+        },
+        options: Options(method: 'POST'),
+      );
+    },
+    (Response<dynamic> response) {
+      return true;
+    },
+  );
+}

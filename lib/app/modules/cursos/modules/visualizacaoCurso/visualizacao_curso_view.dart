@@ -486,7 +486,9 @@ class VisualizacaoDetalhadaCurso extends StatelessWidget {
                   erro: controller.erro,
                   permissaoAdicionarMateria:
                       controller.permissaoAdicionarMateria,
-                  entrarModoAdicaoMateria: () {},
+                  entrarModoAdicaoMateria: () {
+                    controller.chamarPaginaAdicaoMateria();
+                  },
                 ),
                 const SizedBox(
                   height: 10.0,
