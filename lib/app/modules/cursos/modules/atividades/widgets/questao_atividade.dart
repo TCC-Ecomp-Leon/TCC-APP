@@ -84,7 +84,7 @@ class QuestaoAtividade extends StatelessWidget {
                   edicao ? buildActions() : Container(),
                   visible
                       ? const SizedBox(
-                          height: 140.0,
+                          height: 170.0,
                         )
                       : Container(),
                 ],
