@@ -80,11 +80,13 @@ class UltimaPaginaAtividade extends StatelessWidget {
                           "Fim da atividade",
                           fechamentoRespostas,
                         ),
-                        buildDateSelector(
-                          context,
-                          "Fim das correções",
-                          fechamentoCorrecoes,
-                        ),
+                        tipoAtividade == TipoAtividade.Dissertativa
+                            ? buildDateSelector(
+                                context,
+                                "Fim das correções",
+                                fechamentoCorrecoes,
+                              )
+                            : Container(),
                         tipoAtividade != TipoAtividade.BancoDeQuestoes
                             ? buildTextField(
                                 TextEditingController(

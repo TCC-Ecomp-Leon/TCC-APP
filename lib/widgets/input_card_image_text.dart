@@ -18,6 +18,7 @@ class InputCardImageText extends StatefulWidget {
   OnSelectImage? onSelectImage;
   bool enabled;
   OnFocusTextField? onFocusTextField;
+  final int maxLines;
 
   InputCardImageText({
     required String? input,
@@ -28,6 +29,7 @@ class InputCardImageText extends StatefulWidget {
     this.onSelectImage,
     this.enabled = true,
     this.onFocusTextField,
+    this.maxLines = 5,
     Key? key,
   }) : super(key: key) {
     selectedInputMethod = SelectedInputMethod.text;
@@ -162,7 +164,7 @@ class _InputCardImageTextState extends State<InputCardImageText> {
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                 ),
-                maxLines: 5,
+                maxLines: widget.maxLines,
                 controller: widget.textEditingController ??
                     TextEditingController(text: widget.inputValue),
               )
