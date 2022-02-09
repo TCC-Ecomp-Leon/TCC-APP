@@ -17,6 +17,7 @@ class TextFieldImplementation extends StatefulWidget {
   bool isHidden;
   final double? width;
   bool readOnly;
+  EdgeInsetsGeometry? contentPadding;
 
   TextFieldImplementation({
     required this.controller,
@@ -32,6 +33,7 @@ class TextFieldImplementation extends StatefulWidget {
     this.readOnly = false,
     this.textAlign = TextAlign.center,
     this.fillColor = Colors.black,
+    this.contentPadding,
     Key? key,
   }) : super(key: key);
 
@@ -62,6 +64,7 @@ class _TextFieldImplementationState extends State<TextFieldImplementation> {
               textAlign: widget.textAlign,
               style: const TextStyle(fontSize: 15.0),
               decoration: InputDecoration(
+                contentPadding: widget.contentPadding,
                 filled: true,
                 fillColor: widget.fillColor,
                 border: const OutlineInputBorder(),

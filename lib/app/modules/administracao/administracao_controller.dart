@@ -14,9 +14,9 @@ import 'package:tcc_app/services/projeto.dart';
 //        - Códigos de entrada
 
 enum EstadoAdicaoCodigoDeEntrada {
-  EntradaUsuario,
-  Carregando,
-  Adicionado,
+  entradaUsuario,
+  carregando,
+  adicionado,
 }
 
 class AdministracaoController extends BottomMenuController {
@@ -109,7 +109,7 @@ class AdministracaoController extends BottomMenuController {
   final RxList<dynamic> _codigosDeEntrada = [].obs;
 
   final Rx<EstadoAdicaoCodigoDeEntrada> _estadoAdicaoCodigo =
-      EstadoAdicaoCodigoDeEntrada.EntradaUsuario.obs;
+      EstadoAdicaoCodigoDeEntrada.entradaUsuario.obs;
   final Rx<bool> _codigoParaProfessor = false.obs;
   final Rx<int> _indiceCursoSelecionado = (-1).obs;
   final Rx<int> _indiceMateriaSeleciona = (-1).obs;
@@ -163,7 +163,7 @@ class AdministracaoController extends BottomMenuController {
   }
 
   entrarEmModoDeAdicaoCodigo() {
-    _estadoAdicaoCodigo.value = EstadoAdicaoCodigoDeEntrada.EntradaUsuario;
+    _estadoAdicaoCodigo.value = EstadoAdicaoCodigoDeEntrada.entradaUsuario;
     _codigoGerado.value = "";
   }
 
@@ -180,7 +180,7 @@ class AdministracaoController extends BottomMenuController {
       return;
     }
 
-    _estadoAdicaoCodigo.value = EstadoAdicaoCodigoDeEntrada.Carregando;
+    _estadoAdicaoCodigo.value = EstadoAdicaoCodigoDeEntrada.carregando;
 
     CodigoEntrada? result = await registrarCodigoDeEntrada(
       _codigoParaProfessor.value
@@ -192,10 +192,10 @@ class AdministracaoController extends BottomMenuController {
           : null,
     );
     if (result != null) {
-      _estadoAdicaoCodigo.value = EstadoAdicaoCodigoDeEntrada.Adicionado;
+      _estadoAdicaoCodigo.value = EstadoAdicaoCodigoDeEntrada.adicionado;
       _codigoGerado.value = result.id;
     } else {
-      _estadoAdicaoCodigo.value = EstadoAdicaoCodigoDeEntrada.EntradaUsuario;
+      _estadoAdicaoCodigo.value = EstadoAdicaoCodigoDeEntrada.entradaUsuario;
       _erroAdicaoCodigoDeEntrada.value =
           "Erro ao adicionar o código de entrada";
     }
@@ -211,6 +211,7 @@ class AdministracaoController extends BottomMenuController {
       : loginController.authInfo.projeto!.cursos!;
   List<Materia> get materiasCurso => _materiasCursoSelecionado();
   List<CodigoEntrada> get codigosDeEntrada =>
+      // ignore: invalid_use_of_protected_member
       _codigosDeEntrada.value.map((e) => e as CodigoEntrada).toList();
   bool get carregandoCodigosDeEntrada => _carregandoCodigosDeEntrada.value;
 
@@ -243,10 +244,34 @@ class AdministracaoController extends BottomMenuController {
 
   List<Projeto> get projetosAprovados => collectionsController.projetos;
   List<Projeto> get projetosNaoAprovados =>
+      // ignore: invalid_use_of_protected_member
       _projetosNaoAprovados.value.map((e) => e as Projeto).toList();
 
   bool get carregandoCursosUniversitarios =>
       _carregandoCursosUniversitarios.value;
   List<CursoUniversitario> get cursosUniversitarios =>
       collectionsController.cursosUniversitarios;
+
+  final Rx<bool> _carregandoPerfil = false.obs;
+  bool get carregandoPerfil => _carregandoPerfil.value;
+  late Rx<Perfil?> _perfilCarregado;
+
+  Perfil? get perfilCarregado => _perfilCarregado.value;
+
+  Future<void> obterPerfil(String? idPerfil) async {
+    if (idPerfil == null) {
+      _perfilCarregado = null.obs;
+    } else {
+      _carregandoPerfil.value = true;
+
+      await collectionsController.carregarUsuario(idPerfil, false);
+
+      UsuarioItem? carregado =
+          collectionsController.usuariosCarregados.getItem(idPerfil);
+
+      _perfilCarregado = (carregado?.usuario).obs;
+
+      _carregandoPerfil.value = false;
+    }
+  }
 }

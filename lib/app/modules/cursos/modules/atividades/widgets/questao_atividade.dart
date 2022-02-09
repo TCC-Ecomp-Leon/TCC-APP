@@ -14,6 +14,7 @@ typedef ControllerIndexedActions = void Function(int indexAlternativa);
 typedef ControllerTextActions = void Function(String value);
 typedef ControllerDoubleValueActions = void Function(double value);
 
+// ignore: must_be_immutable
 class QuestaoAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
   InformacoesQuestoes questao;
@@ -83,7 +84,7 @@ class QuestaoAtividade extends StatelessWidget {
                   edicao ? buildActions() : Container(),
                   visible
                       ? const SizedBox(
-                          height: 140.0,
+                          height: 170.0,
                         )
                       : Container(),
                 ],
@@ -337,7 +338,7 @@ class QuestaoAtividade extends StatelessWidget {
                         hintStyle: TextStyle(color: Colors.grey),
                       ),
                       style: const TextStyle(color: Colors.black),
-                      maxLines: 5,
+                      maxLines: respondida && !corrigida ? 3 : 5,
                     ),
                   ),
                   const SizedBox(
@@ -518,6 +519,7 @@ class QuestaoAtividade extends StatelessWidget {
       onSelectImage: onSelectImage,
       visibleInputSelector: trocarTipoEntrada,
       enabled: editavel,
+      maxLines: respondida && !corrigida ? 3 : 5,
     );
   }
 }

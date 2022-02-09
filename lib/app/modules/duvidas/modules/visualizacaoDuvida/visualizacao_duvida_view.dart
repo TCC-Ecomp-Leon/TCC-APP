@@ -14,6 +14,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class VisualizacaoDuvidaView extends GetView<VisualizacaoDuvidaController> {
   final LoginController loginController = Get.find<LoginController>();
 
+  VisualizacaoDuvidaView({Key? key}) : super(key: key);
+
   Widget buildRemetenteMensagem(String idPerfil) {
     if (controller.carregandoPerfis) {
       return Transform.scale(

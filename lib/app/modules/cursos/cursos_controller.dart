@@ -15,8 +15,6 @@ class CursosController extends BottomMenuController {
   final CollectionsController collectionsController =
       Get.find<CollectionsController>();
 
-  final RefreshController refreshController = RefreshController();
-
   @override
   void onInit() {
     super.onInit();
@@ -26,11 +24,13 @@ class CursosController extends BottomMenuController {
   final RxList<dynamic> _cursos = [].obs;
   final Rx<bool> _carregandoCursos = true.obs;
 
-  carregarListaCursos({bool? notSilent, bool? force}) async {
-    if (notSilent != null && notSilent) {
+  carregarListaCursos(
+      {RefreshController? refreshController, bool? force}) async {
+    if (refreshController != null) {
       refreshController.requestRefresh();
+    } else {
+      _carregandoCursos.value = true;
     }
-    _carregandoCursos.value = true;
 
     if (regraProjeto) {
       if (force != null && force) {
@@ -46,9 +46,10 @@ class CursosController extends BottomMenuController {
       _cursos.value = await _buscarCursosProfessor();
     }
 
-    _carregandoCursos.value = false;
-    if (notSilent != null && notSilent) {
+    if (refreshController != null) {
       refreshController.refreshCompleted();
+    } else {
+      _carregandoCursos.value = false;
     }
   }
 

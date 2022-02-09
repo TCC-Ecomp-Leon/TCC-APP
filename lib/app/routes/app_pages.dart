@@ -12,10 +12,10 @@ import 'package:tcc_app/app/modules/cursos/modules/atividades/modules/respostas_
 import 'package:tcc_app/app/modules/cursos/modules/atividades/modules/respostas_view.dart';
 import 'package:tcc_app/app/modules/cursos/modules/criacao_curso/criacao_curso_binding.dart';
 import 'package:tcc_app/app/modules/cursos/modules/criacao_curso/criacao_curso_view.dart';
+import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/modules/adicao_materia_binding.dart';
+import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/modules/adicao_materia_view.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_binding.dart';
 import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/visualizacao_curso_view.dart';
-import 'package:tcc_app/app/modules/dummy/dummy_binding.dart';
-import 'package:tcc_app/app/modules/dummy/dummy_view.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_binding.dart';
 import 'package:tcc_app/app/modules/duvidas/duvidas_view.dart';
 import 'package:tcc_app/app/modules/duvidas/modules/criacaoDuvida/criacao_duvida_binding.dart';
@@ -39,12 +39,12 @@ class AppPages {
   static final routes = [
     GetPage(
       name: Routes.initial,
-      page: () => InitialView(),
+      page: () => const InitialView(),
       binding: InitialBinding(),
     ),
     GetPage(
       name: Routes.login,
-      page: () => LoginView(),
+      page: () => const LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
@@ -60,31 +60,31 @@ class AppPages {
     ),
     GetPage(
       name: Routes.perfil,
-      page: () => PerfilView(),
+      page: () => const PerfilView(),
       binding: PerfilBinding(),
       transition: Transition.circularReveal,
     ),
     GetPage(
       name: Routes.perfil,
-      page: () => PerfilView(),
+      page: () => const PerfilView(),
       binding: PerfilBinding(),
       transition: Transition.circularReveal,
     ),
     GetPage(
       name: Routes.duvidas,
-      page: () => DuvidasView(),
+      page: () => const DuvidasView(),
       binding: DuvidasBinding(),
       transition: Transition.circularReveal,
     ),
     GetPage(
       name: Routes.cursos,
-      page: () => CursosView(),
+      page: () => const CursosView(),
       binding: CursosBinding(),
       transition: Transition.circularReveal,
     ),
     GetPage(
       name: Routes.criacaoDuvida,
-      page: () => CriacaoDuvidaView(),
+      page: () => const CriacaoDuvidaView(),
       binding: CriacaoDuvidaBinding(),
     ),
     GetPage(
@@ -94,7 +94,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.adicaoCursoUniversitario,
-      page: () => AdicaoCursoUniversitarioView(),
+      page: () => const AdicaoCursoUniversitarioView(),
       binding: AdicaoCursoUniversitarioBinding(),
     ),
     GetPage(
@@ -104,23 +104,28 @@ class AppPages {
     ),
     GetPage(
       name: Routes.criacaoCurso,
-      page: () => CriacaoCursoView(),
+      page: () => const CriacaoCursoView(),
       binding: CriacaoCursoBinding(),
     ),
     GetPage(
       name: Routes.visualizacaoCurso,
-      page: () => VisualizacaoCursoView(),
+      page: () => const VisualizacaoCursoView(),
       binding: VisualizacaoCursoBinding(),
     ),
     GetPage(
       name: Routes.atividade,
-      page: () => AtividadeView(),
+      page: () => const AtividadeView(),
       binding: AtividadeBinding(),
     ),
     GetPage(
       name: Routes.respostasAtividade,
-      page: () => RespostasView(),
+      page: () => const RespostasView(),
       binding: RespostasBinding(),
+    ),
+    GetPage(
+      name: Routes.adicaoMateria,
+      page: () => const AdicaoMateriaView(),
+      binding: AdicaoMateriaBinding(),
     ),
   ];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/bottomMenu/bottom_menu_view.dart';
 import 'package:tcc_app/app/modules/cursos/cursos_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
@@ -9,12 +10,20 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class CursosView extends GetView<CursosController> {
-  Widget buildCriarCurso(BuildContext context) {
+  const CursosView({Key? key}) : super(key: key);
+
+  Widget buildCriarCurso(
+    BuildContext context,
+    RefreshController refreshController,
+  ) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
       onTap: () async {
         await Get.toNamed(Routes.criacaoCurso, arguments: controller.projeto);
-        controller.carregarListaCursos(notSilent: true, force: true);
+        controller.carregarListaCursos(
+          refreshController: refreshController,
+          force: true,
+        );
       },
       child: Column(
         children: [
@@ -61,12 +70,19 @@ class CursosView extends GetView<CursosController> {
     );
   }
 
-  Widget buildCurso(BuildContext context, Curso curso) {
+  Widget buildCurso(
+    BuildContext context,
+    Curso curso,
+    RefreshController refreshController,
+  ) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(
       onTap: () async {
         await Get.toNamed(Routes.visualizacaoCurso, arguments: curso);
-        controller.carregarListaCursos(notSilent: true, force: true);
+        controller.carregarListaCursos(
+          refreshController: refreshController,
+          force: true,
+        );
       },
       child: Opacity(
         opacity: DateTime.now().isAfter(curso.fimCurso) ? 0.5 : 1.0,
@@ -113,6 +129,7 @@ class CursosView extends GetView<CursosController> {
 
   @override
   Widget build(BuildContext context) {
+    final RefreshController refreshController = RefreshController();
     return BottomMenuView(
       child: Scaffold(
         body: Padding(
@@ -127,7 +144,10 @@ class CursosView extends GetView<CursosController> {
                   )
                 : RefreshListView(
                     header: controller.regraProjeto
-                        ? buildCriarCurso(context)
+                        ? buildCriarCurso(
+                            context,
+                            refreshController,
+                          )
                         : const Padding(
                             padding: EdgeInsets.only(bottom: 10.0),
                             child: Align(
@@ -139,10 +159,12 @@ class CursosView extends GetView<CursosController> {
                             ),
                           ),
                     bottomOffset: controller.regraProjeto ? 170.0 : 135.0,
-                    refreshController: controller.refreshController,
+                    refreshController: refreshController,
                     onRefresh: () {
                       controller.carregarListaCursos(
-                          notSilent: true, force: true);
+                        refreshController: refreshController,
+                        force: true,
+                      );
                     },
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -152,6 +174,7 @@ class CursosView extends GetView<CursosController> {
                         return buildCurso(
                           context,
                           controller.cursos[index],
+                          refreshController,
                         );
                       },
                     ),

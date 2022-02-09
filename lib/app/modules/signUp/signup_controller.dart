@@ -10,7 +10,7 @@ import 'package:tcc_app/utils/conversions.dart';
 import '../../../utils/mock_images.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
-const tipoRegistroInicial = TipoRegistro.Aluno;
+const tipoRegistroInicial = TipoRegistro.aluno;
 
 typedef ValidateFunction = bool Function(String campo);
 typedef OnVisibleChanged = void Function();
@@ -24,6 +24,7 @@ class CampoRegistro {
   OnVisibleChanged? onVisibleChanged;
   String? errorMessage;
   ValidateFunction validateFunction;
+  bool cameraOption;
 
   CampoRegistro({
     required this.textInputType,
@@ -33,6 +34,7 @@ class CampoRegistro {
     this.errorMessage,
     this.visible = true,
     this.onVisibleChanged,
+    this.cameraOption = false,
     TextEditingController? controller,
   }) {
     if (controller != null) {
@@ -91,6 +93,7 @@ class SignUpController extends GetxController {
         label: "Código de entrada",
         textInputType: TextInputType.text,
         validateFunction: (String input) => input.isNotEmpty,
+        cameraOption: true,
       ),
     ];
     _camposProjeto = [
@@ -155,8 +158,8 @@ class SignUpController extends GetxController {
 
   bool validateItem(int index) {
     bool valid = true;
+    // ignore: invalid_use_of_protected_member
     final campo = _campos.value[index] as CampoRegistro;
-    final validadeCampo = campo.errorMessage == null;
 
     String entrada = campo.controller.text;
     ValidateFunction validateFunction = campo.validateFunction;
@@ -179,6 +182,7 @@ class SignUpController extends GetxController {
 
   bool validate() {
     bool valid = true;
+    // ignore: invalid_use_of_protected_member
     for (int i = 0; i < _campos.value.length; i++) {
       if (!validateItem(i)) {
         valid = false;
@@ -217,9 +221,9 @@ class SignUpController extends GetxController {
   }
 
   List<CampoRegistro> getCampos(TipoRegistro tipo) {
-    return tipo == TipoRegistro.Projeto
+    return tipo == TipoRegistro.projeto
         ? [..._camposGerais, ..._camposProjeto]
-        : tipo == TipoRegistro.Aluno
+        : tipo == TipoRegistro.aluno
             ? [..._camposGerais, ..._camposUsuario, ..._camposAluno]
             : [..._camposGerais, ..._camposUsuario];
   }
@@ -231,6 +235,7 @@ class SignUpController extends GetxController {
   }
 
   CampoRegistro getElementoViaLabel(String label) {
+    // ignore: invalid_use_of_protected_member
     final campos = _campos.value.map((e) => e as CampoRegistro).toList();
     CampoRegistro find = campos.firstWhere(
         (element) => element.label.toLowerCase() == label.toLowerCase());
@@ -252,7 +257,7 @@ class SignUpController extends GetxController {
 
       bool? result;
 
-      if (tipoRegistro == TipoRegistro.Projeto) {
+      if (tipoRegistro == TipoRegistro.projeto) {
         String descricao = _camposProjeto[0].controller.text;
         String cep = _camposProjeto[1].controller.text;
         String rua = _camposProjeto[2].controller.text;
@@ -284,7 +289,7 @@ class SignUpController extends GetxController {
         String senha = _camposUsuario[0].controller.text;
         String cpf = _camposUsuario[1].controller.text;
         String? codigoDeEntrada;
-        if (tipoRegistro == TipoRegistro.Aluno) {
+        if (tipoRegistro == TipoRegistro.aluno) {
           codigoDeEntrada = _camposAluno[0].controller.text;
         }
         result = await signUp(
@@ -298,11 +303,11 @@ class SignUpController extends GetxController {
       }
 
       if (result == null) {
-        if (tipoRegistro == TipoRegistro.Aluno) {
+        if (tipoRegistro == TipoRegistro.aluno) {
           _errorMessage.value =
               "Erro ao registrar seu perfil como aluno. Entre em contato com o seu projeto.";
         }
-        if (tipoRegistro == TipoRegistro.Projeto) {
+        if (tipoRegistro == TipoRegistro.projeto) {
           _errorMessage.value =
               "Erro ao registrar o projeto. Entre em contato com os administradores do sistema.";
         } else {
@@ -323,5 +328,6 @@ class SignUpController extends GetxController {
   String get imagemProjeto => _imagemProjeto.value;
   Localizacao get localizacaoProjeto => _localizacaoProjeto.value;
   List<CampoRegistro> get campos =>
+      // ignore: invalid_use_of_protected_member
       _campos.value.map((e) => e as CampoRegistro).toList();
 }

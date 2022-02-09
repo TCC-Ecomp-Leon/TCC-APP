@@ -3,6 +3,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 typedef SwitchFunction = void Function(int index);
 
+// ignore: must_be_immutable
 class LabeledSwitch extends StatelessWidget {
   final List<String> labels;
   int index;

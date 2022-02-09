@@ -13,8 +13,8 @@ import 'package:tcc_app/services/perfil.dart';
 import 'package:tcc_app/services/projeto.dart';
 
 enum AuthStatus {
-  Authenticated,
-  NotAuthenticated,
+  authenticated,
+  notAuthenticated,
 }
 
 class AuthInfo {
@@ -44,8 +44,8 @@ class AuthInfo {
   }
 
   AuthStatus get authStatus => (perfil == null || authToken == null)
-      ? AuthStatus.NotAuthenticated
-      : AuthStatus.Authenticated;
+      ? AuthStatus.notAuthenticated
+      : AuthStatus.authenticated;
 }
 
 class LoginController extends GetxController {
@@ -135,7 +135,7 @@ class LoginController extends GetxController {
       print(informacoesObtidas!.perfil);
       // ignore: avoid_print
       print(informacoesObtidas!.projeto);
-      if (_authInfo.value.authStatus == AuthStatus.Authenticated) {
+      if (_authInfo.value.authStatus == AuthStatus.authenticated) {
         box.write(Constants.authBoxKey, _authInfo.value.toJson());
         return afterLoginRoute(box);
       }
@@ -207,7 +207,7 @@ class LoginController extends GetxController {
   }
 
   avaliarEntrada(AuthInfo authInfo) async {
-    if (authInfo.authStatus == AuthStatus.Authenticated) {
+    if (authInfo.authStatus == AuthStatus.authenticated) {
       box.write(Constants.authBoxKey, _authInfo.value.toJson());
       Get.offAllNamed(afterLoginRoute(box));
     } else {
@@ -240,16 +240,16 @@ class LoginController extends GetxController {
   Perfil get perfil => _authInfo.value.perfil!;
   Projeto? get projeto => _authInfo.value.projeto;
 
-  void set authToken(String? authToken) {
+  set authToken(String? authToken) {
     _authInfo.value.authToken = authToken;
   }
 
-  void set perfil(Perfil? perfil) {
+  set perfil(Perfil? perfil) {
     _authInfo.value.perfil = perfil;
     _authInfo.refresh();
   }
 
-  void set projeto(Projeto? projeto) {
+  set projeto(Projeto? projeto) {
     _authInfo.value.projeto = projeto;
     _authInfo.refresh();
   }

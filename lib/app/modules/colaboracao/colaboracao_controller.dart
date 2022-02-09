@@ -33,10 +33,9 @@ class ColaboracaoController extends BottomMenuController {
       .obs;
 
   carregarCursos({
-    bool? pullRefresh,
     RefreshController? refreshController,
   }) async {
-    if (pullRefresh != null && pullRefresh && refreshController != null) {
+    if (refreshController != null) {
       refreshController.requestRefresh();
     } else {
       _carregandoCursos.value = true;
@@ -66,7 +65,7 @@ class ColaboracaoController extends BottomMenuController {
 
     _cursos.value = informacoes;
 
-    if (pullRefresh != null && pullRefresh && refreshController != null) {
+    if (refreshController != null) {
       refreshController.refreshCompleted();
     } else {
       _carregandoCursos.value = false;
@@ -74,10 +73,9 @@ class ColaboracaoController extends BottomMenuController {
   }
 
   carregarColaboracoes({
-    bool? pullRefresh,
     RefreshController? refreshController,
   }) async {
-    if (pullRefresh != null && pullRefresh && refreshController != null) {
+    if (refreshController != null) {
       refreshController.requestRefresh();
     } else {
       _carregandoColaboracoes.value = true;
@@ -87,7 +85,7 @@ class ColaboracaoController extends BottomMenuController {
     _colaboracoes.value =
         loginController.perfil.universitario!.atividadesQueColaborou!;
 
-    if (pullRefresh != null && pullRefresh && refreshController != null) {
+    if (refreshController != null) {
       refreshController.refreshCompleted();
     } else {
       _carregandoColaboracoes.value = false;
@@ -102,12 +100,14 @@ class ColaboracaoController extends BottomMenuController {
       _erro.value = "Falha ao obter a atividade";
     } else {
       _erro.value = "";
+      // ignore: invalid_use_of_protected_member
       List<InformacoesCursoProjeto> cursos = _cursos.value
           .where((element) => element.curso.id == atividade.idCurso)
           .toList();
       if (cursos.isEmpty) {
         await carregarCursos();
       }
+      // ignore: invalid_use_of_protected_member
       cursos = _cursos.value
           .where((element) => element.curso.id == atividade.idCurso)
           .toList();
@@ -124,8 +124,10 @@ class ColaboracaoController extends BottomMenuController {
   }
 
   bool get carregandoCursos => _carregandoCursos.value;
+  // ignore: invalid_use_of_protected_member
   List<InformacoesCursoProjeto> get cursos => _cursos.value;
   Perfil get perfil => loginController.perfil;
+  // ignore: invalid_use_of_protected_member
   List<ColaboracaoAtividade> get colaboracoes => _colaboracoes.value;
 
   bool get carregandoAtividadesColaboradas =>

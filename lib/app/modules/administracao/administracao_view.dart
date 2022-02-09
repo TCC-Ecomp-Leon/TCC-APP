@@ -17,6 +17,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class AdministracaoView extends GetView<AdministracaoController> {
+  AdministracaoView({Key? key}) : super(key: key);
+
   final LoginController loginController = Get.find<LoginController>();
   @override
   Widget build(BuildContext context) {
@@ -460,8 +462,10 @@ class ViewProjeto extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
+                    controller.obterPerfil(codigoEntrada.idPerfilUsou);
                     return PopUpVisualizarCodigoDeEntrada(
                       codigoEntrada: codigoEntrada,
+                      controller: controller,
                     );
                   },
                 );
@@ -579,7 +583,7 @@ typedef OnFocusFunction = void Function();
 class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
   final AdministracaoController controller;
   final RefreshController refreshControllerCodigosDeEntrada;
-  PopUpCriacaoCodigoDeEntrada({
+  const PopUpCriacaoCodigoDeEntrada({
     required this.controller,
     required this.refreshControllerCodigosDeEntrada,
     Key? key,
@@ -655,8 +659,7 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
           height: 10.0,
         ),
         Padding(
-          padding: const EdgeInsets.only(
-              left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
+          padding: const EdgeInsets.only(top: 2.0, bottom: 2.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: Container(
@@ -664,10 +667,10 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
               child: Container(
                 alignment: Alignment.centerRight,
                 // width: 200.0,
-                padding: const EdgeInsets.only(
-                  right: 8.0,
-                  left: 8.0,
-                ),
+                // padding: const EdgeInsets.only(
+                //   right: 8.0,
+                //   left: 8.0,
+                // ),
                 child: DropDown<String>(
                   alignment: Alignment.centerRight,
                   selectedIndex: selectedIndex + 1,
@@ -685,8 +688,6 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
     );
   }
 
-  final ScrollController _scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -696,7 +697,7 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.9,
         child: Obx(
           () => controller.estadoAdicaoCodigo ==
-                  EstadoAdicaoCodigoDeEntrada.Carregando
+                  EstadoAdicaoCodigoDeEntrada.carregando
               ? Container(
                   alignment: Alignment.center,
                   height: 100.0,
@@ -706,7 +707,7 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
                   ),
                 )
               : controller.estadoAdicaoCodigo ==
-                      EstadoAdicaoCodigoDeEntrada.Adicionado
+                      EstadoAdicaoCodigoDeEntrada.adicionado
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -855,13 +856,20 @@ class PopUpCriacaoCodigoDeEntrada extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
   final CodigoEntrada codigoEntrada;
   final loginController = Get.find<LoginController>();
+  final AdministracaoController controller;
+
   Curso? curso;
   Materia? materia;
-  PopUpVisualizarCodigoDeEntrada({required this.codigoEntrada, Key? key})
-      : super(key: key) {
+
+  PopUpVisualizarCodigoDeEntrada({
+    required this.codigoEntrada,
+    required this.controller,
+    Key? key,
+  }) : super(key: key) {
     Projeto projeto = loginController.authInfo.projeto!;
 
     try {
@@ -869,12 +877,14 @@ class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
         curso = projeto.cursos!
             .firstWhere((element) => element.id == codigoEntrada.idCurso);
       }
+      // ignore: empty_catches
     } catch (e) {}
 
     if (codigoEntrada.idMateria != null && curso != null) {
       try {
         materia = curso!.materias
             .firstWhere((element) => element.id == codigoEntrada.idMateria);
+        // ignore: empty_catches
       } catch (e) {}
     }
   }
@@ -883,97 +893,124 @@ class PopUpVisualizarCodigoDeEntrada extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text("Código de entrada"),
-      content: SizedBox(
-          height: 450.0,
+      content: Obx(
+        () => SizedBox(
+          height: 500.0,
           width: MediaQuery.of(context).size.width * 0.9,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                codigoEntrada.tipo == TipoCodigoDeEntrada.Aluno
-                    ? "Código aluno"
-                    : "Código Professor",
-                style: const TextStyle(fontSize: 20.0),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                codigoEntrada.usado
-                    ? "Situação: Usado"
-                    : "Situação: Ainda não usado",
-                style: const TextStyle(fontSize: 17.0),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              Text(curso != null ? "Curso: " + curso!.nome : "Curso: ??"),
-              codigoEntrada.idMateria != null
-                  ? Text(
-                      materia != null
-                          ? "Matéria: " + materia!.nome
-                          : "Matéria: ??",
-                    )
-                  : Container(),
-              const SizedBox(
-                height: 10.0,
-              ),
-              QrImage(
-                data: codigoEntrada.id,
-                version: QrVersions.auto,
-                size: 200.0,
-                foregroundColor: Colors.white,
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 200.0,
-                        child: Text(
-                          codigoEntrada.id,
-                          style: const TextStyle(fontSize: 15.0),
+          child: controller.carregandoPerfil
+              ? Container(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  child:
+                      const Loading(color: Colors.white, circleTimeSeconds: 2),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      codigoEntrada.tipo == TipoCodigoDeEntrada.Aluno
+                          ? "Código aluno"
+                          : "Código Professor",
+                      style: const TextStyle(fontSize: 20.0),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      codigoEntrada.usado
+                          ? "Situação: Usado"
+                          : "Situação: Ainda não usado",
+                      style: const TextStyle(fontSize: 17.0),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    controller.perfilCarregado != null
+                        ? Column(
+                            children: [
+                              const Text(
+                                "Usado por: ",
+                                style: TextStyle(fontSize: 17.0),
+                              ),
+                              Text(
+                                controller.perfilCarregado!.nome,
+                                style: const TextStyle(fontSize: 17.0),
+                              ),
+                              const SizedBox(
+                                height: 10.0,
+                              ),
+                            ],
+                          )
+                        : Container(),
+                    Text(curso != null ? "Curso: " + curso!.nome : "Curso: ??"),
+                    codigoEntrada.idMateria != null
+                        ? Text(
+                            materia != null
+                                ? "Matéria: " + materia!.nome
+                                : "Matéria: ??",
+                          )
+                        : Container(),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    QrImage(
+                      data: codigoEntrada.id,
+                      version: QrVersions.auto,
+                      size: 200.0,
+                      foregroundColor: Colors.white,
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 200.0,
+                              child: Text(
+                                codigoEntrada.id,
+                                style: const TextStyle(fontSize: 15.0),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Clipboard.setData(
+                                  ClipboardData(
+                                    text: codigoEntrada.id,
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.copy),
+                            ),
+                          ],
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          Clipboard.setData(
-                            ClipboardData(
-                              text: codigoEntrada.id,
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.copy),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: const Text("Fechar"),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.all(10.0),
+                        primary: Colors.white,
+                        backgroundColor: Colors.teal,
+                        onSurface: Colors.grey,
+                        textStyle: const TextStyle(fontSize: 17.0),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              TextButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text("Fechar"),
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(10.0),
-                  primary: Colors.white,
-                  backgroundColor: Colors.teal,
-                  onSurface: Colors.grey,
-                  textStyle: const TextStyle(fontSize: 17.0),
-                ),
-              ),
-            ],
-          )),
+        ),
+      ),
     );
   }
 }

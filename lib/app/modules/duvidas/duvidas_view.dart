@@ -9,6 +9,8 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class DuvidasView extends GetView<DuvidasController> {
+  const DuvidasView({Key? key}) : super(key: key);
+
   Widget buildCriarDuvida(BuildContext context) {
     final double width = MediaQuery.of(context).size.width - 100.0;
     return InkWell(

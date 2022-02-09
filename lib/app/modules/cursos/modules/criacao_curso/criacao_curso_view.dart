@@ -10,6 +10,8 @@ typedef OnFocusFunction = void Function();
 typedef OnTextFieldChanged = void Function();
 
 class CriacaoCursoView extends GetView<CriacaoCursoController> {
+  const CriacaoCursoView({Key? key}) : super(key: key);
+
   Widget buildTextField(
     TextEditingController textEditingController,
     String hintText, {

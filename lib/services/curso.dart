@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:tcc_app/models/Curso.dart';
 import 'package:tcc_app/models/Materia.dart';
 import 'package:tcc_app/services/Endpoints.dart';
 
@@ -65,6 +64,29 @@ Future<bool?> atualizarCurso(
         Endpoints.cursoEndpoint + "/" + idProjeto + "/" + idCurso,
         data: camposAtualizacao,
         options: Options(method: 'PUT'),
+      );
+    },
+    (Response<dynamic> response) {
+      return true;
+    },
+  );
+}
+
+Future<bool?> adicionarMateria(
+  String idProjeto,
+  String idCurso,
+  String nome,
+  String descricao,
+) {
+  return executeRequest(
+    () {
+      return httpClient.request(
+        Endpoints.cursoEndpoint + "/" + idProjeto + "/" + idCurso + "/materia",
+        data: {
+          'nome': nome,
+          'descricao': descricao,
+        },
+        options: Options(method: 'POST'),
       );
     },
     (Response<dynamic> response) {

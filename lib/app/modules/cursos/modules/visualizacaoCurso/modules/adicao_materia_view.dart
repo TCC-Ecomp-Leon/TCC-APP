@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:tcc_app/app/modules/administracao/modules/adicao_curso_universitario_controller.dart';
-import 'package:tcc_app/widgets/dropdown.dart';
+import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/modules/adicao_materia_controller.dart';
 import 'package:tcc_app/widgets/loading.dart';
 
+typedef OnSelectDate = void Function(DateTime date);
 typedef OnFocusFunction = void Function();
-typedef OnChangeDropDown = void Function(int index);
-typedef OnChangeTextField = void Function();
+typedef OnTextFieldChanged = void Function();
 
-class AdicaoCursoUniversitarioView
-    extends GetView<AdicaoCursoUniversitarioController> {
-  const AdicaoCursoUniversitarioView({Key? key}) : super(key: key);
+class AdicaoMateriaView extends GetView<AdicaoMateriaController> {
+  const AdicaoMateriaView({Key? key}) : super(key: key);
 
   Widget buildTextField(
     TextEditingController textEditingController,
     String hintText, {
     int maxLines = 1,
     OnFocusFunction? onFocusFunction,
-    TextInputType textInputType = TextInputType.text,
     String? erroMessage,
-    OnChangeTextField? onChangeTextField,
+    OnTextFieldChanged? onTextFieldChanged,
   }) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -47,7 +44,6 @@ class AdicaoCursoUniversitarioView
                         const SizedBox(width: 8.0),
                         Expanded(
                           child: TextField(
-                            keyboardType: textInputType,
                             onTap: onFocusFunction,
                             controller: textEditingController,
                             decoration: InputDecoration(
@@ -55,13 +51,12 @@ class AdicaoCursoUniversitarioView
                               border: InputBorder.none,
                               labelStyle: const TextStyle(color: Colors.black),
                               hintStyle: const TextStyle(color: Colors.grey),
-                              // errorText: erroMessage,
                             ),
                             style: const TextStyle(color: Colors.black),
                             maxLines: maxLines,
                             onChanged: (value) {
-                              if (onChangeTextField != null) {
-                                onChangeTextField();
+                              if (onTextFieldChanged != null) {
+                                onTextFieldChanged();
                               }
                             },
                           ),
@@ -77,82 +72,17 @@ class AdicaoCursoUniversitarioView
           erroMessage != null
               ? Align(
                   alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, bottom: 2.0),
-                    child: Text(
-                      erroMessage,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.red[300],
-                      ),
+                  child: Text(
+                    erroMessage,
+                    style: const TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.red,
                     ),
                   ),
                 )
-              : Container(),
+              : Container()
         ],
       ),
-    );
-  }
-
-  Widget buildDropDown(
-    BuildContext context,
-    String text,
-    String emptyText,
-    List<String> items,
-    int selectedIndex,
-    OnChangeDropDown onChange,
-  ) {
-    double width = MediaQuery.of(context).size.width - 50.0;
-
-    return Column(
-      children: [
-        Text(text),
-        const SizedBox(
-          height: 10.0,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-              left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Container(
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: width * 0.4,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                      ),
-                      child: Text(
-                        text,
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    width: width * 0.5,
-                    padding: const EdgeInsets.only(
-                      right: 8.0,
-                    ),
-                    child: DropDown<String>(
-                      selectedIndex: selectedIndex,
-                      items: [emptyText, ...items],
-                      onChangeDropDown: (index) {
-                        onChange(index - 1);
-                      },
-                      getItemText: (value) => value,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
     );
   }
 
@@ -168,7 +98,7 @@ class AdicaoCursoUniversitarioView
             builder: (BuildContext context, bool isVisible) {
               const double bottomInsets = 210;
               return Obx(
-                () => controller.adicionandoCurso
+                () => controller.adicionando
                     ? Align(
                         alignment: Alignment.topCenter,
                         child: SizedBox(
@@ -187,37 +117,20 @@ class AdicaoCursoUniversitarioView
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            buildTextField(controller.nome, "Nome",
-                                erroMessage: controller.nomeValido
-                                    ? null
-                                    : "Nome inválido",
-                                onChangeTextField: controller.onChangeNome),
-                            buildTextField(controller.descricao, "Descrição",
-                                erroMessage: controller.descricaoValida
-                                    ? null
-                                    : "Descrição inválida",
-                                onChangeTextField:
-                                    controller.onChangeDescricao),
                             buildTextField(
-                              controller.semestresPrevistos,
-                              "Semestres previstos",
-                              textInputType: TextInputType.number,
-                              erroMessage: controller.semestresValidos
-                                  ? null
-                                  : "Número inválido",
-                              onChangeTextField: controller.onChangeSemestres,
+                              controller.nome,
+                              "Nome matéria",
                             ),
-                            buildDropDown(
-                              context,
-                              "Curso anterior",
-                              "Nenhum",
-                              controller.cursosUniversitarios
-                                  .map((e) => e.nome)
-                                  .toList(),
-                              controller.indiceCursoAnterior + 1,
-                              (index) {
-                                controller.selecionarCurso(index);
-                              },
+                            const SizedBox(
+                              height: 5.0,
+                            ),
+                            buildTextField(
+                              controller.descricao,
+                              "Descrição",
+                              maxLines: 5,
+                            ),
+                            const SizedBox(
+                              height: 5.0,
                             ),
                             controller.erro != null
                                 ? Align(
@@ -247,9 +160,9 @@ class AdicaoCursoUniversitarioView
       bottomNavigationBar: Obx(
         () => TextButton(
           onPressed: () {
-            controller.adicionarCurso();
+            controller.adicaoMateria();
           },
-          child: Text(controller.adicionandoCurso ? "" : "Adicionar curso"),
+          child: Text(controller.adicionando ? "" : "Adicionar matéria"),
           style: TextButton.styleFrom(
             padding: const EdgeInsets.all(10.0),
             primary: Colors.white,

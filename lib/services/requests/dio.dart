@@ -2,8 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart' as GetX;
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
 
+// const String backendUrl = "http://192.168.1.13:3000/";
 const String backendUrl =
-    "http://ec2-18-221-232-215.us-east-2.compute.amazonaws.com:3000/";
+    "http://ec2-3-138-34-174.us-east-2.compute.amazonaws.com:3000/";
 
 String? getAuthToken() {
   final controller = GetX.Get.find<LoginController>();
@@ -30,8 +31,8 @@ get _dioOptions => BaseOptions(
 
 Dio get httpClient => Dio(_dioOptions);
 
-typedef Future<Response<dynamic>> RequestFunction();
-typedef T? ProcessFunction<T>(Response<dynamic> response);
+typedef RequestFunction = Future<Response<dynamic>> Function();
+typedef ProcessFunction<T> = T? Function(Response<dynamic> response);
 
 Future<T?> executeRequest<T>(
   RequestFunction requestFunction,

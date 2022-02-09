@@ -3,6 +3,7 @@ import 'package:tcc_app/utils/formatacoes.dart';
 
 typedef OnPickDate = void Function(DateTime dateTime);
 
+// ignore: must_be_immutable
 class DateTimePicker extends StatelessWidget {
   String hintText;
   OnPickDate? onPickDate;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/atividade_controller.dart';
 import 'package:tcc_app/app/modules/cursos/modules/atividades/modules/respostas_controller.dart';
 import 'package:tcc_app/app/routes/app_routes.dart';
@@ -11,6 +10,8 @@ import 'package:tcc_app/widgets/loading.dart';
 import 'package:tcc_app/widgets/refresh_list.dart';
 
 class RespostasView extends GetView<RespostasController> {
+  const RespostasView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -220,7 +221,7 @@ class RespostasView extends GetView<RespostasController> {
         await Get.toNamed(Routes.atividade, arguments: {
           'curso': controller.curso,
           'tipo': controller.atividade.tipoAtividade,
-          'uso': TipoUsoControllerAtividades.Visualizando,
+          'uso': TipoUsoControllerAtividades.visualizando,
           'atividade': controller.atividade,
           'resposta': aluno.resposta!,
         });

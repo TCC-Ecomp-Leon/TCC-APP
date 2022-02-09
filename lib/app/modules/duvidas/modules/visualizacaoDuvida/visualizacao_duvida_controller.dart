@@ -82,7 +82,7 @@ class VisualizacaoDuvidaController extends GetxController {
   }
 
   final Rx<bool> _carregandoPerfis = false.obs;
-  RxMap<String, Perfil> _perfisMensagens = <String, Perfil>{}.obs;
+  final RxMap<String, Perfil> _perfisMensagens = <String, Perfil>{}.obs;
 
   carregarPerfisMensagens() async {
     _carregandoPerfis.value = true;
@@ -118,5 +118,6 @@ class VisualizacaoDuvidaController extends GetxController {
   bool get enviandoMensagem => _enviandoMensagem.value;
   String? get erro => _erro.isEmpty ? null : _erro.value;
   bool get carregandoPerfis => _carregandoPerfis.value;
+  // ignore: invalid_use_of_protected_member
   Map<String, Perfil> get perfisMensagens => _perfisMensagens.value;
 }

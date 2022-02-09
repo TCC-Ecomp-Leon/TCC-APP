@@ -4,6 +4,8 @@ import 'package:tcc_app/app/modules/initial/initial_controller.dart';
 import 'package:tcc_app/widgets/loading.dart';
 
 class InitialView extends GetView<InitialController> {
+  const InitialView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

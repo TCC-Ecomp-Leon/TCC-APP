@@ -106,7 +106,7 @@ class CriacaoDuvidaController extends GetxController {
 
   List<Materia>? _materiasCursoSelecionado() {
     int? cursoSelecionado = indiceCursoSelecionado;
-    if (cursoSelecionado == null || indiceCursoSelecionado == -1) return null;
+    if (indiceCursoSelecionado == -1) return null;
 
     return cursosAluno[cursoSelecionado].materias;
   }

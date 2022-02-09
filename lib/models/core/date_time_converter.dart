@@ -24,7 +24,7 @@ DateTime? _timeZoneDateTimeFromJson(String? json) {
   if (json == null) return null;
 
   DateTime parsed = DateTime.parse(json);
-  return parsed.add(DateTime.now().timeZoneOffset);
+  return parsed.toLocal();
 }
 
 String? _timeZoneDateTimeToJson(DateTime? dateTime) {

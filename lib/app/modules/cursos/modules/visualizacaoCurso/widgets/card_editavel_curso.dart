@@ -6,6 +6,7 @@ typedef OnChangeTextField = void Function();
 typedef OnSelectDate = void Function(DateTime date);
 typedef ButtonActions = void Function();
 
+// ignore: must_be_immutable
 class CardEditavelCurso extends StatelessWidget {
   bool editando;
   TextEditingController nomeCurso;

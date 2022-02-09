@@ -151,7 +151,7 @@ class CollectionsController extends GetxController {
           .map((e) => e.cursoUniversitario)
           .toList();
 
-  Projeto? obterProjeto(String id) {
+  Projeto? _obterProjeto(String id) {
     ProjetoItem? projetoItem = _projetosCarregados.value.getItem(id);
     if (projetoItem != null) return projetoItem.projeto;
     return null;
@@ -160,7 +160,7 @@ class CollectionsController extends GetxController {
   Curso? obterCurso(String id, String? idProjeto) {
     List<Curso> cursos = [];
     if (idProjeto != null) {
-      Projeto? projeto = obterProjeto(idProjeto);
+      Projeto? projeto = _obterProjeto(idProjeto);
       if (projeto == null) return null;
 
       if (projeto.cursos == null) return null;
@@ -168,11 +168,11 @@ class CollectionsController extends GetxController {
     } else {
       List<ProjetoItem> projetosItems = _projetosCarregados.value.getItems();
       List<Curso> cursos = [];
-      projetosItems.forEach((element) {
+      for (var element in projetosItems) {
         if (element.projeto.cursos != null) {
           cursos = [...cursos, ...element.projeto.cursos!];
         }
-      });
+      }
     }
 
     final int indexOf = cursos.indexWhere((element) => element.id == id);

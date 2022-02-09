@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
-import 'package:tcc_app/models/Atividade.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/perfil.dart';
 import 'package:tcc_app/services/respostaAtividade.dart';
@@ -106,6 +105,7 @@ class RespostasController extends GetxController {
   }
 
   bool get carregando => _carregando.value;
+  // ignore: invalid_use_of_protected_member
   List<RespostasControllerInformacaoAluno> get respostas => _respostas.value;
   String? get erro => _erro.value.isEmpty ? null : _erro.value;
 }

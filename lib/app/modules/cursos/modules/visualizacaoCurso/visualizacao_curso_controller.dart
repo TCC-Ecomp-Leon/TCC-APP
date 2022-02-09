@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tcc_app/app/modules/cursos/modules/visualizacaoCurso/modules/adicao_materia_view.dart';
 import 'package:tcc_app/app/modules/signIn/login_controller.dart';
+import 'package:tcc_app/app/routes/app_routes.dart';
 import 'package:tcc_app/models/index.dart';
 import 'package:tcc_app/services/atividade.dart';
 import 'package:tcc_app/services/curso.dart';
@@ -189,6 +191,11 @@ class VisualizacaoCursoController extends GetxController {
     inicializarVariaveisCurso(curso);
   }
 
+  chamarPaginaAdicaoMateria() async {
+    await Get.toNamed(Routes.adicaoMateria, arguments: curso);
+    recarregarCurso();
+  }
+
   final Rx<bool> _editandoCurso = false.obs;
   final Rx<bool> _salvandoEdicaoCurso = false.obs;
 
@@ -215,29 +222,29 @@ class VisualizacaoCursoController extends GetxController {
       _atividades.map((element) => element as Atividade).toList();
 
   final Rx<TipoAtividadeVisualizando> _tipoAtividadeVisualizando =
-      TipoAtividadeVisualizando.Abertas.obs;
+      TipoAtividadeVisualizando.abertas.obs;
 
   visualizarAbertas(RefreshController refreshController) {
-    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Abertas;
+    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.abertas;
     carregarAtividades();
   }
 
   visualizarFechadas(RefreshController refreshController) {
-    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Fechadas;
+    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.fechadas;
     carregarAtividades();
   }
 
   visualizarTodas(RefreshController refreshController) {
-    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.Todas;
+    _tipoAtividadeVisualizando.value = TipoAtividadeVisualizando.todas;
     carregarAtividades();
   }
 
   bool get visualizandoAbertas =>
-      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Abertas;
+      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.abertas;
   bool get visualizandoFechadas =>
-      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Fechadas;
+      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.fechadas;
   bool get visualizandoTodas =>
-      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.Todas;
+      _tipoAtividadeVisualizando.value == TipoAtividadeVisualizando.todas;
 
   bool get permissaoCriarAtividade => permissaoEditar;
 
@@ -272,7 +279,7 @@ class VisualizacaoCursoController extends GetxController {
 }
 
 enum TipoAtividadeVisualizando {
-  Abertas,
-  Fechadas,
-  Todas,
+  abertas,
+  fechadas,
+  todas,
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:tcc_app/models/index.dart';
-import 'package:tcc_app/utils/formatacoes.dart';
 import 'package:tcc_app/widgets/date_time_picker.dart';
 import 'package:tcc_app/widgets/dropdown.dart';
 
@@ -8,6 +8,7 @@ typedef OnSelectDate = void Function(DateTime dateTime);
 typedef OnChangeDropDown = void Function(int index);
 typedef OnChangeTipoAtividade = void Function(TipoAtividade tipoAtividade);
 
+// ignore: must_be_immutable
 class PrimeiraPaginaAtividade extends StatelessWidget {
   TipoAtividade tipoAtividade;
   TextEditingController nome;
@@ -53,150 +54,161 @@ class PrimeiraPaginaAtividade extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 32.0),
-                child: Card(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 5.0,
-                      left: 5.0,
-                      right: 5.0,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        buildDropDown(
-                          context,
-                          "Tipo",
-                          "Alternativa",
-                          ["Dissertativa", "Banco de questões"],
-                          tipoAtividade == TipoAtividade.Alternativa
-                              ? 0
-                              : tipoAtividade == TipoAtividade.Dissertativa
-                                  ? 1
-                                  : 2,
-                          (index) {
-                            onChangeTipoAtividade(index == -1
-                                ? TipoAtividade.Alternativa
-                                : index == 0
-                                    ? TipoAtividade.Dissertativa
-                                    : TipoAtividade.BancoDeQuestoes);
-                          },
-                        ),
-                        buildDropDown(
-                          context,
-                          "Matéria",
-                          "Nenhuma",
-                          materias.map((e) => e.nome).toList(),
-                          indiceMateriaSelecionada + 1,
-                          selecaoMateria,
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        buildTextField(
-                          nome,
-                          "Nome",
-                        ),
-                        jaRespondida
-                            ? Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: corrigida
-                                    ? const Text(
-                                        "Corrigida",
-                                        style: TextStyle(color: Colors.black),
-                                      )
-                                    : const Text(
-                                        "Não corrigida",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                              )
-                            : Container(),
-                        jaRespondida && corrigida
-                            ? buildTextField(
-                                notaAtividade,
-                                "Nota",
-                              )
-                            : Container(),
-                        buildDateSelector(
-                          context,
-                          "Início da atividade",
-                          aberturaRespostas,
-                          onSelectDate: onSelectAberturaRespostas,
-                        ),
-                        buildDateSelector(
-                          context,
-                          "Fim da atividade",
-                          fechamentoRespostas,
-                          onSelectDate: onSelectFechamentoRespostas,
-                        ),
-                        tipoAtividade == TipoAtividade.Dissertativa
-                            ? buildDateSelector(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+        child: KeyboardVisibilityBuilder(
+          builder: (BuildContext context, bool isVisible) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Stack(
+                  alignment: Alignment.topLeft,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 32.0),
+                      child: Card(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 5.0,
+                            left: 5.0,
+                            right: 5.0,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              buildDropDown(
                                 context,
-                                "Fim das correções",
-                                fechamentoCorrecoes,
-                                onSelectDate: onSelectFechamentoCorrecoes,
-                              )
-                            : Container(),
-                        tipoAtividade != TipoAtividade.Alternativa
-                            ? buildTextField(
-                                tempoColaboracao,
-                                "Tempo colaboração (horas)",
-                                textInputType: TextInputType.number,
-                              )
-                            : Container(),
-                        const SizedBox(
-                          height: 10.0,
+                                "Tipo",
+                                "Alternativa",
+                                ["Dissertativa", "Banco de questões"],
+                                tipoAtividade == TipoAtividade.Alternativa
+                                    ? 0
+                                    : tipoAtividade ==
+                                            TipoAtividade.Dissertativa
+                                        ? 1
+                                        : 2,
+                                (index) {
+                                  onChangeTipoAtividade(index == -1
+                                      ? TipoAtividade.Alternativa
+                                      : index == 0
+                                          ? TipoAtividade.Dissertativa
+                                          : TipoAtividade.BancoDeQuestoes);
+                                },
+                              ),
+                              buildDropDown(
+                                context,
+                                "Matéria",
+                                "Nenhuma",
+                                materias.map((e) => e.nome).toList(),
+                                indiceMateriaSelecionada + 1,
+                                selecaoMateria,
+                              ),
+                              const SizedBox(
+                                height: 5.0,
+                              ),
+                              buildTextField(
+                                nome,
+                                "Nome",
+                              ),
+                              jaRespondida
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: corrigida
+                                          ? const Text(
+                                              "Corrigida",
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            )
+                                          : const Text(
+                                              "Não corrigida",
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                    )
+                                  : Container(),
+                              jaRespondida && corrigida
+                                  ? buildTextField(
+                                      notaAtividade,
+                                      "Nota",
+                                    )
+                                  : Container(),
+                              buildDateSelector(
+                                context,
+                                "Início da atividade",
+                                aberturaRespostas,
+                                onSelectDate: onSelectAberturaRespostas,
+                              ),
+                              buildDateSelector(
+                                context,
+                                "Fim da atividade",
+                                fechamentoRespostas,
+                                onSelectDate: onSelectFechamentoRespostas,
+                              ),
+                              tipoAtividade == TipoAtividade.Dissertativa
+                                  ? buildDateSelector(
+                                      context,
+                                      "Fim das correções",
+                                      fechamentoCorrecoes,
+                                      onSelectDate: onSelectFechamentoCorrecoes,
+                                    )
+                                  : Container(),
+                              tipoAtividade != TipoAtividade.Alternativa
+                                  ? buildTextField(
+                                      tempoColaboracao,
+                                      "Tempo colaboração (horas)",
+                                      textInputType: TextInputType.number,
+                                    )
+                                  : Container(),
+                              const SizedBox(
+                                height: 10.0,
+                              ),
+                              ...assuntos
+                                  .map(
+                                    (e) => buildTextField(e, "Assunto"),
+                                  )
+                                  .toList(),
+                            ],
+                          ),
                         ),
-                        ...assuntos
-                            .map(
-                              (e) => buildTextField(e, "Assunto"),
-                            )
-                            .toList(),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tipoAtividade == TipoAtividade.Alternativa
-                            ? "Atividade alternativa"
-                            : tipoAtividade == TipoAtividade.Dissertativa
-                                ? "Atividade dissertativa"
-                                : "Atividade de banco de questões",
-                        textScaleFactor: 1.2,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              tipoAtividade == TipoAtividade.Alternativa
+                                  ? "Atividade alternativa"
+                                  : tipoAtividade == TipoAtividade.Dissertativa
+                                      ? "Atividade dissertativa"
+                                      : "Atividade de banco de questões",
+                              textScaleFactor: 1.2,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                isVisible
+                    ? const SizedBox(
+                        height: 170.0,
+                      )
+                    : Container(),
+              ],
+            );
+          },
+        ));
   }
 
   Widget buildDateSelector(
